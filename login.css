@@ -1,0 +1,132 @@
+/* Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+/* Body */
+body {
+  height: 100vh;
+  background: linear-gradient(135deg, #0f172a, #1e293b, #020617);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Logo */
+.logo img {
+  width: 420px;
+  margin-bottom: 20px;
+  filter: drop-shadow(0px 4px 10px rgba(0, 0, 0, 0.6));
+}
+
+/* Login Container */
+.login-container {
+  width: 100%;
+  max-width: 400px;
+  padding: 20px;
+}
+
+/* Glass effect */
+.login-form {
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(12px);
+  border-radius: 15px;
+  padding: 30px;
+  box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.6);
+  text-align: center;
+  animation: fadeIn 0.6s ease-in-out;
+}
+
+/* Heading */
+#log-hed {
+  font-family: sa;
+  color:white;
+  margin-bottom: 25px;
+  letter-spacing: 2px;
+}
+
+/* Inputs */
+.login-form input {
+  width: 100%;
+  padding: 12px;
+  margin: 12px 0;
+  border-radius: 8px;
+  border: none;
+  outline: none;
+  font-size: 14px;
+  background: rgba(255, 255, 255, 0.15);
+  color: white;
+  transition: 0.3s;
+}
+.login-container a {
+  display: block;
+  margin-top: 10px;
+  color: #38bdf8;
+  text-decoration: none;
+  transition: 0.3s;
+}
+.login-container a:hover {
+  color: #0ea5e9;
+  text-decoration: underline;
+}
+
+/* Input focus */
+.login-form input:focus {
+  border: 1px solid #38bdf8;
+  box-shadow: 0 0 8px #38bdf8;
+}
+
+/* Button */
+#log-btn {
+  width: 100%;
+  padding: 12px;
+  margin-top: 15px;
+  border: none;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #38bdf8, #0ea5e9);
+  color: black;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+/* Button hover */
+#log-btn:hover {
+  background: linear-gradient(135deg, #0ea5e9, #0284c7);
+  transform: scale(1.03);
+  color: white;
+}
+
+/* Error message */
+#errorMsg {
+  color: #f87171;
+  margin-top: 10px;
+  font-size: 14px;
+}
+
+/* Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .login-form {
+    padding: 20px;
+  }
+
+  .logo img {
+    width: 260px;
+  }
+}

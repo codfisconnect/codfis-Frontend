@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Create Account</title>
+  <link rel="stylesheet" href="auth.css" />
+</head>
+<body>
+  <div class="auth-container">
+    <form id="createAccountForm" class="auth-form">
+      <h1>Create Account</h1>
+
+      <input type="text" id="userId" placeholder="User ID" required />
+      <input type="email" id="email" placeholder="Email" required />
+      <input type="password" id="password" placeholder="Password" required />
+      <input type="password" id="confirmPassword" placeholder="Confirm Password" required />
+
+      <button type="submit">Create Account</button>
+
+      <p id="createMsg"></p>
+      <p><a href="login.html">Back to Login</a></p>
+    </form>
+  </div>
+
+  <script src="create-account.js"></script>
+  <script>
+    window.history.pushState(null, null, window.location.href);
+
+   window.onpopstate = function () {
+    window.location.replace("login.html");
+    };
+  </script>
+</body>
+</html>

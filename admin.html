@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CodFis Admin Dashboard</title>
+
+  <link rel="stylesheet" href="admin.css">
+
+  <!-- Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+  <script>
+ const token = localStorage.getItem("token");
+  if (!token) {
+    window.location.href = "login.html";
+  }
+</script>
+<script src="login.js"></script>
+</head>
+
+<body>
+
+<div class="dashboard">
+
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <h2 class="sidebar-logo">CODFIS</h2>
+    <a href="#"><i class="fa fa-home"></i> Dashboard</a>
+    <a href="course.html"><i class="fa fa-book"></i> Courses</a>
+    <a href="students.html"><i class="fa fa-users"></i> Students</a>
+    <a href="newTrainers.html"><i class="fa fa-user"></i> Trainers</a>
+    <a href="" onclick="logout()"><i class="fa fa-sign-out"></i> Logout</a>
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <div class="main">
+
+    <!-- HEADER -->
+    <div class="header">
+      <h1>Admin Dashboard</h1>
+    </div>
+
+    <!-- CARDS -->
+    <div class="cards">
+
+      <div class="card" >
+        <a href="students.html">
+        <h3>Total Students</h3>
+        <p id="studentCountDisplay"></p></a>
+      </div>
+
+      <div class="card">
+        <a href="course.html">
+        <h3>Total Courses</h3>
+        <p id="courseCountDisplay"></p></a>
+      </div>
+
+      <div class="card">
+        <a href="newTrainers.html">
+          <h3>Trainer Requests</h3>
+          <p id="trainerRequestCountDisplay"></p>
+        </a>
+      </div>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+<script src="admin.js"></script>
+<script>
+    window.history.pushState(null, null, window.location.href);
+
+   window.onpopstate = function () {
+    logout();
+    window.location.replace("login.html");
+    };
+  </script>
+</body>
+</html>

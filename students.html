@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Students List</title>
+
+  <link rel="stylesheet" href="admin.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+</head>
+
+<body>
+
+<div class="dashboard">
+
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <h2 class="sidebar-logo">CODFIS</h2>
+    <a href="admin.html"><i class="fa fa-home"></i>Dashboard</a>
+    <a href="course.html"><i class="fa fa-book"></i>Courses</a>
+    <a href="#" class="active"><i class="fa fa-users"></i>Students</a>
+    <a href="newTrainers.html"><i class="fa fa-user-tie"></i>Trainers</a>
+    <a href="" onclick="logout()"><i class="fa fa-sign-out"></i> Logout</a>
+  </div>
+
+  <!-- MAIN -->
+  <div class="main">
+
+    <!-- HEADER -->
+    <div class="header">
+      <h1>Students</h1>
+    </div>
+
+    <!-- COUNT -->
+    <h2 id="studentCount"></h2>
+
+    <!-- SEARCH -->
+    <input type="text" id="searchInput" placeholder="Search students..." onkeyup="searchStudent()" class="search-box">
+
+    <!-- edit form -->
+    <div id="editForm" class="edit-form" style="display: none;">
+      <h2>Edit Student</h2>
+      <input type="text" id="editName" placeholder="Name">
+      <br>
+      <input type="email" id="editEmail" placeholder="Email">
+      <br>
+      <input type="tel" id="editMobile" placeholder="Mobile">
+      <br>
+      <input type="text" id="editCourse" placeholder="Course">
+      <button onclick="updateStudent()">Update</button>
+    </div>
+
+    <!-- GRID -->
+    <div id="stdContainer" class="card-grid"></div>
+
+  </div>
+
+</div>
+
+<script src="students.js"></script>
+<script>
+  window.onload = function () {
+    showStudents();
+  };
+</script>
+<script src="login.js"></script>
+<script>
+    window.history.pushState(null, null, window.location.href);
+
+   window.onpopstate = function () {
+    window.location.replace("admin.html");
+    };
+  </script>
+
+</body>
+</html>

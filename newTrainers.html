@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Trainer Requests</title>
+
+  <link rel="stylesheet" href="admin.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+<script>
+  const token = localStorage.getItem("token");
+  if (!token) {
+    window.location.href = "login.html";
+  }
+</script>
+</head>
+
+<body>
+
+<div class="dashboard">
+
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <h2 class="sidebar-logo">CODFIS</h2>
+    <a href="admin.html"><i class="fa fa-home"></i>Dashboard</a>
+    <a href="course.html"><i class="fa fa-book"></i>Courses</a>
+    <a href="students.html"><i class="fa fa-users"></i>Students</a>
+    <a href="#" class="active"><i class="fa fa-user-tie"></i>Trainers</a>
+     <a href="" onclick="logout()"><i class="fa fa-sign-out"></i> Logout</a>
+  </div>
+
+  <!-- MAIN -->
+  <div class="main">
+
+    <!-- HEADER -->
+    <div class="header">
+      <h1>Trainer Requests</h1>
+    </div>
+
+    <!-- SEARCH -->
+    <input type="text" id="searchInput" placeholder="Search Trainers..." onkeyup="searchTrainer()" class="search-box">
+
+    <!-- COUNT -->
+    <h2 id="trainerCount"></h2>
+
+    <!-- CARDS -->
+    <div id="trainerContainer" class="card-grid"></div>
+
+  </div>
+
+</div>
+
+<script src="newtrainer.js"></script>
+<script>
+  window.onload = function () {
+    showTrainers();
+  };
+</script>
+<script src="login.js"></script>
+<script>
+    window.history.pushState(null, null, window.location.href);
+
+   window.onpopstate = function () {
+    window.location.replace("admin.html");
+    };
+  </script>
+
+</body>
+</html>
