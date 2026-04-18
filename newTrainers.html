@@ -10,7 +10,7 @@
 <script>
   const token = localStorage.getItem("token");
   if (!token) {
-    window.location.href = "login.html";
+    window.location.href = "AdminLogin.html";
   }
 </script>
 </head>
@@ -56,12 +56,12 @@
     showTrainers();
   };
 </script>
-<script src="login.js"></script>
+<script src="AdminLogin.js"></script>
 <script>
     window.history.pushState(null, null, window.location.href);
 
    window.onpopstate = function () {
-    window.location.replace("admin.html");
+    window.location.replace(admin.html");
     };
   </script>
 

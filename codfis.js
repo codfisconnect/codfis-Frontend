@@ -1,271 +1,383 @@
+// =========================
+// NAVBAR
+// =========================
+const sideNavbar = document.querySelector(".sidenavbar");
 
-let sideNavbar= document.querySelector(".sidenavbar")
- 
-function openNavbar(){
-    sideNavbar.style.left = "0"
+function openNavbar() {
+  if (sideNavbar) {
+    sideNavbar.style.left = "0";
+    sideNavbar.style.zIndex = "9999";
 
+  }
 }
 
-function closesnavbar(){
-    sideNavbar.style.left = "-60%"
-
-}
-
-function lanchInstagram(){
-    window.open("https://www.instagram.com/codfis_tech?igsh=dnRtNGViaGUxYWRt", "_blank");
-}
-function lanchWhatsapp() {
-window.open("https://wa.me/918778548891", "_blank");
-}
-function lanchFb() {
-    window.open("https://www.facebook.com/", "_blank");
+function closesnavbar() {
+  if (sideNavbar) {
+    sideNavbar.style.left = "-60%";
+    if (screen.width < 500) {
+      sideNavbar.style.left = "-100%";
+      sideNavbar.style.width = "100%";
+      sideNavbar.style.zIndex = "9999";
     }
-    function lanchTwitter() {
-        window.open("https://x.com/", "_blank");
-        }
+  }
+}
 
-        let trainerForm=document.getElementById("trainer-form")
+// =========================
+// SOCIAL LINKS
+// =========================
+function lanchInstagram() {
+  window.open("https://www.instagram.com/codfis_tech?igsh=dnRtNGViaGUxYWRt", "_blank");
+}
 
-        function openTrainerform(){
-           if(window.innerWidth <= 600){
-            trainerForm.style.bottom="30%"
-           }   
-              else{ trainerForm.style.bottom="10%"}
-        }
-        function closeTrainerform(){
-            trainerForm.style.bottom="-100%"
-        }
-        function openStudentform(){
-            if(window.innerWidth <= 600){
-                stdForm.style.top="3%"
-               }
-              else{ stdForm.style.top="10%"}
+function lanchWhatsapp() {
+  window.open("https://wa.me/918778548891", "_blank");
+}
 
-        }
-        function closeStudentform(){
-            stdForm.style.top="-100%"
-        }
+function lanchFb() {
+  window.open("https://www.facebook.com/", "_blank");
+}
 
-        // join class btn position change
+function lanchTwitter() {
+  window.open("https://x.com/", "_blank");
+}
 
-      const joinBtn = document.getElementById("joinBtn");
-      const trainerBtn = document.getElementById("trainerBtn");
-      const slideShow = document.querySelector(".slide-show");
+// =========================
+// FORM ELEMENTS
+// =========================
+const trainerForm = document.getElementById("trainer-form");
+const stdForm = document.getElementById("std-form");
+const joinBtn = document.getElementById("joinBtn");
+const trainerBtn = document.getElementById("trainerBtn");
+const slideShow = document.querySelector(".slide-show");
 
-window.addEventListener("scroll", () => {
+// =========================
+// FORM OPEN / CLOSE
+// =========================
+function openTrainerform() {
+  if (!trainerForm) return;
+
+  trainerForm.style.display = "flex";
+  trainerForm.style.left = "50%";
+  trainerForm.style.top = "50%";
+  trainerForm.style.bottom = "auto";
+  trainerForm.style.transform = "translate(-50%, -50%)";
+  trainerForm.style.zIndex = "9999";
+}
+
+function closeTrainerform() {
+  if (!trainerForm) return;
+
+  trainerForm.style.top = "";
+  trainerForm.style.bottom = "-120%";
+  trainerForm.style.left = "50%";
+  trainerForm.style.transform = "translateX(-50%)";
+}
+
+function openStudentform() {
+  if (!stdForm) return;
+
+  stdForm.style.display = "flex";
+  stdForm.style.left = "50%";
+  stdForm.style.top = "50%";
+  stdForm.style.transform = "translate(-50%, -50%)";
+  stdForm.style.zIndex = "9999";
+}
+
+function closeStudentform() {
+  if (!stdForm) return;
+
+  stdForm.style.top = "-120%";
+  stdForm.style.left = "50%";
+  stdForm.style.transform = "translateX(-50%)";
+}
+
+// =========================
+// HERO BUTTONS FLOAT ON SCROLL
+// =========================
+if (joinBtn && trainerBtn && slideShow) {
+  window.addEventListener("scroll", () => {
     const slideShowTop = slideShow.getBoundingClientRect().top;
 
     if (slideShowTop < -200) {
-        joinBtn.style.position = "fixed";
-        joinBtn.style.top = "5%";
-        joinBtn.style.left = "30%";
-        joinBtn.style.zIndex = "999";
+      joinBtn.style.position = "fixed";
+      joinBtn.style.top = "15%";
+      joinBtn.style.left = "30%";
+      joinBtn.style.zIndex = "999";
 
-        trainerBtn.style.position = "fixed";
-        trainerBtn.style.top = "5%";
-        trainerBtn.style.left = "50%";  
-        trainerBtn.style.zIndex = "999";
+      trainerBtn.style.position = "fixed";
+      trainerBtn.style.top = "15%";
+      trainerBtn.style.left = "50%";
+      trainerBtn.style.zIndex = "999";
+
+       if(screen.width < 500) {
+        joinBtn.style.left = "10%";
+        joinBtn.style.top = "10%";
+        joinBtn.style.padding = "0.5rem 0.75rem";
+        joinBtn.style.fontSize = "0.65rem";
+        joinBtn.style.maxWidth = "100px";
+        joinBtn.style.zIndex = "1";
+
+        trainerBtn.style.left = "40%";
+        trainerBtn.style.top = "10%";
+        trainerBtn.style.padding = "0.5rem 0.75rem";
+        trainerBtn.style.fontSize = "0.65rem";
+        trainerBtn.style.maxWidth = "100px";
+        trainerBtn.style.zIndex = "1";
+      }
     } else {
-        // Back to absolute on the image
-        joinBtn.style.position = "absolute";
-        joinBtn.style.top = "50%";
-        joinBtn.style.left = "30%";
-        joinBtn.style.zIndex = "10";
+      joinBtn.style.position = "absolute";
+      joinBtn.style.top = "50%";
+      joinBtn.style.left = "30%";
+      joinBtn.style.zIndex = "10";
 
-        trainerBtn.style.position = "absolute";
-        trainerBtn.style.top = "50%";
-        trainerBtn.style.left = "50%";
-        trainerBtn.style.zIndex = "10";
+      trainerBtn.style.position = "absolute";
+      trainerBtn.style.top = "50%";
+      trainerBtn.style.left = "50%";
+      trainerBtn.style.zIndex = "10";
     }
-});
-        
+  });
+}
 
-        // Trainer form submintion
+// =========================
+// HELPER FUNCTIONS
+// =========================
+function clearTrainerErrors() {
+  const ids = [
+    "fullname-error",
+    "gender-error",
+    "email-error",
+    "number-error",
+    "dis-error",
+    "resume-error"
+  ];
 
-        
-        
-            trainerForm.addEventListener("submit",(event)=>{
-            event.preventDefault();
+  ids.forEach((id) => {
+    const el = document.getElementById(id);
+    if (el) el.innerText = "";
+  });
+}
 
-            
-            // Access User Input Box
-            let fName= document.getElementById("full-name").value.trim()
-            let gender= document.querySelector('input[name="gender"]:checked').value;
-            let email= document.getElementById("email").value.trim()
-            let mNumber= document.getElementById("mob-num").value.trim()
-            let dis= document.getElementById("dis").value
-           let uResume = document.getElementById("resume").files[0];
+function clearStudentErrors() {
+  const ids = [
+    "SnameErr",
+    "SgenderErr",
+    "SemailErr",
+    "SmobileErr",
+    "ScourseErr"
+  ];
 
-        
+  ids.forEach((id) => {
+    const el = document.getElementById(id);
+    if (el) el.innerText = "";
+  });
+}
 
-            
+function trainerFormReset() {
+  if (!trainerForm) return;
+  trainerForm.reset();
+  clearTrainerErrors();
+}
 
-            //  Access Error Dialouge Box
-            let genderErr=document.getElementById("gender-error")
-            let emailErr=document.getElementById("email-error")
-            let mnumberErr=document.getElementById("number-error")
-            let disErr=document.getElementById("dis-error")
-            let resErr=document.getElementById("resume-error")
-           
-            //  User Input Parttern Authentication
-         
-            let emailPartn=/^[a-z0-9]+@[a-z]{4,}\.[a-z]{2,}$/;
-            let mnumberPartn=/^[0-9]{10}$/
+function studentFormReset() {
+  if (!stdForm) return;
+  stdForm.reset();
+  clearStudentErrors();
+}
 
+// =========================
+// TRAINER FORM SUBMISSION
+// IMPORTANT:
+// Trainer radios must use name="trainerGender"
+// =========================
+if (trainerForm) {
+  trainerForm.addEventListener("submit", (event) => {
+    event.preventDefault();
 
-            // Validation flag
-            let isValid = true;
+    const fName = document.getElementById("full-name")?.value.trim() || "";
+    const genderInput = document.querySelector('input[name="trainerGender"]:checked');
+    const email = document.getElementById("email")?.value.trim() || "";
+    const mNumber = document.getElementById("mob-num")?.value.trim() || "";
+    const dis = document.getElementById("dis")?.value.trim() || "";
+    const uResume = document.getElementById("resume")?.files?.[0] || null;
 
-            // Email Authentication
-             if (!gender) {
-                genderErr.innerText="*Please select a gender."
-                isValid = false; // Mark form as invalid
-            }
+    const fnameErr = document.getElementById("fullname-error");
+    const genderErr = document.getElementById("gender-error");
+    const emailErr = document.getElementById("email-error");
+    const mnumberErr = document.getElementById("number-error");
+    const disErr = document.getElementById("dis-error");
+    const resErr = document.getElementById("resume-error");
 
-            else if(email===""){
-                emailErr.innerText="*Email is Required"
-                isValid = false; // Mark form as invalid
-            }
-            else if(!emailPartn.test(email)){
-                emailErr.innerText="*Enter correct Email ID"
-                isValid = false; // Mark form as invalid
-            }
-            else if(emailPartn.test(email)){
-                emailErr.innerText=""
-            }
+    const fnamePattern = /^[A-Za-z ]{2,}$/;
+    const emailPattern = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/i;
+    const mobilePattern = /^[0-9]{10}$/;
 
-            // Mobile num Authentication
-            if(mNumber===""){
-                mnumberErr.innerText="*Mobile Number is Required"
-                isValid = false; // Mark form as invalid
-            }
-            else if(!mnumberPartn.test(mNumber)){
-                mnumberErr.innerText="*Only 10 Numbers Sholud Enter"
-                isValid = false; // Mark form as invalid
-            }
-            else if(mnumberPartn.test(mNumber)){
-                mnumberErr.innerText=""
-            }
+    let isValid = true;
+    clearTrainerErrors();
 
-            // Discribition Authentication
-            if(dis==""){
-                disErr.innerText="*Discribition is Required"
-                isValid = false; // Mark form as invalid
-            }
-            else if(dis!==""){
-                disErr.innerText=""
-            }
-
-            // Resume Authentication
-            if(!uResume){
-                resErr.innerText="*Plesae Upload Your Resume"
-                isValid = false; // Mark form as invalid
-            }
-            else {
-                resErr.innerText=""
-            }
-
-            if (!isValid) return; // Stop form submission if validation fails
-
-            const formData=new FormData();
-            formData.append("name", fName);
-            formData.append("gender", gender);
-            formData.append("email", email);
-            formData.append("mobile", mNumber);
-            formData.append("description", dis);
-            formData.append("file", uResume);
-
-
-
-            //  send POST request to backend
-            fetch("http://localhost:8080/courses/trainer/apply",{
-                method:"POST",
-                
-                body: formData
-            })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error("Failed to submit trainer application. Status: " + response.status);
-                }
-                return response.text();
-            
-            })
-            .then(message => {
-                alert(message);
-
-                trainerFormReset(); 
-                closeTrainerform();
-            })
-            .catch(error => {
-                alert(error.message);
-                console.error("Error:", error);
-            });
-        });
-
-        function trainerFormReset(){
-            document.getElementById("full-name").value="";
-            document.getElementById("email").value="";
-            document.getElementById("mob-num").value="";
-            document.getElementById("dis").value="";
-            document.getElementById("resume").value="";
-        }
-        // Student form submintion
-
-
-        let stdForm=document.getElementById("std-form")
-
-       stdForm.addEventListener("submit",(event)=> {
-      event.preventDefault(); // Stop page reload
-    
-
-    // Get values from form fields
-    const name = document.getElementById("std-fName").value.trim();
-    const gender = document.querySelector('input[name="gender"]:checked').value;
-    const email = document.getElementById("std-email").value.trim();
-    const mobile = parseInt(document.getElementById("std-mNumber").value.trim());
-    const courseName = document.getElementById("course").value;
-
-    // Simple form validation
-    if (!name || !email || !mobile || !courseName || !gender) {
-        alert("Please fill in all fields.");
-        return;
+    if (!fName) {
+      if (fnameErr) fnameErr.innerText = "*Enter the name";
+      isValid = false;
+    } else if (!fnamePattern.test(fName)) {
+      if (fnameErr) fnameErr.innerText = "*Enter a valid name";
+      isValid = false;
     }
 
-    // Data object matching backend field names exactly
-    const studentData = {
-        name: name,
-        gender: gender,
-        email: email,
-        mobile: mobile,
-        courseName: courseName
-    };
+    if (!genderInput) {
+      if (genderErr) genderErr.innerText = "*Please select a gender";
+      isValid = false;
+    }
 
-    // Send POST request
+    if (!email) {
+      if (emailErr) emailErr.innerText = "*Email is required";
+      isValid = false;
+    } else if (!emailPattern.test(email)) {
+      if (emailErr) emailErr.innerText = "*Enter a valid email ID";
+      isValid = false;
+    }
 
-    fetch("http://localhost:8080/courses/student/enroll", { 
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-            
-        },
-        body: JSON.stringify(studentData)
+    if (!mNumber) {
+      if (mnumberErr) mnumberErr.innerText = "*Mobile number is required";
+      isValid = false;
+    } else if (!mobilePattern.test(mNumber)) {
+      if (mnumberErr) mnumberErr.innerText = "*Enter exactly 10 digits";
+      isValid = false;
+    }
+
+    if (!dis) {
+      if (disErr) disErr.innerText = "*Description is required";
+      isValid = false;
+    }
+
+    if (!uResume) {
+      if (resErr) resErr.innerText = "*Please upload your resume";
+      isValid = false;
+    }
+
+    if (!isValid) return;
+
+    const formData = new FormData();
+    formData.append("name", fName);
+    formData.append("gender", genderInput.value);
+    formData.append("email", email);
+    formData.append("mobile", mNumber);
+    formData.append("description", dis);
+    formData.append("file", uResume);
+
+    fetch("http://localhost:8080/courses/trainer/apply", {
+      method: "POST",
+      body: formData
     })
-    .then(response => {
+      .then((response) => {
         if (!response.ok) {
-            throw new Error("Failed to register student. Status: " + response.status);
+          throw new Error("Failed to submit trainer application. Status: " + response.status);
         }
         return response.text();
-    })
-    .then(message => {
+      })
+      .then((message) => {
         alert(message);
-
-        stdForm.reset(); // Clear form fields after successful submission
-         
-        closeStudentform();
-        
-    })
-    .catch(error => {
+        trainerFormReset();
+        closeTrainerform();
+      })
+      .catch((error) => {
+        console.error("Trainer form error:", error);
         alert(error.message);
-        console.error("Error:", error);
-    });
-});
+      });
+  });
+}
+
+// =========================
+// STUDENT FORM SUBMISSION
+// IMPORTANT:
+// Student radios must use name="studentGender"
+// =========================
+if (stdForm) {
+  stdForm.addEventListener("submit", (event) => {
+    event.preventDefault();
+
+    const name = document.getElementById("std-fName")?.value.trim() || "";
+    const genderInput = document.querySelector('input[name="studentGender"]:checked');
+    const email = document.getElementById("std-email")?.value.trim() || "";
+    const mobileValue = document.getElementById("std-mNumber")?.value.trim() || "";
+    const courseName = document.getElementById("course")?.value || "";
+
+    const nameErr = document.getElementById("SnameErr");
+    const genderErr = document.getElementById("SgenderErr");
+    const emailErr = document.getElementById("SemailErr");
+    const mobileErr = document.getElementById("SmobileErr");
+    const courseErr = document.getElementById("ScourseErr");
+
+    const namePattern = /^[A-Za-z ]{2,}$/;
+    const emailPattern = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/i;
+    const mobilePattern = /^[0-9]{10}$/;
+
+    let isValid = true;
+    clearStudentErrors();
+
+    if (!name) {
+      if (nameErr) nameErr.innerText = "*Enter name";
+      isValid = false;
+    } else if (!namePattern.test(name)) {
+      if (nameErr) nameErr.innerText = "*Enter a valid name";
+      isValid = false;
+    }
+
+    if (!genderInput) {
+      if (genderErr) genderErr.innerText = "*Select a gender";
+      isValid = false;
+    }
+
+    if (!email) {
+      if (emailErr) emailErr.innerText = "*Enter email";
+      isValid = false;
+    } else if (!emailPattern.test(email)) {
+      if (emailErr) emailErr.innerText = "*Enter a valid email";
+      isValid = false;
+    }
+
+    if (!mobileValue) {
+      if (mobileErr) mobileErr.innerText = "*Enter mobile number";
+      isValid = false;
+    } else if (!mobilePattern.test(mobileValue)) {
+      if (mobileErr) mobileErr.innerText = "*Enter exactly 10 digits";
+      isValid = false;
+    }
+
+    if (!courseName) {
+      if (courseErr) courseErr.innerText = "*Select a course";
+      isValid = false;
+    }
+
+    if (!isValid) return;
+
+    const studentData = {
+      name: name,
+      gender: genderInput.value,
+      email: email,
+      mobile: Number(mobileValue),
+      courseName: courseName
+    };
+
+    fetch("http://localhost:8080/courses/student/enroll", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(studentData)
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Failed to register student. Status: " + response.status);
+        }
+        return response.text();
+      })
+      .then((message) => {
+        alert(message);
+        studentFormReset();
+        closeStudentform();
+      })
+      .catch((error) => {
+        console.error("Student form error:", error);
+        alert(error.message);
+      });
+  });
+}

@@ -378,6 +378,7 @@ body {
   transition: 0.3s;
 }
 #courseContainer {
+  display: block;
   margin-bottom: 40px;
   padding: 40px;
   width: fit-content;
@@ -418,23 +419,21 @@ body {
 .delete-btn:hover {
   background: #dc2626;
 }
-.editForm {
+#editForm {
   margin: 10px;
-  padding: 20px;
   background: linear-gradient(135deg, #1e293b, #334155);
-  background-color: #020617;
   box-shadow: 0 5px 20px rgba(0, 0, 0, 0.35);
-  padding: 70px;
+  padding: 20px;
   border-radius: 16px;
   box-shadow: 0 5px 20px rgba(0, 0, 0, 0.35);
   width: fit-content;
   height: fit-content;
 }
-.editForm h2 {
+#editForm h2 {
   margin-bottom: 16px;
   color: #e2e8f0;
 }
-.editForm input {
+#editForm input {
   padding: 12px;
   border: 1px solid #475569;
   border-radius: 10px;
@@ -443,8 +442,17 @@ body {
   outline: none;
   margin-bottom: 12px;
 }
-.editForm input::placeholder {
+#editForm input::placeholder {
   color: #94a3b8;
+}
+#editForm button{
+  padding: 10px;
+  background-color: #cbd5f5;
+  border-radius: 10px
+}
+#editForm button:hover{
+  background-color: green;
+  color: white;
 }
 
 /* responsive */
@@ -464,6 +472,12 @@ body {
     flex-direction: column;
     width: 100%;
     padding: 16px;
+  }
+
+  #courseContainer{
+    display: block;
+    padding: 10px;
+    width: fit-content;
   }
 
   .course-form {

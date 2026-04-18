@@ -39,17 +39,21 @@
     <input type="text" id="searchInput" placeholder="Search students..." onkeyup="searchStudent()" class="search-box">
 
     <!-- edit form -->
-    <div id="editForm" class="edit-form" style="display: none;">
+    <form id="editForm" class="edit-form" style="display: none;">
       <h2>Edit Student</h2>
       <input type="text" id="editName" placeholder="Name">
+      <br>
+      <label><input type="radio" name="editGender" value="Male" required> Male</label>
+        <label><input type="radio" name="editGender" value="Female"> Female</label>
+        <label><input type="radio" name="editGender" value="Other"> Other</label>
       <br>
       <input type="email" id="editEmail" placeholder="Email">
       <br>
       <input type="tel" id="editMobile" placeholder="Mobile">
       <br>
       <input type="text" id="editCourse" placeholder="Course">
-      <button onclick="updateStudent()">Update</button>
-    </div>
+      <button id="editStdBtn" type="submit">Update</button>
+    </form>
 
     <!-- GRID -->
     <div id="stdContainer" class="card-grid"></div>
@@ -64,7 +68,7 @@
     showStudents();
   };
 </script>
-<script src="login.js"></script>
+<script src="AdminLogin.js"></script>
 <script>
     window.history.pushState(null, null, window.location.href);
 

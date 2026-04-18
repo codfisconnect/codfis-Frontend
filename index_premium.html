@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CODFIS</title>
+    <link rel="icon" href="/images/codfis-Tittle-logo .png">
+    <link rel="stylesheet" href="codfis_premium.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+          integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+          crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+    <header class="site-header">
+        <nav class="nav">
+            <div class="logo">
+                <img src="/images/codfis-logo.png" alt="Codfis Technologies Logo">
+            </div>
+
+            <ul class="links">
+                <li class="nav-link">
+                    <a href="#">About Us</a>
+                    <ul class="drp-btn">
+                        <li class="sub-links"><a href="#">Contact Us</a></li>
+                        <li class="sub-links"><a href="#">Who We Are</a></li>
+                        <li class="sub-links"><a href="#">Our Trainers</a></li>
+                        <li class="sub-links"><a href="#">Success Stories</a></li>
+                        <li class="sub-links"><a href="#">Newsroom</a></li>
+                    </ul>
+                </li>
+
+                <li class="nav-link nav-link--wide">
+                    <a href="#">Courses</a>
+                    <div class="course-mega-menu">
+                        <div class="course-column">
+                            <h3>Software Testing Training</h3>
+                            <a href="#">Manual Testing</a>
+                            <a href="#">Automation Testing (Selenium, Playwright)</a>
+                            <a href="#">API Testing (Postman, RestAssured)</a>
+                            <a href="#">Mobile App Testing (Appium)</a>
+                        </div>
+                        <div class="course-column">
+                            <h3>Programming &amp; Development</h3>
+                            <a href="#">Java Full Stack Development</a>
+                            <a href="#">Python Full Stack Development</a>
+                            <a href="#">ReactJS &amp; Frontend Development</a>
+                            <a href="#">SQL &amp; Database Management</a>
+                        </div>
+                        <div class="course-column">
+                            <h3>Data &amp; Analytics</h3>
+                            <a href="#">Power BI &amp; Tableau</a>
+                            <a href="#">Advanced SQL &amp; Data Analytics</a>
+                            <a href="#">Big Data &amp; Data Engineering</a>
+                        </div>
+                    </div>
+                </li>
+
+                <li class="nav-link">
+                    <a href="#">Certifications</a>
+                    <ul class="drp-btn">
+                        <li class="sub-links"><a href="#">ISTQB - Software Testing</a></li>
+                        <li class="sub-links"><a href="#">AWS &amp; Cloud Certifications</a></li>
+                        <li class="sub-links"><a href="#">Salesforce Training &amp; Certification</a></li>
+                    </ul>
+                </li>
+
+                <li class="nav-link">
+                    <a href="#">Placement Assistance</a>
+                    <ul class="drp-btn">
+                        <li class="sub-links"><a href="#">Mock Interviews</a></li>
+                        <li class="sub-links"><a href="#">Resume Building</a></li>
+                        <li class="sub-links"><a href="#">Job Openings</a></li>
+                    </ul>
+                </li>
+
+                <li class="nav-link">
+                    <a href="#">Resources</a>
+                    <ul class="drp-btn">
+                        <li class="sub-links"><a href="#">Blogs</a></li>
+                        <li class="sub-links"><a href="#">Student Projects</a></li>
+                        <li class="sub-links"><a href="#">Interview Tips</a></li>
+                        <li class="sub-links"><a href="#">Tutorial Videos</a></li>
+                    </ul>
+                </li>
+
+                <li class="nav-link">
+                    <a href="#">Login</a>
+                    <ul class="drp-btn">
+                        <li class="sub-links"><a href="AdminLogin.html">Admin Login</a></li>
+                        <li class="sub-links"><a href="StudentLogin.html">Student Login</a></li>
+                    </ul>
+                </li>
+
+                <li class="nav-link"><a href="#">Careers</a></li>
+            </ul>
+
+            <button class="navbar-togle" type="button" aria-label="Open menu">
+                <i class="fa-solid fa-bars" onclick="openNavbar()"></i>
+            </button>
+        </nav>
+    </header>
+
+    <aside class="sidenavbar">
+        <p style="float: right;
+        color: var(--danger);
+        cursor: pointer;
+        "><i class="fa-solid fa-rectangle-xmark"  onclick="closesnavbar()"></i></p>
+        <ul class="side-links">
+            <li class="side-nav-link"><a href="#">About Us</a>
+                <ul class="side-drp-btn">
+                    <li class="side-sub-links"><a href="#">Contact Us</a></li>
+                    <li class="side-sub-links"><a href="#">Who We Are</a></li>
+                    <li class="side-sub-links"><a href="#">Our Trainers</a></li>
+                    <li class="side-sub-links"><a href="#">Success Stories</a></li>
+                    <li class="side-sub-links"><a href="#">Newsroom</a></li>
+                </ul>
+            </li>
+            <li class="side-nav-link"><a href="#">Courses</a>
+                <ul class="side-drp-btn">
+                    <li class="side-sub-links"><h3>Software Testing Training</h3></li>
+                    <li class="side-sub-links"><a href="#">Manual Testing</a></li>
+                    <li class="side-sub-links"><a href="#">Automation Testing</a></li>
+                    <li class="side-sub-links"><a href="#">API Testing</a></li>
+                    <li class="side-sub-links"><a href="#">Mobile App Testing</a></li>
+                    <li class="side-sub-links"><h3>Programming &amp; Development</h3></li>
+                    <li class="side-sub-links"><a href="#">Java Full Stack Development</a></li>
+                    <li class="side-sub-links"><a href="#">Python Full Stack Development</a></li>
+                    <li class="side-sub-links"><a href="#">ReactJS &amp; Frontend Development</a></li>
+                    <li class="side-sub-links"><a href="#">SQL &amp; Database Management</a></li>
+                    <li class="side-sub-links"><h3>Data &amp; Analytics</h3></li>
+                    <li class="side-sub-links"><a href="#">Power BI &amp; Tableau</a></li>
+                    <li class="side-sub-links"><a href="#">Advanced SQL &amp; Data Analytics</a></li>
+                    <li class="side-sub-links"><a href="#">Big Data &amp; Data Engineering</a></li>
+                </ul>
+            </li>
+            <li class="side-nav-link"><a href="#">Certifications</a></li>
+            <li class="side-nav-link"><a href="#">Placement Assistance</a></li>
+            <li class="side-nav-link"><a href="#">Resources</a></li>
+            <li class="side-nav-link"><a href="#">Careers</a></li>
+            <li class="side-nav-link"><a href="#">Login</a>
+                <ul class="side-drp-btn">
+                    <li class="side-sub-links"><a href="AdminLogin.html">Admin Login</a></li>
+                    <li class="side-sub-links"><a href="StudentLogin.html">Student Login</a></li>
+                </ul>
+            </li>
+        </ul>
+    </aside>
+
+    <main>
+        <form action="" id="trainer-form">
+            <div class="form-title">
+                <h2 id="TrnrFormTitle">Trainer Details</h2>
+                <i class="fa-solid fa-rectangle-xmark"   onclick="closeTrainerform()"></i>
+            </div>
+
+            <div class="form-group">
+                <label for="full-name" class="sr-only">Full Name</label>
+                <input type="text" id="full-name" name="name" required placeholder="Enter Your Name">
+                <span id="fullname-error"></span>
+            </div>
+
+            <div class="form-group">
+                <div class="radio-group">
+                   <label><input type="radio" name="trainerGender" value="Male" required> Male</label>
+                   <label><input type="radio" name="trainerGender" value="Female"> Female</label>
+                   <label><input type="radio" name="trainerGender" value="Other"> Other</label>
+                </div>
+                <span id="gender-error"></span>
+            </div>
+
+            <div class="form-group">
+                <label for="email" class="sr-only">Email</label>
+                <input type="email" id="email" name="email" required placeholder="Enter Your Email">
+                <span id="email-error"></span>
+            </div>
+
+            <div class="form-group">
+                <label for="mob-num" class="sr-only">Mobile Number</label>
+                <input type="tel" maxlength="10" id="mob-num" name="mobile" required placeholder="Enter Your Mobile Number">
+                <span id="number-error"></span>
+            </div>
+
+            <div class="form-group">
+                <label for="dis">About Yourself With Experience</label>
+                <textarea name="description" id="dis" required></textarea>
+                <span id="dis-error"></span>
+            </div>
+
+            <div class="form-group-file">
+                <label for="resume">Upload Your Resume</label>
+                <input type="file" id="resume" name="resume" required>
+                <span id="resume-error"></span>
+            </div>
+
+            <div class="btn-box">
+                <button id="reset" class="btn" type="reset">Reset</button>
+                <button id="submit" class="btn" type="submit">Submit</button>
+            </div>
+        </form>
+
+        <form class="std-form" id="std-form">
+            <div class="form-title">
+                <h2 id="stdFormTitle">Student Registration</h2>
+                <i class="fa-solid fa-rectangle-xmark"  onclick="closeStudentform()"></i>
+            </div>
+
+            <div class="std-form-group">
+                <label for="std-fName" class="sr-only">Full Name</label>
+                <input type="text" id="std-fName" name="name" required placeholder="Enter Your Name">
+                <span id="SnameErr"></span>
+            </div>
+
+            <div class="form-group">
+                <div class="radio-group">
+                   <label><input type="radio" name="studentGender" value="Male" required> Male</label>
+                   <label><input type="radio" name="studentGender" value="Female"> Female</label>
+                   <label><input type="radio" name="studentGender" value="Other"> Other</label>
+                </div>
+                <span id="SgenderErr"></span>
+            </div>
+
+            <div class="std-form-group">
+                <label for="std-email" class="sr-only">Email</label>
+                <input type="email" id="std-email" name="email" required placeholder="Enter Your Email">
+                <span id="SemailErr"></span>
+            </div>
+
+            <div class="std-form-group">
+                <label for="std-mNumber" class="sr-only">Mobile Number</label>
+                <input type="tel" id="std-mNumber" name="mobile" required maxlength="10" placeholder="Enter Your Mobile Number">
+                <span id="SmobileErr"></span>
+            </div>
+
+            <div class="std-form-group">
+                <label for="course">Select Course</label>
+                <select name="course_name" id="course" required>
+                    <option value="">--Select--</option>
+                    <option value="Full Stack Development-Java">Full Stack Development-Java</option>
+                    <option value="Full Stack Development-Python">Full Stack Development-Python</option>
+                    <option value="Data Engineer">Data Engineer</option>
+                    <option value="Automation Testing">Automation Testing</option>
+                    <option value="Data Analytics">Data Analytics</option>
+                    <option value="Scrum Master">Scrum Master</option>
+                    <option value="AWS DevOps">AWS DevOps</option>
+                    <option value="Java Programming">Java Programming</option>
+                    <option value="Python Programming">Python Programming</option>
+                </select>
+                <span id="ScourseErr"></span>
+            </div>
+
+            <div class="std-btn-box btn-box">
+                <button type="reset" id="std-rst" class="btn">Reset</button>
+                <button type="submit" id="std-sbt" class="btn">Submit</button>
+            </div>
+        </form>
+
+        <section class="hero slide-show">
+            <div class="hero-overlay"></div>
+            <button id="joinBtn" onclick="openStudentform()">Join Us</button>
+            <button id="trainerBtn" onclick="openTrainerform()">Trainer?</button>
+            <img src="/images/welcome page.png" alt="Welcome to Codfis">
+        </section>
+
+        <section class="container">
+            <h2>Our Courses</h2>
+            <div class="courses">
+                <div class="course">
+                    <img src="/images/software testing.png" alt="Software Testing Training">
+                    <h3>Software Testing</h3>
+                </div>
+                <div class="course">
+                    <img src="/images/da.png" alt="Data Analytics Course">
+                    <h3>Data Analytics</h3>
+                </div>
+                <div class="course">
+                    <img src="/images/scrum.png" alt="Scrum Master Certification">
+                    <h3>Scrum Master</h3>
+                </div>
+                <div class="course">
+                    <img src="/images/devops.png" alt="AWS DevOps Training">
+                    <h3>AWS DevOps</h3>
+                </div>
+                <div class="course">
+                    <img src="/images/full stack.png" alt="Full Stack Development">
+                    <h3>Full Stack Development</h3>
+                </div>
+                <div class="course">
+                    <img src="/images/java.png" alt="Java Programming Course">
+                    <h3>Java Programming</h3>
+                </div>
+                <div class="course">
+                    <img src="/images/python.png" alt="Python Programming Course">
+                    <h3>Python Programming</h3>
+                </div>
+            </div>
+
+            <div class="training-banner">
+                <h2>Training &amp; Placement</h2>
+                <p>✔ 100% Hands-on Training | ✔ Expert Mentorship | ✔ Job Placement Support</p>
+                <img src="/images/training banner.png" alt="Live Training Session">
+                <p class="contact">📩 Contact Us Today – Secure Your Future with Codfis Technologies!</p>
+            </div>
+        </section>
+
+        <section class="container placement-section">
+            <div class="slide-show slide-show--secondary">
+                <img src="/images/placement.png" alt="Placement Highlights">
+                <p>Your Success, Our Commitment – 100% Job Placement Guaranteed!</p>
+            </div>
+        </section>
+    </main>
+
+    <footer class="end-content">
+        <div class="social">
+            <h3>Follow Codfis Technologies On</h3>
+            <div class="soc-links">
+                <img src="/images/FB_img-removebg-preview.png" alt="Facebook" onclick="lanchFb()">
+                <img src="/images/twitter-x-logo-png-9.png" alt="Twitter" onclick="lanchTwitter()">
+                <img src="/images/Whatsapp-removebg-preview.png" alt="WhatsApp" onclick="lanchWhatsapp()">
+                <img src="/images/insta-removebg-preview.png" alt="Instagram" onclick="lanchInstagram()">
+            </div>
+        </div>
+
+        <hr>
+
+        <div class="footer-grid">
+            <div>
+                <h3>About Us</h3>
+                <a href="">Who We Are</a>
+                <a href="">Our Mission</a>
+                <a href="">Leadership Team</a>
+                <a href="">Careers</a>
+                <a href="">News &amp; Updates</a>
+            </div>
+            <div>
+                <h3>Our Services</h3>
+                <a href="">Software Development</a>
+                <a href="">Automation Testing</a>
+                <a href="">Cloud Solutions</a>
+                <a href="">Data Analytics</a>
+                <a href="">IT Consulting</a>
+            </div>
+            <div>
+                <h3>Technologies</h3>
+                <a href="">Java &amp; Full Stack</a>
+                <a href="">Python &amp; AI/ML</a>
+                <a href="">DevOps &amp; Cloud</a>
+                <a href="">Cybersecurity</a>
+                <a href="">Blockchain</a>
+            </div>
+            <div>
+                <h3>Training &amp; Courses</h3>
+                <a href="">Software Testing</a>
+                <a href="">Full Stack Development</a>
+                <a href="">Data Science &amp; Analytics</a>
+                <a href="">Cloud Computing</a>
+                <a href="">Corporate Training</a>
+            </div>
+            <div>
+                <h3>Head Office</h3>
+                <p>
+                    Codfis Technologies Pvt Ltd,<br>
+                    1st Floor, 62, 2/2, Peter's Rd,<br>
+                    Near YMCA Ground,<br>
+                    Royapettah, Chennai, 600014,<br>
+                    Tamil Nadu, India.
+                </p>
+            </div>
+        </div>
+
+        <hr>
+
+        <div class="copyrights">
+            <h4>&copy; Copyrights 2025 Codfis Technologies - All Rights Reserved</h4>
+        </div>
+    </footer>
+
+    <script src="codfis.js"></script>
+</body>
+</html>

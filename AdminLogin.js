@@ -75,5 +75,5 @@ function logout() {
   localStorage.removeItem("token");
   localStorage.removeItem("userId");
   localStorage.removeItem("role");
-  window.location.replace("index.html");
+  window.location.replace("AdminLogin.html");
 }

@@ -12,7 +12,7 @@
   <script>
  const token = localStorage.getItem("token");
   if (!token) {
-    window.location.href = "login.html";
+    window.location.href = "AdminLogin.html";
   }
 </script>
 <script src="login.js"></script>
@@ -74,8 +74,9 @@
 
    window.onpopstate = function () {
     logout();
-    window.location.replace("login.html");
+    window.location.replace("AdminLogin.html");
     };
   </script>
+  <script src="AdminLogin.js"></script>
 </body>
 </html>

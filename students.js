@@ -4,10 +4,12 @@ const itemsPerPage = 6;
 
 
 
+
 function showStudents() {
     const container = document.getElementById("stdContainer");
+    
     const token = localStorage.getItem("token");
-
+     
     container.innerHTML = "<p>Loading students...</p>";
 
     fetch("http://localhost:8080/courses/student/all", {
@@ -149,11 +151,89 @@ function deleteStudent(mobile) {
     });
 }
 function editStudent(mobile) {
-   document.getElementById("editForm").style.display = "block";
 
-   const student = allStudents.find(s => s.mobile === mobile);  
+    document.getElementById("editForm").style.display = "block";
+     
+    const student = allStudents.find(s => s.mobile === mobile);
+
     if (!student) {
         alert("Student not found");
         return;
-    }   
-} 
+    }
+
+    selectedMobile = mobile;
+
+    document.getElementById("editName").value = student.name || "";
+    document.getElementById("editEmail").value = student.email || "";
+    document.getElementById("editMobile").value = student.mobile || "";
+    document.getElementById("editCourse").value = student.courseName || "";
+
+    const genderRadio = document.querySelector(`input[name="editGender"][value="${student.gender}"]`);
+    if (genderRadio) {
+        genderRadio.checked = true;
+    }
+}
+
+let editForm = document.getElementById("editForm");
+ 
+editForm.addEventListener("submit",updateStudent);
+
+let selectedMobile = null;
+
+
+function updateStudent(event){
+    event.preventDefault();
+
+    const token = localStorage.getItem("token");
+
+    if(!selectedMobile){
+        alert("No Students Selected for Update")
+        return;
+    }
+
+    const updateData = {
+   name: document.getElementById("editName").value.trim(),
+   gender: document.querySelector('input[name="editGender"]:checked').value,
+   email: document.getElementById("editEmail").value.trim(),
+   mobile: document.getElementById("editMobile").value.trim(),
+   courseName: document.getElementById("editCourse").value.trim()
+    };
+
+    fetch(`http://localhost:8080/courses/student/update/${selectedMobile}`,{
+        method:"PUT",
+        headers:{
+            "Content-Type":"application/json",
+            "Authorization":`Bearer ${token}`
+        },
+        body: JSON.stringify(updateData)
+    })
+    .then(async response=>{
+        const text = await response.text();
+        console.log(updateData);
+        if(!response.ok){
+            throw new Error(text || `Failed to update Student. Status ${response.status}`);
+        } 
+        return text;
+        
+    })
+    .then(message=>{
+        alert(message);
+        resetEditStudent();
+        showStudents();
+    })
+    .catch(error=>{
+        console.error("Update error", error);
+        alert(error.message)
+    })
+}
+
+function resetEditStudent(){
+
+    document.getElementById("editName").value = "";
+    document.getElementById("editEmail").value = "";
+    document.getElementById("editMobile").value = "";
+    document.getElementById("editCourse").value = "";
+
+    selectedMobile = null;
+     document.getElementById("editForm").style.display = "none";
+}

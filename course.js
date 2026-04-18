@@ -40,11 +40,13 @@ function showcourses() {
 }
 
 function renderCoursesMobile(courses) {
-  const container = document.getElementById("courseContainer"); 
+  let container = document.getElementById("courseContainer"); 
   if (!courses.length) {
     container.innerHTML = "<h2>No courses found.</h2>";
     return;
   }
+  else{
+    
   let html = "";
   courses.forEach(course => {
     html += `
@@ -62,6 +64,8 @@ function renderCoursesMobile(courses) {
     `;
   });
   container.innerHTML = html;
+  }
+  
 }
 
 
