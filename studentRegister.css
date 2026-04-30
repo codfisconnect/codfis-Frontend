@@ -1,0 +1,90 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #0f172a, #1e293b);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.register-container {
+    width: 100%;
+    max-width: 420px;
+}
+
+.register-form {
+    background: rgba(255, 255, 255, 0.08);
+    padding: 30px 25px;
+    border-radius: 16px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+    color: white;
+    text-align: center;
+}
+
+.register-form h1 {
+    margin-bottom: 20px;
+    color: #38bdf8;
+}
+
+.register-form input,
+.register-form select {
+    width: 100%;
+    padding: 12px;
+    color: #0ea5e9;
+    background-color: rgba(255, 255, 255, 0.08) ;
+    background: rgba(255, 255, 255, 0.08);
+    margin-bottom: 14px;
+    border: none;
+    border-radius: 8px;
+    outline: none;
+}
+
+.register-form input:hover,
+.register-form select:hover,
+.register-form input:focus,
+.register-form select:focus{
+      border-color: #38bdf8;
+      box-shadow: 0 0 10px rgba(56, 189, 248, 0.5);
+}
+
+.register-form input::placeholder{
+    color: #0ea5e9;
+}
+.genderBox{
+    display: flex;
+    justify-content: center;
+}
+.register-form button {
+    width: 100%;
+    padding: 12px;
+    background: #38bdf8;
+    border: none;
+    border-radius: 10px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.register-form button:hover {
+    background: #0ea5e9;
+    color: white;
+}
+
+.register-form a {
+    display: block;
+    margin-top: 14px;
+    color: #22c55e;
+    text-decoration: none;
+}
+
+#studentRegisterMsg {
+    margin-top: 12px;
+    font-size: 14px;
+}

@@ -14,8 +14,8 @@
   if (!token) {
     window.location.href = "AdminLogin.html";
   }
+  
 </script>
-<script src="login.js"></script>
 </head>
 
 <body>
@@ -25,10 +25,11 @@
   <!-- SIDEBAR -->
   <div class="sidebar">
     <h2 class="sidebar-logo">CODFIS</h2>
-    <a href="#"><i class="fa fa-home"></i> Dashboard</a>
+    <a href="admin.html"><i class="fa fa-home"></i> Dashboard</a>
     <a href="course.html"><i class="fa fa-book"></i> Courses</a>
     <a href="students.html"><i class="fa fa-users"></i> Students</a>
     <a href="newTrainers.html"><i class="fa fa-user"></i> Trainers</a>
+    <a href="create.html"><i class="fa fa-user-plus"></i> Create Admin</a>
     <a href="" onclick="logout()"><i class="fa fa-sign-out"></i> Logout</a>
   </div>
 
@@ -59,6 +60,12 @@
         <a href="newTrainers.html">
           <h3>Trainer Requests</h3>
           <p id="trainerRequestCountDisplay"></p>
+        </a>
+      </div>
+
+      <div class="card">
+        <a href="create.html">
+          <h3 style="color: rgb(94, 139, 246);">Create Admin Account<i class="fa fa-user-plus"></i></h3>
         </a>
       </div>
       </div>

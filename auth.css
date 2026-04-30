@@ -73,3 +73,47 @@ body {
   color: #38bdf8;
   text-decoration: none;
 }
+
+/* forget password */
+
+#sendOtpBtn{
+  width: 100%;
+  padding: 12px;
+  margin-top: 12px;
+  border: none;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #38bdf8, #0ea5e9);
+  color: black;
+  font-weight: 700;
+  cursor: pointer;
+}
+#sendOtpBtn:hover, #sendOtpBtn:focus,
+#resetPasswordBtn:hover, #resetPasswordBtn:focus {
+  transform: translateY(-1px);
+  background: linear-gradient(135deg, #22d3ee, #38bdf8);
+}
+#sendOtpBtn:active, #resetPasswordBtn:active {
+  transform: translateY(0);
+  background: linear-gradient(135deg, #22ee58, #38f885);
+}
+
+/* SCROLLBAR WIDTH */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+/* SCROLLBAR TRACK (background) */
+::-webkit-scrollbar-track {
+    background: #111;
+}
+
+/* SCROLLBAR HANDLE (moving part) */
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, #00ccff, #007bff);
+    border-radius: 10px;
+}
+
+/* HOVER EFFECT */
+::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(180deg, #00e6ff, #3399ff);
+}

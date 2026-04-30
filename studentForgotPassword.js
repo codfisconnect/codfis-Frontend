@@ -1,15 +1,16 @@
-function sendOtp() {
-  const email = document.getElementById("email").value.trim();
-  const msg = document.getElementById("msg");
+function sendStudentOtp() {
+  const email = document.getElementById("studentForgotEmail").value.trim();
+  const msg = document.getElementById("studentForgotMsg");
 
   msg.innerText = "";
+  msg.style.color = "red";
 
   if (!email) {
     msg.innerText = "Please enter email";
     return;
   }
 
-  fetch("http://localhost:8080/auth/send-otp", {
+  fetch("http://localhost:8080/student-auth/send-otp", {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
@@ -24,6 +25,7 @@ function sendOtp() {
       return text;
     })
     .then((message) => {
+      msg.style.color = "lightgreen";
       msg.innerText = message;
     })
     .catch((error) => {
@@ -32,34 +34,29 @@ function sendOtp() {
     });
 }
 
-function resetForm() {
-  document.getElementById("email").value = "";
-  document.getElementById("otp").value = "";
-  document.getElementById("newPassword").value = "";
-}
-
-function resetPassword() {
-  const email = document.getElementById("email").value.trim();
-  const otp = document.getElementById("otp").value.trim();
-  const newPassword = document.getElementById("newPassword").value.trim();
-  const msg = document.getElementById("msg");
+function resetStudentPassword() {
+  const email = document.getElementById("studentForgotEmail").value.trim();
+  const otp = document.getElementById("studentOtp").value.trim();
+  const newPassword = document.getElementById("studentNewPassword").value.trim();
+  const msg = document.getElementById("studentForgotMsg");
 
   msg.innerText = "";
+  msg.style.color = "red";
 
   if (!email || !otp || !newPassword) {
-    msg.innerText = "Fill all fields";
+    msg.innerText = "Please fill all fields";
     return;
   }
 
-  fetch("http://localhost:8080/auth/reset-password", {
+  fetch("http://localhost:8080/student-auth/reset-password", {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
     },
     body: JSON.stringify({
-      email: email,
-      otp: otp,
-      newPassword: newPassword
+      email,
+      otp,
+      newPassword
     })
   })
     .then(async (response) => {
@@ -70,8 +67,8 @@ function resetPassword() {
       return text;
     })
     .then((message) => {
+      msg.style.color = "lightgreen";
       msg.innerText = message;
-      resetForm();
     })
     .catch((error) => {
       console.error(error);

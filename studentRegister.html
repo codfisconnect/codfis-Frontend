@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Student Register</title>
+  <link rel="icon" href="/images/codfis-Tittle-logo .png"> 
+  <link rel="stylesheet" href="studentRegister.css" />
+
+</head>
+<body>
+  <div class="register-container">
+    <form class="register-form" id="stdRegisterForm" return false;">
+      <h1>Student Register</h1>
+
+      <input type="text" id="studentName" placeholder="Full Name" required />
+      
+      
+        <div class="genderBox">
+            <label for=""><input type="radio" name="gender" value="Male" required>Male</label>
+            <label for=""><input type="radio" name="gender" value="Female">Female</label>
+            <label for=""><input type="radio" name="gender" value="other">Other</label>
+        </div>
+
+      <input type="email" id="studentEmail" placeholder="Email" required />
+      <input type="text" id="studentMobile" placeholder="Mobile Number" required />
+
+      <select id="studentCourse" required>
+        <option value="">Select Course</option>
+        <option value="Full Stack Development-Java">Full Stack Development-Java</option>
+        <option value="Full Stack Development-Python">Full Stack Development-Python</option>
+        <option value="Data Engineer">Data Engineer</option>
+        <option value="Automation Testing">Automation Testing</option>
+        <option value="Data Analytics">Data Analytics</option>
+        <option value="Scrum Master">Scrum Master</option>
+        <option value="AWS DevOps">AWS DevOps</option>
+        <option value="Java Programming">Java Programming</option>
+        <option value="Python Programming">Python Programming</option>
+      </select>
+
+      <input type="password" id="studentPassword" placeholder="Create Password" required />
+      <input type="password" id="confirmStudentPassword" placeholder="Confirm Password" required />
+
+      <button type="submit" id="studentRegisterBtn">Register</button>
+      <p id="studentRegisterMsg"></p>
+
+      <a href="studentLogin.html">Already have an account? Login</a>
+    </form>
+  </div>
+
+  <script src="studentRegister.js"></script>
+</body>
+</html>

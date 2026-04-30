@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Student Dashboard</title>
+  <link rel="stylesheet" href="student-dashboard.css" />
+</head>
+<body>
+  <div class="dashboard-container">
+    <div class="dashboard-header">
+      <h1>Student Dashboard</h1>
+      <button onclick="studentLogout()">Logout</button>
+    </div>
+
+    <div class="profile-card">
+      <h2 id="welcomeText">Welcome</h2>
+      <p><strong>Name:</strong> <span id="studentName"></span></p>
+      <p><strong>Email:</strong> <span id="studentEmail"></span></p>
+      <p><strong>Mobile:</strong> <span id="studentMobile"></span></p>
+      <p><strong>Gender:</strong> <span id="studentGender"></span></p>
+      <p><strong>Course:</strong> <span id="studentCourse"></span></p>
+    </div>
+  </div>
+
+  <script src="student-dashboard.js"></script>
+</body>
+</html>

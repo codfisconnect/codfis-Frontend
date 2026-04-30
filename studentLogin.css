@@ -1,0 +1,106 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    height: 100vh;
+    background: linear-gradient(135deg, #0f172a, #1e293b);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.login-container {
+    width: 100%;
+    max-width: 380px;
+    padding: 20px;
+}
+
+.login-form {
+    background: rgba(255, 255, 255, 0.08);
+    padding: 30px 25px;
+    border-radius: 16px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    color: white;
+    text-align: center;
+}
+
+.login-form h1 {
+    margin-bottom: 25px;
+    color: #38bdf8;
+}
+
+.login-form input {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 16px;
+    border: none;
+    border-radius: 8px;
+    outline: none;
+    font-size: 14px;
+    color: white;
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.login-form input::placeholder {
+    color: #888;
+}
+
+.login-form button {
+    width: 100%;
+    padding: 12px;
+    background: #38bdf8;
+    border: none;
+    border-radius: 10px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+    margin-top: 5px;
+}
+
+.login-form button:hover {
+    background: #0ea5e9;
+    color: white;
+}
+
+#studentLoginMsg {
+    margin-top: 12px;
+    font-size: 14px;
+}
+
+/*  Links styling */
+.login-form a {
+    display: block;
+    margin-top: 12px;
+    font-size: 13px;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+/* Register link */
+.register-link {
+    color: #22c55e;
+}
+.register-link:hover {
+    color: #16a34a;
+}
+
+/* Admin link */
+.admin-link {
+    color: #facc15;
+}
+.admin-link:hover {
+    color: #eab308;
+}
+
+/* Forgot password */
+.studentForgot-link {
+    color: #38bdf8;
+}
+.studentForgot-link:hover {
+    color: #0ea5e9;
+}

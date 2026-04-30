@@ -3,9 +3,6 @@ function login() {
   const passwordInput = document.getElementById("pass");
   const errorMsg = document.getElementById("errorMsg");
   const loginBtn = document.getElementById("log-btn");
-  const token = localStorage.getItem("token");
-
-  
 
   if (!userIdInput || !passwordInput || !errorMsg || !loginBtn) {
     console.error("Login page elements not found");
@@ -28,8 +25,7 @@ function login() {
   fetch("http://localhost:8080/auth/login", {
     method: "POST",
     headers: {
-      "Content-Type": "application/json",
-      "Authorization": `Bearer ${token}`
+      "Content-Type": "application/json"
     },
     body: JSON.stringify({
       userId: userId,
@@ -37,19 +33,13 @@ function login() {
     })
   })
     .then(async (response) => {
-      const contentType = response.headers.get("content-type") || "";
+      const text = await response.text();
 
-      let data;
-      if (contentType.includes("application/json")) {
-        data = await response.json();
-      } else {
-        const text = await response.text();
+      if (!response.ok) {
         throw new Error(text || `Login failed. Status: ${response.status}`);
       }
 
-      if (!response.ok) {
-        throw new Error(data.message || `Login failed. Status: ${response.status}`);
-      }
+      const data = JSON.parse(text);
 
       if (!data.token) {
         throw new Error("Token not received from server");

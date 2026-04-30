@@ -1,0 +1,77 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background: linear-gradient(135deg, #0f172a, #1e293b);
+    min-height: 100vh;
+    padding: 20px;
+    color: white;
+}
+
+.dashboard-container {
+    max-width: 900px;
+    margin: auto;
+}
+
+.dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.dashboard-header h1 {
+    color: #38bdf8;
+}
+
+.dashboard-header button {
+    padding: 10px 16px;
+    background: #ef4444;
+    border: none;
+    border-radius: 8px;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.dashboard-header button:hover {
+    background: #dc2626;
+}
+
+.profile-card {
+    background: rgba(255, 255, 255, 0.08);
+    padding: 25px;
+    border-radius: 16px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+}
+
+.profile-card h2 {
+    margin-bottom: 20px;
+    color: #22c55e;
+}
+
+.profile-card p {
+    margin: 10px 0;
+    font-size: 16px;
+}
+
+.profile-card span {
+    color: #e2e8f0;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+    .dashboard-header {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .profile-card {
+        padding: 18px;
+    }
+}

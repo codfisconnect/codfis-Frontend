@@ -119,6 +119,26 @@ body {
     transform: translateY(0);
   }
 }
+/* SCROLLBAR WIDTH */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+/* SCROLLBAR TRACK (background) */
+::-webkit-scrollbar-track {
+    background: #111;
+}
+
+/* SCROLLBAR HANDLE (moving part) */
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, #00ccff, #007bff);
+    border-radius: 10px;
+}
+
+/* HOVER EFFECT */
+::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(180deg, #00e6ff, #3399ff);
+}
 
 /* Responsive */
 @media (max-width: 480px) {

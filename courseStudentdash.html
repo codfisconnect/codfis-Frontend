@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Course List</title>
+  <link rel="icon" href="images/codfis-Tittle-logo.png">
+  <link rel="stylesheet" href="admin.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
+<script>
+//   const token = localStorage.getItem("token");
+//   if (!token) {
+//     window.location.href = "AdminLogin.html";
+//   }
+</script>
+</head>
+<body>
+  <div class="dashboard">
+
+    <aside class="sidebar">
+        
+    <h2 class="sidebar-logo">CODFIS</h2>
+    <a href="studentDash.html"><i class="fa fa-home"></i> Dashboard</a>
+    <a href="courseStudentdash.html"><i class="fa fa-book"></i> Courses</a>
+    <a href="TrainersStudentdash.html"><i class="fa fa-user"></i> Trainers</a>
+     <a href="" onclick="logout()"><i class="fa fa-sign-out"></i> Logout</a>
+       </aside>
+
+    <main class="main">
+      <div class="header">
+        <h1>Course List</h1>
+      </div>
+
+      
+
+      <section class="table-container">
+        <h2 id="coursesCountDis"></h2>
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Course ID</th>
+              <th>Course Name</th>
+              <th>Course Duration</th>
+              <th>Trainer Name</th>
+            </tr>
+          </thead>
+          <tbody id="cors-bdy"></tbody>
+        </table>
+      </section>
+      <div id="courseContainer"></div>
+    </main>
+
+  </div>
+
+  <script src="courseDashboard.js"></script>
+  <script>
+    window.onload = function () {
+      showcourses();
+    };
+  </script>
+  <script src="StudentLogin.js"></script>
+  <script>
+    window.history.pushState(null, null, window.location.href);
+
+   window.onpopstate = function () {
+    window.location.replace("StudentDash.html");
+    };
+  </script>
+</body>
+</html>

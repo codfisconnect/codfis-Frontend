@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Trainer Profile</title>
+  <link rel="icon" href="/images/codfis-Tittle-logo .png">
+  <link rel="stylesheet" href="admin.css" />
+  
+ 
+</head>
+<body>
+  <div class="profile-container">
+    <h1 class="profile-title">Trainer Profile</h1>
+
+    <div class="profile-grid">
+      <div class="profile-card">
+        <h3>Basic Details</h3>
+        <p><strong>Name:</strong> <span id="trainerName"></span></p>
+        <p><strong>Gender:</strong> <span id="trainerGender"></span></p>
+        <p><strong>Email:</strong> <span id="trainerEmail"></span></p>
+        <p><strong>Mobile:</strong> <span id="trainerMobile"></span></p>
+      </div>
+
+      <div class="profile-card">
+        <h3>Professional Summary</h3>
+        <p id="trainerDescription"></p>
+      </div>
+    </div>
+
+    <div class="resume-box">
+      <h3>Uploaded Resume</h3>
+      <p><strong>File Name:</strong> <span id="resumeName"></span></p>
+
+      <div class="resume-actions">
+        <button id="interviewButton">Call For Interview</button>
+        <a id="downloadResume" href="#" target="_blank">Download Resume</a>
+      </div>
+      
+      <div class="mail-section">
+            <h2>Send Interview Invitation</h2>
+
+            <form id="interviewMailForm">
+                <div class="form-group">
+                    <label for="mailSubject">Subject</label>
+                    <input type="text" id="mailSubject" value="Interview Invitation from Codfis Technologies" required>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="interviewDate">Interview Date</label>
+                        <input type="date" id="interviewDate" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="interviewTime">Interview Time</label>
+                        <input type="time" id="interviewTime" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="interviewMode">Interview Mode</label>
+                    <select id="interviewMode" required>
+                        <option value="">-- Select Mode --</option>
+                        <option value="Online">Online</option>
+                        <option value="Offline">Offline</option>
+                        <option value="Phone Call">Phone Call</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="meetingLink">Meeting Link / Venue</label>
+                    <textarea id="meetingLink" rows="4" placeholder="Enter Google Meet link or office address" required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="mailMessage">Message</label>
+                    <textarea id="mailMessage" rows="8" required>
+
+We are pleased to invite you for an interview regarding your trainer application.
+
+Please find the interview details below.
+
+                    </textarea>
+                </div>
+
+                <button type="submit" class="btn">Send Interview Mail</button>
+                <p id="mailStatus"></p>
+            </form>
+        </div>
+    </div>
+      <iframe id="resumeFrame"></iframe>
+    </div>
+  </div>
+
+  <script src="trainerProfile.js"></script>
+</body>
+</html>

@@ -195,6 +195,7 @@
                 <span id="resume-error"></span>
             </div>
 
+            <p id="trainerLoadingMsg" class="loading-msg" style="display: none;"></p>    
             <div class="btn-box">
                 <button id="reset" class="btn" type="reset">Reset</button>
                 <button id="submit" class="btn" type="submit">Submit</button>
@@ -251,6 +252,7 @@
                 <span id="ScourseErr"></span>
             </div>
 
+            <p id="studentLoadingMsg" class="loading-msg" style="display: none;"></p>
             <div class="std-btn-box btn-box">
                 <button type="reset" id="std-rst" class="btn">Reset</button>
                 <button type="submit" id="std-sbt" class="btn">Submit</button>
@@ -360,13 +362,17 @@
                 <a href="">Corporate Training</a>
             </div>
             <div>
-                <h3>Head Office</h3>
+                <u><h2>Head Office</h2></u>
                 <p>
-                    Codfis Technologies Pvt Ltd,<br>
-                    1st Floor, 62, 2/2, Peter's Rd,<br>
-                    Near YMCA Ground,<br>
-                    Royapettah, Chennai, 600014,<br>
+                   <b>
+                     <abbr title="Locate Us"><a href="https://www.google.com/maps/dir//Codfis+Technologies,+1st+Floor+62,+2%2F2,+Peter's+Rd,+Ganapathy+Colony,+Royapettah,+Chennai,+Tamil+Nadu+600014/@10.9600786,78.076603,15z/data=!4m8!4m7!1m0!1m5!1m1!1s0x3a526703984c0539:0xbf76f45d3396ec5!2m2!1d80.2631937!2d13.0538713?entry=ttu&g_ep=EgoyMDI2MDQxNS4wIKXMDSoASAFQAw%3D%3D" target="_blank" hover="true">
+                       Codfis Technologies Pvt Ltd,
+                    1st Floor, 62, 2/2, Peter's Rd,
+                    Near YMCA Ground,
+                    Royapettah, Chennai, 600014,
                     Tamil Nadu, India.
+                     </a></abbr>
+                </b>
                 </p>
             </div>
         </div>
@@ -374,7 +380,7 @@
         <hr>
 
         <div class="copyrights">
-            <h4>&copy; Copyrights 2025 Codfis Technologies - All Rights Reserved</h4>
+            <h4>&copy; <span id="year"></span> Codfis Technologies. All Rights Reserved.</h4>
         </div>
     </footer>
 

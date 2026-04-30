@@ -109,7 +109,7 @@ if (joinBtn && trainerBtn && slideShow) {
       trainerBtn.style.left = "50%";
       trainerBtn.style.zIndex = "999";
 
-       if(screen.width < 500) {
+       if(screen.width < 520) {
         joinBtn.style.left = "10%";
         joinBtn.style.top = "10%";
         joinBtn.style.padding = "0.5rem 0.75rem";
@@ -173,8 +173,13 @@ function clearStudentErrors() {
 }
 
 function trainerFormReset() {
-  if (!trainerForm) return;
-  trainerForm.reset();
+    document.getElementById("full-name").value = "";
+    const genderRadios = document.querySelectorAll('input[name="trainerGender"]');
+    genderRadios.forEach(radio => radio.checked = false);
+    document.getElementById("email").value = "";
+    document.getElementById("mob-num").value = "";
+    document.getElementById("dis").value = "";
+    document.getElementById("resume").value = "";
   clearTrainerErrors();
 }
 
@@ -206,6 +211,9 @@ if (trainerForm) {
     const mnumberErr = document.getElementById("number-error");
     const disErr = document.getElementById("dis-error");
     const resErr = document.getElementById("resume-error");
+
+    const loadingMsg = document.getElementById("trainerLoadingMsg");
+    const submitBtn = document.getElementById("submit");
 
     const fnamePattern = /^[A-Za-z ]{2,}$/;
     const emailPattern = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/i;
@@ -263,6 +271,21 @@ if (trainerForm) {
     formData.append("description", dis);
     formData.append("file", uResume);
 
+    if(loadingMsg){
+       loadingMsg.style.display = "block";
+       loadingMsg.innerText = "Submitting...";
+       loadingMsg.style.color = "#00ccff";
+    }
+    if(submitBtn) {
+      submitBtn.disabled = true;
+      submitBtn.innerText = "Submitting...";
+      submitBtn.style.opacity = "0.6";
+      submitBtn.style.cursor = "not-allowed";
+      submitBtn.style.backgroundColor = "#ccc";
+      submitBtn.style.color = "#666";
+      submitBtn.style.borderColor = "#999";
+    }
+
     fetch("http://localhost:8080/courses/trainer/apply", {
       method: "POST",
       body: formData
@@ -274,15 +297,38 @@ if (trainerForm) {
         return response.text();
       })
       .then((message) => {
+          if(loadingMsg){
+            loadingMsg.style.innerText = "Submitted successfully!";
+            loadingMsg.style.color = "lightgreen";
+          }
         alert(message);
         trainerFormReset();
         closeTrainerform();
       })
       .catch((error) => {
         console.error("Trainer form error:", error);
+       if(loadingMsg){
+          loadingMsg.style.innerText = "Failed to submit. Please try again.";
+          loadingMsg.style.color = "red";
+        }
         alert(error.message);
-      });
+      }).finally(() => {
+        if(submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.innerText = "Submit";
+          submitBtn.style.opacity = "1";
+          submitBtn.style.cursor = "pointer";
+          submitBtn.style.backgroundColor = "";
+          submitBtn.style.color = "";
+          submitBtn.style.borderColor = "";
+        }
+        setTimeout(() => {
+          if(loadingMsg){
+            loadingMsg.style.display = "none";
+            loadingMsg.innerText = "";}
+          }, 3000);
   });
+});
 }
 
 // =========================
@@ -305,6 +351,9 @@ if (stdForm) {
     const emailErr = document.getElementById("SemailErr");
     const mobileErr = document.getElementById("SmobileErr");
     const courseErr = document.getElementById("ScourseErr");
+
+    const loadingMsg = document.getElementById("studentLoadingMsg");
+    const submitBtn = document.getElementById("std-sbt");
 
     const namePattern = /^[A-Za-z ]{2,}$/;
     const emailPattern = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/i;
@@ -357,6 +406,22 @@ if (stdForm) {
       courseName: courseName
     };
 
+    if(loadingMsg)
+    {
+      loadingMsg.style.display = "block";
+      loadingMsg.innerText = "Submitting...";
+      loadingMsg.style.color = "#00ccff";
+    }
+      if(submitBtn) {
+      submitBtn.disabled = true;
+      submitBtn.innerText = "Submitting...";
+      submitBtn.style.opacity = "0.6";
+      submitBtn.style.cursor = "not-allowed";
+      submitBtn.style.backgroundColor = "#ccc";
+      submitBtn.style.color = "#666";
+      submitBtn.style.borderColor = "#999";
+    }
+
     fetch("http://localhost:8080/courses/student/enroll", {
       method: "POST",
       headers: {
@@ -365,19 +430,46 @@ if (stdForm) {
       body: JSON.stringify(studentData)
     })
       .then((response) => {
+          document.body.style.cursor = "progress";
         if (!response.ok) {
           throw new Error("Failed to register student. Status: " + response.status);
         }
         return response.text();
+        document.body.style.cursor = "default";
       })
       .then((message) => {
+        if(loadingMsg){
+          loadingMsg.style.innerText = "Registration successfully!";
+          loadingMsg.style.color = "lightgreen";
+        }
         alert(message);
         studentFormReset();
         closeStudentform();
       })
       .catch((error) => {
         console.error("Student form error:", error);
+        if(loadingMsg){
+          loadingMsg.style.innerText = "Failed to submit. Please try again.";
+          loadingMsg.style.color = "red";
+        }
         alert(error.message);
-      });
+      }).finally(() => {
+        if(submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.innerText = "Submit";
+          submitBtn.style.opacity = "1";
+          submitBtn.style.cursor = "pointer";
+          submitBtn.style.backgroundColor = "";
+          submitBtn.style.color = "";
+          submitBtn.style.borderColor = "";
+        }
+        setTimeout(() => {
+          if(loadingMsg){
+            loadingMsg.style.display = "none";
+            loadingMsg.innerText = "";
+          }
+          }, 3000);
+        });
   });
 }
+document.getElementById("year").textContent = new Date().getFullYear();

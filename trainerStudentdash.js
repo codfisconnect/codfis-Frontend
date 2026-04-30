@@ -23,20 +23,6 @@ function showTrainers() {
             container.innerHTML = "<p style='color:red'>Failed to load data</p>";
         });
 }
-function approveTrainer(mobile) {
-    fetch(`http://localhost:8080/courses/trainer/approve/${mobile}`, {
-        method: "PUT",
-        headers: {
-            "Authorization": `Bearer ${token}`
-        }
-    })
-    .then(res => res.text())
-    .then(msg => {
-        alert(msg);
-        showTrainers(); // refresh list
-    })
-    .catch(err => alert(err));
-}
 
 function renderTrainers() {
     const container = document.getElementById("trainerContainer");
@@ -58,22 +44,18 @@ function renderTrainers() {
         <div class="trainerCard">
 
             <h2>${trainer.name}</h2>
-            <h4> Gender: ${trainer.gender || "Not specified"}</h4>
+
             <h4>Email: <a href="mailto:${trainer.email}">${trainer.email}</a></h4>
             <h4>Mobile: <a href="tel:${trainer.mobile}">${trainer.mobile}</a></h4>
             <h4>${trainer.description}</h4>
 
             <span class="status ${trainer.status || "pending"}">
                 ${trainer.status || "Pending"}
-
             </span>
 
             <div class="btn-group">
-                <button class="approve" onclick="approveTrainer(${trainer.mobile})">Approve</button>
-                <button class="reject" onclick="rejectTrainer(${trainer.mobile})">Reject</button>
                 <button class="profile" onclick="openTrainerProfile(${trainer.mobile})">Profile</button>
-                <button class="delete" onclick="deleteTrainer(${trainer.mobile})">Delete</button>
-            </div>
+               </div>
 
         </div>
         `;
@@ -88,47 +70,13 @@ function openTrainerProfile(mobile) {
   window.location.href = `trainerprofile.html?mobile=${mobile}`;
 }
 
-function rejectTrainer(mobile) {
-    fetch(`http://localhost:8080/courses/trainer/reject/${mobile}`, {
-        method: "PUT",
-        headers: {
-            "Authorization": `Bearer ${token}`
-        }
-    })
-    .then(res => res.text())
-    .then(msg => {
-        alert(msg);
-        showTrainers(); // refresh list
-    })
-    .catch(err => alert(err));
-}
-
-function deleteTrainer(mobile) {
-    if (!confirm("Are you sure you want to delete this trainer?")) return;
-
-    fetch(`http://localhost:8080/courses/trainer/delete/${mobile}`, {
-        method: "DELETE",
-        headers: {
-            "Authorization": `Bearer ${token}`
-        }
-    })
-    .then(res => res.text())
-    .then(msg => {
-        alert(msg);
-        showTrainers(); // refresh list
-    })
-    .catch(err => alert(err));
-}
-
 function searchTrainer() {
     const value = document.getElementById("searchInput").value.toLowerCase();
 
     const filtered = allTrainers.filter(trainer =>
         trainer.name.toLowerCase().includes(value) ||
-        trainer.gender.toLowerCase().includes(value) ||
         trainer.email.toLowerCase().includes(value) ||
-        trainer.mobile.toString().includes(value)||
-        trainer.description.toLowerCase().includes(value)
+        trainer.mobile.toString().includes(value)
     );
 
     currentPage = 1;
@@ -143,24 +91,10 @@ function renderFiltered(data) {
     data.forEach(trainer => {
         html += `
         <div class="trainerCard">
-           <h2>${trainer.name}</h2>
-            <h4> Gender: ${trainer.gender || "Not specified"}</h4>
-            <h4>Email: <a href="mailto:${trainer.email}">${trainer.email}</a></h4>
-            <h4>Mobile: <a href="tel:${trainer.mobile}">${trainer.mobile}</a></h4>
-            <h4>${trainer.description}</h4>
-
-                <span class="status ${trainer.status || "pending"}">
-                    ${trainer.status || "Pending"}
-                </span>
-
-             <div class="btn-group">
-                <button class="approve" onclick="approveTrainer(${trainer.mobile})">Approve</button>
-                <button class="reject" onclick="rejectTrainer(${trainer.mobile})">Reject</button>
-                <button class="profile" onclick="openTrainerProfile(${trainer.mobile})">Profile</button>
-                <button class="delete" onclick="deleteTrainer(${trainer.mobile})">Delete</button>
-             </div>
+            <h2>${trainer.name}</h2>
+            <h4>${trainer.email}</h4>
+            <h4>${trainer.mobile}</h4>
         </div>
-
         `;
     });
 
@@ -186,6 +120,3 @@ function goToPage(page) {
     currentPage = page;
     renderTrainers();
 }
-
-// Trainer profile page:
-
