@@ -6,7 +6,7 @@ window.onload = function() {
 }
 
 function showStudentsdisplay() {
-    fetch("http://localhost:8080/courses/student/all",
+    fetch("https://codfis-backend.onrender.com/courses/student/all",
         {
             method: "GET",
             headers: { "Authorization": `Bearer ${token}` }
@@ -21,7 +21,7 @@ function showStudentsdisplay() {
     .catch(err => alert(err));
 }
 function showCoursedisplay() {
-    fetch("http://localhost:8080/courses", {
+    fetch("https://codfis-backend.onrender.com/courses", {
         method: "GET",
         headers: { "Authorization": `Bearer ${token}` }
     })
@@ -34,7 +34,7 @@ function showCoursedisplay() {
 
 
 function showTrainerRequestdisplay() {
-    fetch("http://localhost:8080/courses/trainer/applied", {
+    fetch("https://codfis-backend.onrender.com/courses/trainer/applied", {
         method: "GET",
         headers: { "Authorization": `Bearer ${token}` }
     })
