@@ -16,7 +16,7 @@ function showStudents() {
 
   container.innerHTML = "<p>Loading students...</p>";
 
-  fetch("http://localhost:8080/courses/student/all", {
+  fetch("https://codfis-backend.onrender.com/courses/student/all", {
     method: "GET",
     headers: {
       "Authorization": `Bearer ${token}`
