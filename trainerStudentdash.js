@@ -9,7 +9,7 @@ function showTrainers() {
 
     container.innerHTML = "<p>Loading...</p>";
 
-    fetch("http://localhost:8080/courses/trainer/applied",
+    fetch("https://codfis-backend.onrender.com/courses/trainer/applied",
         {
             method: "GET",
             headers: { "Authorization": `Bearer ${token}` }
