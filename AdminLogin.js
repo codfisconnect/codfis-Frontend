@@ -22,7 +22,7 @@ function login() {
   loginBtn.disabled = true;
   loginBtn.innerText = "Logging in...";
 
-  fetch("http://localhost:8080/auth/login", {
+  fetch("https://codfis-backend.onrender.com/auth/login", {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
