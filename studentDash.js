@@ -15,7 +15,7 @@ function loadStudentDashboard() {
     return;
   }
 
-  fetch(`http://localhost:8080/student-auth/profile/${encodeURIComponent(email)}`, {
+  fetch(`https://codfis-backend.onrender.com/student-auth/profile/${encodeURIComponent(email)}`, {
     method: "GET",
     headers: {
       "Authorization": `Bearer ${token}`
