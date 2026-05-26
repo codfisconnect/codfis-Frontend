@@ -34,7 +34,7 @@ function loadTrainerProfile() {
 
   let trainerFileName = "resume";
 
-  fetch(`http://localhost:8080/courses/trainer/${mobile}`, {
+  fetch(`https://codfis-backend.onrender.com/courses/trainer/${mobile}`, {
     method: "GET",
     headers: {
       "Authorization": `Bearer ${token}`
@@ -56,7 +56,7 @@ function loadTrainerProfile() {
 
       trainerFileName = trainer.fileName || "resume";
 
-      return fetch(`http://localhost:8080/courses/trainer/resume/${mobile}`, {
+      return fetch(`https://codfis-backend.onrender.com/courses/trainer/resume/${mobile}`, {
         method: "GET",
         headers: {
           "Authorization": `Bearer ${token}`
@@ -160,7 +160,7 @@ if (interviewMailForm) {
         mailStatus.style.color = "white";
         mailStatus.innerText = "Sending...";
 
-        fetch("http://localhost:8080/courses/trainer/sendInterviewMail", {
+        fetch("https://codfis-backend.onrender.com/courses/trainer/sendInterviewMail", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
