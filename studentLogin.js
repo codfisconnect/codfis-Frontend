@@ -15,7 +15,7 @@ function studentLogin() {
   btn.disabled = true;
   btn.innerText = "Logging in...";
 
-  fetch("http://localhost:8080/student-auth/login", {
+  fetch("https://codfis-backend.onrender.com/student-auth/login", {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
