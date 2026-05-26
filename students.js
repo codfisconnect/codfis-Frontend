@@ -123,7 +123,7 @@ function rejectStudent(mobile) {
 }
 
 function updateStudentApproval(mobile, action) {
-  fetch(`http://localhost:8080/courses/student/${action}/${mobile}`, {
+  fetch(`https://codfis-backend.onrender.com/courses/student/${action}/${mobile}`, {
     method: "PUT",
     headers: {
       "Authorization": `Bearer ${token}`
@@ -227,7 +227,7 @@ function deleteStudent(mobile) {
     return;
   }
 
-  fetch(`http://localhost:8080/courses/student/delete/${mobile}`, {
+  fetch(`https://codfis-backend.onrender.com/courses/student/delete/${mobile}`, {
     method: "DELETE",
     headers: {
       "Authorization": `Bearer ${token}`
@@ -299,7 +299,7 @@ function updateStudent(event) {
     courseName: document.getElementById("editCourse").value.trim()
   };
 
-  fetch(`http://localhost:8080/courses/student/update/${selectedMobile}`, {
+  fetch(`https://codfis-backend.onrender.com/courses/student/update/${selectedMobile}`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
