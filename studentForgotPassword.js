@@ -10,7 +10,7 @@ function sendStudentOtp() {
     return;
   }
 
-  fetch("http://localhost:8080/student-auth/send-otp", {
+  fetch("https://codfis-backend.onrender.com/student-auth/send-otp", {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
