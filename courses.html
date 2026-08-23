@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Courses — Cortis Academy</title>
+  <link rel="stylesheet" href="codfis_premium.css">
+</head>
+<body>
+  <header class="site-header">
+    <nav class="nav">
+      <div class="logo"><a href="index.html"><img src="/images/codfis-logo.png" alt="Codfis"></a></div>
+      <ul class="links">
+        <li class="nav-link"><a href="index.html">Home</a></li>
+        <li class="nav-link"><a href="solutions.html">Solutions</a></li>
+        <li class="nav-link"><a href="academy.html">Academy</a></li>
+        <li class="nav-link"><a href="careers.html">Careers</a></li>
+        <li class="nav-link"><a href="about.html">About</a></li>
+        <li class="nav-link"><a href="contact.html">Contact</a></li>
++        <li class="nav-cta"><button class="btn" data-open-chat="business">Build Your Application</button></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="container">
+    <h1>Courses</h1>
+    <p class="section-sub">Course listings and details. Click a course to view details and enquire.</p>
+    <div class="courses-grid">
+      <div class="course case-card"><h3>AI</h3><p>Practical AI skills.</p><a class="btn" href="#">View Course</a></div>
+      <div class="course case-card"><h3>Python</h3><p>Python for developers.</p><a class="btn" href="#">View Course</a></div>
+      <div class="course case-card"><h3>Web Development</h3><p>Full stack web apps.</p><a class="btn" href="#">View Course</a></div>
+    </div>
+  </main>
+
+  <footer class="end-content">
+    <div style="text-align:center; padding:2rem">© Codfis Technologies</div>
+  </footer>
+
+  <button id="chatbot-button" aria-label="Open chat">💬</button>
+  <div id="chatbot-window" aria-hidden="true"></div>
+  <script src="chatbot.js"></script>
+</body>
+</html>
