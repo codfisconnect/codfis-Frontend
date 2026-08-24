@@ -286,7 +286,7 @@ if (trainerForm) {
       submitBtn.style.borderColor = "#999";
     }
 
-    fetch("https://codfis-backend.onrender.com/courses/trainer/apply", {
+    fetch("/api/courses/trainer/apply", {
       method: "POST",
       body: formData
     })
@@ -422,7 +422,7 @@ if (stdForm) {
       submitBtn.style.borderColor = "#999";
     }
 
-    fetch("https://codfis-backend.onrender.com/courses/student/enroll", {
+    fetch("/api/courses/student/enroll", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"

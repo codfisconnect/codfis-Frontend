@@ -22,13 +22,48 @@
     </nav>
   </header>
 
-  <main class="container">
-    <h1>Careers</h1>
-    <p class="section-sub">Apply for a role or become a trainer.</p>
-    <div class="career-cards">
-      <div class="case-card">Apply for a Job — <a href="#">Open Positions</a></div>
-      <div class="case-card">Become a Trainer — <a href="#">Apply</a></div>
+  <section class="hero" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); min-height: 350px; display: flex; align-items: center; text-align: center; padding: 3rem 1rem; color: white;">
+    <div class="container" style="width: 100%; max-width: 900px;">
+      <h1 style="font-size: 3rem; margin: 0 0 1rem 0;">Careers at Codfis</h1>
+      <p class="section-sub" style="font-size: 1.2rem; margin: 0; opacity: 0.95;">Join our team or become a trainer. Grow with us!</p>
     </div>
+  </section>
+
+  <main class="container">
+    <div class="career-cards">
+      <div class="case-card">
+        <h3>👨‍💼 Apply for a Job</h3>
+        <p>Join our talented team of engineers and technologists.</p>
+        <a href="#" class="btn">View Open Positions</a>
+      </div>
+      <div class="case-card">
+        <h3>👨‍🏫 Become a Trainer</h3>
+        <p>Share your expertise and train the next generation of engineers.</p>
+        <a href="newTrainers.html" class="btn">Apply as Trainer</a>
+      </div>
+    </div>
+
+    <section style="margin-top: 3rem;">
+      <h2>Why Work With Us?</h2>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; margin-top: 1rem;">
+        <div>
+          <h3>🚀 Cutting-edge Projects</h3>
+          <p>Work on AI, web, mobile and cloud projects for clients worldwide.</p>
+        </div>
+        <div>
+          <h3>📚 Learning Culture</h3>
+          <p>Continuous upskilling with emerging technologies and best practices.</p>
+        </div>
+        <div>
+          <h3>💼 Professional Growth</h3>
+          <p>Clear career paths and opportunities for advancement.</p>
+        </div>
+        <div>
+          <h3>🤝 Collaborative Team</h3>
+          <p>Work with talented engineers in a supportive environment.</p>
+        </div>
+      </div>
+    </section>
   </main>
 
   <footer class="end-content">
@@ -37,6 +72,9 @@
 
   <button id="chatbot-button" aria-label="Open chat">💬</button>
   <div id="chatbot-window" aria-hidden="true"></div>
+  <script src="src/config/media.js"></script>
+  <script src="src/config/contact.js"></script>
+  <script src="media-init.js"></script>
   <script src="chatbot.js"></script>
 </body>
 </html>

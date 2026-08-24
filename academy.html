@@ -22,14 +22,28 @@
     </nav>
   </header>
 
-  <main class="container">
-    <h1>Cortis Academy</h1>
-    <p class="section-sub">Practical technology training focused on modern software development and AI.</p>
-    <div class="courses">
-      <div class="course"><h3>AI</h3><p>Overview and practical labs.</p><a class="btn" href="courses.html">View Course</a></div>
-      <div class="course"><h3>Python</h3><p>From fundamentals to applications.</p><a class="btn" href="courses.html">View Course</a></div>
-      <div class="course"><h3>Web Development</h3><p>Modern frontend and backend.</p><a class="btn" href="courses.html">View Course</a></div>
+  <section class="hero" style="background: linear-gradient(135deg, #0ea5e9 0%, #3b82f6 100%); min-height: 350px; display: flex; align-items: center; text-align: center; padding: 3rem 1rem; color: white;">
+    <div class="container" style="width: 100%; max-width: 900px;">
+      <h1 style="font-size: 3rem; margin: 0 0 1rem 0;">Cortis Academy</h1>
+      <p class="section-sub" style="font-size: 1.2rem; margin: 0; opacity: 0.95;">Practical technology training focused on modern software development and AI.</p>
     </div>
+  </section>
+
+  <main class="container">
+    <div class="courses" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; margin-top: 2rem;">
+      <div class="course"><img src="/images/da.png" alt="Data Analytics"><h3>Data Analytics</h3><p>Master data science concepts and analytics tools.</p><a class="btn" href="courses.html">View Course</a></div>
+      <div class="course"><img src="/images/python.png" alt="Python"><h3>Python</h3><p>From fundamentals to advanced applications.</p><a class="btn" href="courses.html">View Course</a></div>
+      <div class="course"><img src="/images/full stack.png" alt="Web Development"><h3>Web Development</h3><p>Modern frontend and backend development.</p><a class="btn" href="courses.html">View Course</a></div>
+      <div class="course"><img src="/images/java.png" alt="Java"><h3>Java</h3><p>Object-oriented programming and enterprise apps.</p><a class="btn" href="courses.html">View Course</a></div>
+      <div class="course"><img src="/images/software testing.png" alt="QA Testing"><h3>QA & Testing</h3><p>Automated and manual testing methodologies.</p><a class="btn" href="courses.html">View Course</a></div>
+      <div class="course"><img src="/images/devops.png" alt="DevOps"><h3>Cloud & DevOps</h3><p>Infrastructure, deployment and CI/CD pipelines.</p><a class="btn" href="courses.html">View Course</a></div>
+    </div>
+    
+    <section style="margin-top: 3rem; text-align: center;">
+      <h2>More Courses Coming Soon</h2>
+      <p>AI, Machine Learning, Advanced Web Development, Mobile Apps and more.</p>
+      <button class="btn primary" data-open-chat="business" style="margin-top: 1rem;">Inquire About Courses</button>
+    </section>
   </main>
 
   <footer class="end-content">
@@ -38,6 +52,9 @@
 
   <button id="chatbot-button" aria-label="Open chat">💬</button>
   <div id="chatbot-window" aria-hidden="true"></div>
+  <script src="src/config/media.js"></script>
+  <script src="src/config/contact.js"></script>
+  <script src="media-init.js"></script>
   <script src="chatbot.js"></script>
 </body>
 </html>

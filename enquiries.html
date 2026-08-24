@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Enquiries - Admin</title>
+  <link rel="stylesheet" href="admin.css" />
+</head>
+<body>
+<div class="dashboard">
+  <div class="sidebar">
+    <h2 class="sidebar-logo">CODFIS</h2>
+    <a href="admin.html"><i class="fa fa-home"></i> Dashboard</a>
+    <a href="enquiries.html"><i class="fa fa-list"></i> Enquiries</a>
+    <a href="course.html"><i class="fa fa-book"></i> Courses</a>
+    <a href="students.html"><i class="fa fa-users"></i> Students</a>
+    <a href="newTrainers.html"><i class="fa fa-user"></i> Trainers</a>
+    <a href="create.html"><i class="fa fa-user-plus"></i> Create Admin</a>
+    <a href="" onclick="logout()"><i class="fa fa-sign-out"></i> Logout</a>
+  </div>
+  <div class="main">
+    <div class="header"><h1>Enquiries</h1></div>
+    <div class="cards" style="padding:16px">
+      <div id="enquiriesList">Loading enquiries...</div>
+    </div>
+  </div>
+</div>
+<script>
+ const token = localStorage.getItem("token");
+ if (!token) { window.location.href = "AdminLogin.html"; }
+</script>
+<script src="admin-enquiries.js"></script>
+<script src="AdminLogin.js"></script>
+</body>
+</html>

@@ -9,7 +9,7 @@ function sendOtp() {
     return;
   }
 
-  fetch("https://codfis-backend.onrender.com/auth/send-otp", {
+  fetch("/api/auth/send-otp", {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
@@ -51,7 +51,7 @@ function resetPassword() {
     return;
   }
 
-  fetch("https://codfis-backend.onrender.com/auth/reset-password", {
+  fetch("/api/auth/reset-password", {
     method: "POST",
     headers: {
       "Content-Type": "application/json"

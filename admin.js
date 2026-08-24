@@ -1,46 +1,22 @@
 
 window.onload = function() {
-    showStudentsdisplay();
-    showCoursedisplay();
-    showTrainerRequestdisplay();
+    loadStats();
 }
 
-function showStudentsdisplay() {
-    fetch("https://codfis-backend.onrender.com/courses/student/all",
-        {
-            method: "GET",
-            headers: { "Authorization": `Bearer ${token}` }
-        })
-    .then(res => res.json())
-    .then(students => {
-      
-        document.getElementById("studentCountDisplay").innerText = `${students.length}`;
-
-    })
-
-    .catch(err => alert(err));
-}
-function showCoursedisplay() {
-    fetch("https://codfis-backend.onrender.com/courses", {
+function loadStats(){
+    const token = localStorage.getItem("token");
+    if (!token) return;
+    fetch("/api/stats", {
         method: "GET",
         headers: { "Authorization": `Bearer ${token}` }
     })
     .then(res => res.json())
-    .then(courses => { 
-        document.getElementById("courseCountDisplay").innerText = `${courses.length}`;
+    .then(stats => { 
+        document.getElementById("studentCountDisplay").innerText = `${stats.students || 0}`;
+        document.getElementById("courseCountDisplay").innerText = `${stats.demo_requests || 0}`;
+        document.getElementById("trainerRequestCountDisplay").innerText = `${stats.trainers || 0}`;
     })
-    .catch(err => alert(err));
-}   
-
-
-function showTrainerRequestdisplay() {
-    fetch("https://codfis-backend.onrender.com/courses/trainer/applied", {
-        method: "GET",
-        headers: { "Authorization": `Bearer ${token}` }
-    })
-    .then(res => res.json())
-    .then(count => {
-        document.getElementById("trainerRequestCountDisplay").innerText = `${count.length}`;
-    })
-    .catch(err => alert(err));
+    .catch(err => console.error(err));
 }
+
+

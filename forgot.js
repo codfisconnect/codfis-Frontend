@@ -17,7 +17,7 @@ form.addEventListener("submit", async (e) => {
     }
 
     try {
-        const response = await fetch("https://codfis-backend.onrender.com/auth/reset-password", {
+        const response = await fetch("/api/auth/reset-password", {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json"

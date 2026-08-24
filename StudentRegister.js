@@ -44,7 +44,7 @@ function studentRegister(event) {
 
   console.log("Student register payload:", payload);
 
-  fetch("https://codfis-backend.onrender.com/student-auth/register", {
+  fetch("/api/student-auth/register", {
     method: "POST",
     headers: {
       "Content-Type": "application/json"

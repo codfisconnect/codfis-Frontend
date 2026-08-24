@@ -16,7 +16,7 @@ function showStudents() {
 
   container.innerHTML = "<p>Loading students...</p>";
 
-  fetch("https://codfis-backend.onrender.com/courses/student/all", {
+  fetch("/api/courses/student/all", {
     method: "GET",
     headers: {
       "Authorization": `Bearer ${token}`
@@ -123,7 +123,7 @@ function rejectStudent(mobile) {
 }
 
 function updateStudentApproval(mobile, action) {
-  fetch(`https://codfis-backend.onrender.com/courses/student/${action}/${mobile}`, {
+  fetch(`/api/courses/student/${action}/${mobile}`, {
     method: "PUT",
     headers: {
       "Authorization": `Bearer ${token}`
@@ -227,7 +227,7 @@ function deleteStudent(mobile) {
     return;
   }
 
-  fetch(`https://codfis-backend.onrender.com/courses/student/delete/${mobile}`, {
+  fetch(`/api/courses/student/delete/${mobile}`, {
     method: "DELETE",
     headers: {
       "Authorization": `Bearer ${token}`

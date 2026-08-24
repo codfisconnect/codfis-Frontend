@@ -14,7 +14,7 @@ function showcourses() {
     </tr>
   `;
 
-  fetch("https://codfis-backend.onrender.com/courses", {
+  fetch("/api/courses", {
     method: "GET",
     headers: { "Authorization": `Bearer ${token}` }
   })
@@ -121,7 +121,7 @@ courseForm.addEventListener("submit", function (event) {
   }
 
 
-  fetch("https://codfis-backend.onrender.com/courses/add", {
+  fetch("/api/courses/add", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -154,7 +154,7 @@ function deleteCourse(courseId) {
   const confirmed = confirm("Are you sure you want to delete this course?");
   if (!confirmed) return;
 
-  fetch(`https://codfis-backend.onrender.com/courses/delete/${courseId}`, {
+  fetch(`/api/courses/delete/${courseId}`, {
     method: "DELETE",
     headers: {
       "Authorization": `Bearer ${token}`
@@ -211,7 +211,7 @@ function updateCourse() {
     trainerName: document.getElementById("trainerName").value.trim()
   };
 
-  fetch(`https://codfis-backend.onrender.com/courses/update/${selectedCourseId}`, {
+  fetch(`/api/courses/update/${selectedCourseId}`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",

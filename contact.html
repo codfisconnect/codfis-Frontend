@@ -22,14 +22,42 @@
     </nav>
   </header>
 
-  <main class="container">
-    <h1>Contact</h1>
-    <p class="section-sub">Get in touch with our team.</p>
-    <div class="contact-cards">
-      <div class="contact-card chat-card"><strong>Email</strong><a href="mailto:HR@codfis.com">HR@codfis.com</a></div>
-      <div class="contact-card chat-card"><strong>Phone</strong><a href="tel:+919884770747">+91 98847 70747</a></div>
-      <div class="contact-card chat-card"><strong>WhatsApp</strong><a href="https://wa.me/919884770747" target="_blank">Message on WhatsApp</a></div>
+  <section class="hero" style="background: linear-gradient(135deg, #ec4899 0%, #f43f5e 100%); min-height: 350px; display: flex; align-items: center; text-align: center; padding: 3rem 1rem; color: white;">
+    <div class="container" style="width: 100%; max-width: 900px;">
+      <h1 style="font-size: 3rem; margin: 0 0 1rem 0;">Contact Us</h1>
+      <p class="section-sub" style="font-size: 1.2rem; margin: 0; opacity: 0.95;">Have a project in mind? Let's discuss how we can help.</p>
     </div>
+  </section>
+
+  <main class="container">
+    <div class="contact-cards">
+      <div class="contact-card chat-card"><strong>📧 Email</strong><a href="mailto:HR@codfis.com">HR@codfis.com</a></div>
+      <div class="contact-card chat-card"><strong>📞 Phone</strong><a href="tel:+919884770747">+91 98847 70747</a></div>
+      <div class="contact-card chat-card"><strong>💬 WhatsApp</strong><a href="https://wa.me/919884770747" target="_blank">Message on WhatsApp</a></div>
+    </div>
+
+    <section style="margin-top: 3rem; max-width: 600px; margin-left: auto; margin-right: auto;">
+      <h2>Send us a Message</h2>
+      <form id="contact-form" style="display: grid; gap: 1rem;">
+        <div>
+          <label for="contact-name">Your Name *</label>
+          <input type="text" id="contact-name" name="name" required style="width: 100%; padding: 0.75rem; border: 1px solid #ddd; border-radius: 6px; font-size: 1rem;">
+        </div>
+        <div>
+          <label for="contact-email">Your Email *</label>
+          <input type="email" id="contact-email" name="email" required style="width: 100%; padding: 0.75rem; border: 1px solid #ddd; border-radius: 6px; font-size: 1rem;">
+        </div>
+        <div>
+          <label for="contact-phone">Phone Number</label>
+          <input type="tel" id="contact-phone" name="phone" style="width: 100%; padding: 0.75rem; border: 1px solid #ddd; border-radius: 6px; font-size: 1rem;">
+        </div>
+        <div>
+          <label for="contact-message">Your Message *</label>
+          <textarea id="contact-message" name="message" required rows="5" style="width: 100%; padding: 0.75rem; border: 1px solid #ddd; border-radius: 6px; font-size: 1rem; font-family: inherit;"></textarea>
+        </div>
+        <button type="submit" class="btn primary" style="padding: 0.75rem 2rem;">Send Message</button>
+      </form>
+    </section>
   </main>
 
   <footer class="end-content">
@@ -38,6 +66,35 @@
 
   <button id="chatbot-button" aria-label="Open chat">💬</button>
   <div id="chatbot-window" aria-hidden="true"></div>
+  <script src="src/config/media.js"></script>
+  <script src="src/config/contact.js"></script>
+  <script src="media-init.js"></script>
+  <script>
+    // Contact form handler
+    document.getElementById('contact-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const formData = new FormData(e.target);
+      const data = Object.fromEntries(formData);
+      
+      try {
+        const res = await fetch('/api/contact', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        });
+        
+        if (res.ok) {
+          alert('Message sent successfully! We\'ll get back to you soon.');
+          e.target.reset();
+        } else {
+          alert('Failed to send message. Please try again.');
+        }
+      } catch (err) {
+        console.error('Error:', err);
+        alert('Error sending message. Please try again.');
+      }
+    });
+  </script>
   <script src="chatbot.js"></script>
 </body>
 </html>

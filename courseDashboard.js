@@ -14,7 +14,7 @@ function showcourses() {
     </tr>
   `;
 
-  fetch("https://codfis-backend.onrender.com/courses", {
+  fetch("/api/courses", {
     method: "GET",
     headers: { "Authorization": `Bearer ${token}` }
   })
@@ -110,7 +110,7 @@ courseForm.addEventListener("submit", function (event) {
   }
 
 
-  fetch("https://codfis-backend.onrender.com/courses/add", {
+  fetch("/api/courses/add", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

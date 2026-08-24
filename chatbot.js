@@ -230,24 +230,65 @@ document.addEventListener("DOMContentLoaded", function () {
                 response.appendChild(back);
             }
         } else {
-            // finished
-            const card = document.createElement('div');
-            card.className = 'chat-card';
-            card.innerHTML = `<div style='font-weight:700'>Thanks! We have the details we need.</div><div style='margin-top:8px;color:#475569'>Our team will review your requirements and you'll receive a callback from us shortly.</div>`;
-            response.appendChild(card);
-            const row = document.createElement('div');
-            row.className = 'back-row';
-            const menu = document.createElement('button');
-            menu.className = 'chatbot-btn';
-            menu.setAttribute('data-action','menu');
-            menu.textContent = 'Back to Main Menu';
-            const contact = document.createElement('button');
-            contact.className = 'chatbot-btn';
-            contact.setAttribute('data-action','contact');
-            contact.textContent = 'Contact Us';
-            row.appendChild(menu);
-            row.appendChild(contact);
-            response.appendChild(row);
+            // finished -> show contact form to collect user details
+            clearResponse();
+            const form = document.createElement('form');
+            form.className = 'chat-enquiry-form';
+            form.innerHTML = `
+              <div class="chat-card"><div style="font-weight:700">Almost done — please share your contact details</div></div>
+              <div class="chat-card"><input name="name" placeholder="Your full name" required/></div>
+              <div class="chat-card"><input name="company" placeholder="Company name (optional)"/></div>
+              <div class="chat-card"><input name="email" type="email" placeholder="Email" required/></div>
+              <div class="chat-card"><input name="phone" type="tel" placeholder="Phone" required/></div>
+              <div class="chat-card"><label style="font-size:13px">Preferred solution</label><select name="preferredSolution">
+                <option value="">--Select--</option>
+                ${solutionsList.map(s=>`<option value="${s}">${s}</option>`).join('')}
+              </select></div>
+              <div class="chat-card"><label style="font-size:13px">Project type</label><select name="projectType">
+                <option>Business Website</option><option>Landing Page</option><option>Web Application</option><option>Mobile Application</option><option>AI Integration</option><option>Automation</option><option>Custom Software</option>
+              </select></div>
+              <div class="chat-card"><textarea name="additional" placeholder="Additional requirements (optional)"></textarea></div>
+              <div class="chat-card"><button class="chatbot-btn" type="submit">Submit Enquiry</button></div>
+            `;
+            response.appendChild(form);
+
+            form.addEventListener('submit', function(ev){
+                ev.preventDefault();
+                const data = new FormData(form);
+                const payload = {
+                    name: data.get('name'),
+                    company: data.get('company'),
+                    email: data.get('email'),
+                    phone: data.get('phone'),
+                    businessType: businessState.answers.businessType || '',
+                    requirement: businessState.answers.websiteType || '',
+                    preferredSolution: data.get('preferredSolution') || '',
+                    projectType: data.get('projectType') || '',
+                    additional: data.get('additional') || ''
+                };
+
+                // submit to local API
+                fetch('/api/enquiries', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                })
+                .then(res => {
+                    if (!res.ok) throw new Error('Failed to send enquiry');
+                    return res.json();
+                })
+                .then(result => {
+                    clearResponse();
+                    const thanks = document.createElement('div');
+                    thanks.className = 'chat-card';
+                    thanks.innerHTML = `<div style='font-weight:700'>Thank you! We received your enquiry.</div><div style='margin-top:8px;color:#475569'>Our team will review your request and contact you shortly.</div>`;
+                    response.appendChild(thanks);
+                })
+                .catch(err => {
+                    alert('Failed to submit enquiry. Please try again.');
+                    console.error(err);
+                });
+            });
         }
     }
 
@@ -344,6 +385,5 @@ document.addEventListener("DOMContentLoaded", function () {
         }, 80);
     });
 
-    // initialize
-    showMain();
+    // initialize (do not auto-open; user opens intentionally)
 });

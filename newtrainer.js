@@ -9,7 +9,7 @@ function showTrainers() {
 
     container.innerHTML = "<p>Loading...</p>";
 
-    fetch("https://codfis-backend.onrender.com/courses/trainer/applied",
+    fetch("/api/courses/trainer/applied",
         {
             method: "GET",
             headers: { "Authorization": `Bearer ${token}` }
@@ -24,7 +24,7 @@ function showTrainers() {
         });
 }
 function approveTrainer(mobile) {
-    fetch(`https://codfis-backend.onrender.com/courses/trainer/approve/${mobile}`, {
+    fetch(`/api/courses/trainer/approve/${mobile}`, {
         method: "PUT",
         headers: {
             "Authorization": `Bearer ${token}`
@@ -89,7 +89,7 @@ function openTrainerProfile(mobile) {
 }
 
 function rejectTrainer(mobile) {
-    fetch(`https://codfis-backend.onrender.com/courses/trainer/reject/${mobile}`, {
+    fetch(`/api/courses/trainer/reject/${mobile}`, {
         method: "PUT",
         headers: {
             "Authorization": `Bearer ${token}`
@@ -106,7 +106,7 @@ function rejectTrainer(mobile) {
 function deleteTrainer(mobile) {
     if (!confirm("Are you sure you want to delete this trainer?")) return;
 
-    fetch(`http://https://codfis-backend.onrender.comhost:8080/courses/trainer/delete/${mobile}`, {
+    fetch(`/api/courses/trainer/delete/${mobile}`, {
         method: "DELETE",
         headers: {
             "Authorization": `Bearer ${token}`
