@@ -9,7 +9,7 @@
 <body>
   <header class="site-header">
     <nav class="nav">
-      <div class="logo"><a href="index.html"><img src="/images/codfis-logo.png" alt="Codfis"></a></div>
+      <div class="logo"><a href="index.html"><img data-media="branding.logo" alt="Codfis"></a></div>
       <ul class="links">
         <li class="nav-link"><a href="index.html">Home</a></li>
         <li class="nav-link"><a href="solutions.html">Solutions</a></li>
@@ -17,7 +17,7 @@
         <li class="nav-link"><a href="careers.html">Careers</a></li>
         <li class="nav-link"><a href="about.html">About</a></li>
         <li class="nav-link"><a href="contact.html">Contact</a></li>
-+        <li class="nav-cta"><button class="btn" data-open-chat="business">Build Your Application</button></li>
+  <li class="nav-cta"><button class="btn" data-open-chat="business">Build Your Application</button></li>
       </ul>
     </nav>
   </header>
@@ -27,8 +27,8 @@
     <p class="section-sub">Course listings and details. Click a course to view details and enquire.</p>
     <div class="courses-grid">
       <div class="course case-card"><h3>AI</h3><p>Practical AI skills.</p><a class="btn" href="#">View Course</a></div>
-      <div class="course case-card"><h3>Python</h3><p>Python for developers.</p><a class="btn" href="#">View Course</a></div>
-      <div class="course case-card"><h3>Web Development</h3><p>Full stack web apps.</p><a class="btn" href="#">View Course</a></div>
+      <div class="course case-card"><img data-media="courses.python" alt="Python"><h3>Python</h3><p>Python for developers.</p><a class="btn" href="#">View Course</a></div>
+      <div class="course case-card"><img data-media="courses.webDevelopment" alt="Web Development"><h3>Web Development</h3><p>Full stack web apps.</p><a class="btn" href="#">View Course</a></div>
     </div>
   </main>
 
@@ -39,5 +39,7 @@
   <button id="chatbot-button" aria-label="Open chat">💬</button>
   <div id="chatbot-window" aria-hidden="true"></div>
   <script src="chatbot.js"></script>
+  <script src="src/config/media.js"></script>
+  <script src="media-init.js"></script>
 </body>
 </html>
