@@ -3,15 +3,39 @@
  */
 
 document.addEventListener('DOMContentLoaded', () => {
-  // 1. Mobile Drawer Toggle
+  // 1. Mobile Drawer Toggle with Body Scroll Lock & Auto Close
   const toggleBtn = document.querySelector('.mobile-toggle');
   const drawer = document.querySelector('.mobile-drawer');
+
+  function closeDrawer() {
+    if (drawer && drawer.classList.contains('active')) {
+      drawer.classList.remove('active');
+      if (toggleBtn) {
+        toggleBtn.setAttribute('aria-expanded', 'false');
+        toggleBtn.innerHTML = '☰';
+      }
+      document.body.style.overflow = '';
+    }
+  }
 
   if (toggleBtn && drawer) {
     toggleBtn.addEventListener('click', () => {
       const isOpen = drawer.classList.toggle('active');
       toggleBtn.setAttribute('aria-expanded', isOpen);
       toggleBtn.innerHTML = isOpen ? '✕' : '☰';
+      document.body.style.overflow = isOpen ? 'hidden' : '';
+    });
+
+    // Close menu when clicking any link inside the drawer
+    drawer.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        closeDrawer();
+      });
+    });
+
+    // Close drawer on escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeDrawer();
     });
   }
 
