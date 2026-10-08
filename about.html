@@ -229,7 +229,7 @@
       margin-bottom: 1rem;
     }
 
-    /* Responsive Breakpoints & Refinements */
+    /* Responsive Breakpoints & Mobile-First Architecture */
     @media (max-width: 1200px) {
       #col-co-founder {
         transform: translateX(8px) translateY(-8px);
@@ -245,21 +245,26 @@
       }
     }
 
-    @media (max-width: 992px) {
+    @media (max-width: 900px) {
       .founder-hero {
-        padding: 4rem 0 2.5rem;
+        padding: 3rem 0 2rem;
       }
       .founder-hero-grid {
-        grid-template-columns: 1fr;
-        gap: 2rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1.5rem;
         min-height: auto;
       }
       #col-co-founder, #col-founder {
         transform: none;
+        width: 100%;
+        max-width: 340px;
       }
       .hero-center-content {
         order: 1;
-        padding: 1rem 0 1.5rem;
+        padding: 0.5rem 0 1rem;
+        max-width: 100%;
       }
       .hero-founder-col:first-child {
         order: 2;
@@ -267,15 +272,74 @@
       .hero-founder-col:last-child {
         order: 3;
       }
+      .hero-headline {
+        margin-top: 1rem;
+        margin-bottom: 1.25rem;
+      }
+      .hero-headline .headline-primary {
+        font-size: clamp(1.6rem, 5vw, 2.2rem);
+        line-height: 1.25;
+        margin-bottom: 0.5rem;
+      }
+      .hero-headline .headline-accent {
+        font-size: clamp(1.75rem, 5.5vw, 2.4rem);
+      }
+      .hero-center-content p.hero-lead {
+        font-size: 1rem;
+        line-height: 1.6;
+        margin: 0 auto 1.5rem;
+      }
       .hero-founder-img-wrapper {
-        max-width: 300px;
+        max-width: 280px;
       }
       .hero-founder-img {
-        max-height: 400px;
+        max-height: 380px;
+      }
+      .founder-badge-card {
+        bottom: 16px;
+        padding: 0.4rem 1rem;
+        font-size: 0.78rem;
       }
       .dual-story-grid, .synergy-grid {
         grid-template-columns: 1fr;
-        gap: 1.75rem;
+        gap: 1.5rem;
+      }
+      .founder-card-story {
+        padding: 1.75rem 1.5rem;
+      }
+      .founder-portrait-header {
+        gap: 1rem;
+        margin-bottom: 1.25rem;
+        padding-bottom: 1rem;
+      }
+      .founder-mini-avatar {
+        width: 58px;
+        height: 58px;
+      }
+      .founder-quote-box {
+        font-size: 0.88rem;
+        padding: 0.75rem 1rem;
+        margin-top: 1.25rem;
+      }
+      .synergy-card {
+        padding: 1.75rem 1.5rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .founder-hero {
+        padding: 2rem 0 1.5rem;
+      }
+      .hero-founder-img-wrapper {
+        max-width: 240px;
+      }
+      .hero-founder-img {
+        max-height: 320px;
+      }
+      .hero-stat-pills {
+        font-size: 0.8rem;
+        padding: 0.45rem 1rem;
+        gap: 0.5rem;
       }
     }
   </style>
