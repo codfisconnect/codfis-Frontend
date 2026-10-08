@@ -1,32 +1,119 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Admin Login</title>
-  <link rel="stylesheet" href="login.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Portal Login — Codfis Technologies</title>
+  <link rel="icon" type="image/png" href="images/codfis-Tittle-logo .png">
+  <link rel="stylesheet" href="css/codfis-v2.css">
+  <style>
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      background: #060606;
+      padding: 1.5rem;
+    }
+    .login-box {
+      width: 100%;
+      max-width: 420px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 2.5rem;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    }
+    .login-header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    .login-header img {
+      margin: 0 auto 1.5rem;
+      height: 54px;
+      width: auto;
+      object-fit: contain;
+    }
+  </style>
 </head>
 <body>
-  <div class="login-container">
-    <form id="loginForm" class="login-form" onsubmit="login(); return false;">
-      <h1 id="log-hed">ADMIN LOGIN</h1>
 
-      <input type="text" id="uname" placeholder="User ID" required />
-      <input type="password" id="pass" placeholder="Password" required />
+  <div class="login-box">
+    <div class="login-header">
+      <img src="images/Codfis-logo-latest.png" alt="Codfis Technologies">
+      <h2>Admin Authentication</h2>
+      <p style="font-size: 0.88rem; margin-top: 0.35rem;">Sign in to access Codfis management console</p>
+    </div>
 
-      <button type="submit" id="log-btn">Login</button>
-      <a href="forgot-password.html">forget password?</a>
-      <p id="errorMsg"></p>
+    <div id="loginAlert" class="alert"></div>
+
+    <form id="adminLoginForm">
+      <div class="form-group">
+        <label class="form-label">Username</label>
+        <input type="text" id="username" class="form-control" placeholder="admin" required autocomplete="username">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Password</label>
+        <input type="password" id="password" class="form-control" placeholder="••••••••••••" required autocomplete="current-password">
+      </div>
+
+      <button type="submit" id="loginBtn" class="btn btn-primary btn-lg" style="width: 100%; margin-top: 0.5rem;">
+        Authenticate →
+      </button>
+
+      <div style="text-align: center; margin-top: 1.75rem;">
+        <a href="index.html" style="font-size: 0.85rem; color: var(--text-dim);">← Return to Public Website</a>
+      </div>
     </form>
   </div>
 
-  <script src="AdminLogin.js"></script>
   <script>
-    window.history.pushState(null, null, window.location.href);
+    // If already logged in, redirect to admin.html
+    if (localStorage.getItem('codfis_admin_token')) {
+      window.location.href = 'admin.html';
+    }
 
-   window.onpopstate = function () {
-    window.location.replace("index.html");
-    };
+    document.getElementById('adminLoginForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const usernameInput = document.getElementById('username');
+      const passwordInput = document.getElementById('password');
+      const alertEl = document.getElementById('loginAlert');
+      const loginBtn = document.getElementById('loginBtn');
+
+      alertEl.className = 'alert';
+      alertEl.style.display = 'none';
+      loginBtn.disabled = true;
+      loginBtn.textContent = 'Verifying Credentials...';
+
+      try {
+        const res = await fetch('/api/admin/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            username: usernameInput.value.trim(),
+            password: passwordInput.value.trim()
+          })
+        });
+
+        const data = await res.json();
+
+        if (data.success && data.token) {
+          localStorage.setItem('codfis_admin_token', data.token);
+          localStorage.setItem('codfis_admin_user', data.admin.username);
+          window.location.href = 'admin.html';
+        } else {
+          throw new Error(data.error || 'Authentication failed');
+        }
+      } catch (err) {
+        alertEl.className = 'alert alert-error';
+        alertEl.textContent = err.message || 'Invalid username or password';
+        alertEl.style.display = 'block';
+      } finally {
+        loginBtn.disabled = false;
+        loginBtn.textContent = 'Authenticate →';
+      }
+    });
   </script>
 </body>
 </html>

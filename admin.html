@@ -3,90 +3,827 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CodFis Admin Dashboard</title>
-
-  <link rel="stylesheet" href="admin.css">
-
-  <!-- Icons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
-  <script>
- const token = localStorage.getItem("token");
-  if (!token) {
-    window.location.href = "AdminLogin.html";
-  }
-  
-</script>
+  <title>Admin Dashboard — Codfis Technologies</title>
+  <link rel="icon" type="image/png" href="images/codfis-Tittle-logo .png">
+  <link rel="stylesheet" href="css/codfis-v2.css">
+  <style>
+    body {
+      background: #090909;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: row;
+    }
+    .admin-sidebar {
+      width: 260px;
+      background: var(--surface);
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      flex-shrink: 0;
+    }
+    .sidebar-header {
+      padding: 1.5rem;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .sidebar-nav {
+      padding: 1.25rem 0.75rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+      flex: 1;
+      overflow-y: auto;
+    }
+    .sidebar-btn {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.75rem 1rem;
+      border-radius: var(--radius-sm);
+      color: var(--text-muted);
+      font-weight: 500;
+      font-size: 0.9rem;
+      cursor: pointer;
+      background: transparent;
+      border: none;
+      width: 100%;
+      text-align: left;
+      transition: var(--transition);
+    }
+    .sidebar-btn:hover, .sidebar-btn.active {
+      background: var(--surface-hover);
+      color: #FFF;
+    }
+    .sidebar-btn.active {
+      color: var(--accent);
+      font-weight: 600;
+      background: var(--accent-glow);
+    }
+    .sidebar-footer {
+      padding: 1rem 1.25rem;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .admin-main {
+      flex: 1;
+      padding: 2.5rem 3rem;
+      overflow-y: auto;
+      max-width: 1300px;
+    }
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2.5rem;
+    }
+    .stat-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 1.5rem;
+    }
+    .stat-num {
+      font-family: var(--font-heading);
+      font-size: 2.25rem;
+      font-weight: 700;
+      color: var(--accent);
+      margin-top: 0.5rem;
+    }
+    
+    /* Table styling */
+    .table-container {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      overflow-x: auto;
+      margin-top: 1.5rem;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 0.88rem;
+    }
+    th {
+      background: #0d0d0d;
+      padding: 1rem 1.25rem;
+      border-bottom: 1px solid var(--border);
+      color: var(--text-muted);
+      font-weight: 600;
+      text-transform: uppercase;
+      font-size: 0.75rem;
+      letter-spacing: 0.05em;
+    }
+    td {
+      padding: 1rem 1.25rem;
+      border-bottom: 1px solid var(--border);
+      color: var(--text);
+      vertical-align: middle;
+    }
+    tr:last-child td {
+      border-bottom: none;
+    }
+    tr:hover td {
+      background: var(--surface-card);
+    }
+    
+    /* Section toggling */
+    .view-section {
+      display: none;
+    }
+    .view-section.active {
+      display: block;
+    }
+    @media (max-width: 900px) {
+      body {
+        flex-direction: column;
+      }
+      .admin-sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+      }
+      .admin-main {
+        padding: 1.5rem;
+      }
+    }
+  </style>
 </head>
-
 <body>
 
-<div class="dashboard">
-
-  <!-- SIDEBAR -->
-  <div class="sidebar">
-    <h2 class="sidebar-logo">CODFIS</h2>
-    <a href="admin.html"><i class="fa fa-home"></i> Dashboard</a>
-    <a href="enquiries.html"><i class="fa fa-list"></i> Business Enquiries</a>
-    <a href="demo.html"><i class="fa fa-calendar"></i> Demo Requests</a>
-    <a href="contacts.html"><i class="fa fa-envelope"></i> Contacts</a>
-    <a href="course.html"><i class="fa fa-book"></i> Courses</a>
-    <a href="students.html"><i class="fa fa-users"></i> Students</a>
-    <a href="newTrainers.html"><i class="fa fa-user"></i> Trainers</a>
-    <a href="create.html"><i class="fa fa-user-plus"></i> Create Admin</a>
-    <a href="" onclick="logout()"><i class="fa fa-sign-out"></i> Logout</a>
-  </div>
-
-  <!-- MAIN CONTENT -->
-  <div class="main">
-
-    <!-- HEADER -->
-    <div class="header">
-      <h1>Admin Dashboard</h1>
+  <!-- ADMIN SIDEBAR -->
+  <aside class="admin-sidebar">
+    <div class="sidebar-header">
+      <img src="images/Codfis-logo-latest.png" alt="Codfis" style="height: 44px; width: auto; object-fit: contain;">
+      <div>
+        <div style="font-weight: 700; font-size: 0.95rem;">CODFIS V2</div>
+        <div style="font-size: 0.75rem; color: var(--accent);">Admin Console</div>
+      </div>
     </div>
 
-    <!-- CARDS -->
-    <div class="cards">
+    <nav class="sidebar-nav">
+      <button class="sidebar-btn active" onclick="switchView('overview')">📊 Overview</button>
+      <button class="sidebar-btn" onclick="switchView('projects')">🚀 Project Enquiries</button>
+      <button class="sidebar-btn" onclick="switchView('contacts')">✉️ Contact Messages</button>
+      <button class="sidebar-btn" onclick="switchView('jobs')">💼 Job Openings</button>
+      <button class="sidebar-btn" onclick="switchView('applications')">📄 Job Applications</button>
+      <button class="sidebar-btn" onclick="switchView('trainers')">👨‍🏫 Trainer Applications</button>
+    </nav>
 
-      <div class="card" >
-        <a href="students.html">
-        <h3>Total Students</h3>
-        <p id="studentCountDisplay"></p></a>
+    <div class="sidebar-footer">
+      <div>
+        <div style="font-size: 0.85rem; font-weight: 600;" id="adminUsernameDisplay">admin</div>
+        <a href="index.html" style="font-size: 0.75rem; color: var(--text-dim);" target="_blank">View Site ↗</a>
       </div>
-
-      <div class="card">
-        <a href="course.html">
-        <h3>Total Courses</h3>
-        <p id="courseCountDisplay"></p></a>
-      </div>
-
-      <div class="card">
-        <a href="newTrainers.html">
-          <h3>Trainer Requests</h3>
-          <p id="trainerRequestCountDisplay"></p>
-        </a>
-      </div>
-
-      <div class="card">
-        <a href="create.html">
-          <h3 style="color: rgb(94, 139, 246);">Create Admin Account<i class="fa fa-user-plus"></i></h3>
-        </a>
-      </div>
-      </div>
-
+      <button class="btn btn-outline btn-sm" onclick="logoutAdmin()">Logout</button>
     </div>
+  </aside>
 
+  <!-- MAIN ADMIN CONTENT -->
+  <main class="admin-main">
+    <div id="adminNotice" class="alert"></div>
+
+    <!-- 1. OVERVIEW VIEW -->
+    <section id="view-overview" class="view-section active">
+      <div style="margin-bottom: 2rem;">
+        <h1>Dashboard Overview</h1>
+        <p style="margin-top: 0.25rem;">Real-time inquiries, job candidates, and active listings.</p>
+      </div>
+
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div style="font-size: 0.82rem; color: var(--text-muted); text-transform: uppercase;">Project Enquiries</div>
+          <div class="stat-num" id="statProjects">0</div>
+        </div>
+        <div class="stat-card">
+          <div style="font-size: 0.82rem; color: var(--text-muted); text-transform: uppercase;">Contact Messages</div>
+          <div class="stat-num" id="statContacts">0</div>
+        </div>
+        <div class="stat-card">
+          <div style="font-size: 0.82rem; color: var(--text-muted); text-transform: uppercase;">Job Applications</div>
+          <div class="stat-num" id="statApplications">0</div>
+        </div>
+        <div class="stat-card">
+          <div style="font-size: 0.82rem; color: var(--text-muted); text-transform: uppercase;">Trainer Applications</div>
+          <div class="stat-num" id="statTrainers">0</div>
+        </div>
+        <div class="stat-card">
+          <div style="font-size: 0.82rem; color: var(--text-muted); text-transform: uppercase;">Active Jobs</div>
+          <div class="stat-num" id="statActiveJobs">0</div>
+        </div>
+      </div>
+
+      <div style="margin-top: 2rem;">
+        <h3>Recent Project Enquiries</h3>
+        <div class="table-container">
+          <table id="recentProjectsTable">
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Client Name</th>
+                <th>Project Type</th>
+                <th>Budget</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td colspan="5" style="text-align: center; color: var(--text-dim);">Loading recent enquiries...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. PROJECT ENQUIRIES VIEW -->
+    <section id="view-projects" class="view-section">
+      <div style="margin-bottom: 1.5rem;">
+        <h2>Project Enquiries</h2>
+        <p>Inbound client requests for custom software and engineering projects.</p>
+      </div>
+
+      <div class="table-container">
+        <table id="allProjectsTable">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Date</th>
+              <th>Client / Company</th>
+              <th>Contact Info</th>
+              <th>Project Scope</th>
+              <th>Budget & Timeline</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- 3. CONTACT MESSAGES VIEW -->
+    <section id="view-contacts" class="view-section">
+      <div style="margin-bottom: 1.5rem;">
+        <h2>General Contact Messages</h2>
+        <p>General inquiries, training requests, and partnership messages.</p>
+      </div>
+
+      <div class="table-container">
+        <table id="allContactsTable">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Date</th>
+              <th>Name</th>
+              <th>Email & Phone</th>
+              <th>Message</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- 4. JOB OPENINGS VIEW -->
+    <section id="view-jobs" class="view-section">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem;">
+        <div>
+          <h2>Job Openings Management</h2>
+          <p>Create, update, activate, or archive career listings.</p>
+        </div>
+        <button class="btn btn-primary btn-sm" onclick="openCreateJobModal()">+ Create New Opening</button>
+      </div>
+
+      <div class="table-container">
+        <table id="allJobsTable">
+          <thead>
+            <tr>
+              <th>Title</th>
+              <th>Department</th>
+              <th>Location</th>
+              <th>Work Mode</th>
+              <th>Experience</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- 5. JOB APPLICATIONS VIEW -->
+    <section id="view-applications" class="view-section">
+      <div style="margin-bottom: 1.5rem;">
+        <h2>Job Applications</h2>
+        <p>Candidates applying for engineering, QA, and mentoring positions.</p>
+      </div>
+
+      <div class="table-container">
+        <table id="allApplicationsTable">
+          <thead>
+            <tr>
+              <th>App ID</th>
+              <th>Position</th>
+              <th>Candidate</th>
+              <th>Experience</th>
+              <th>Notice / CTC</th>
+              <th>Resume</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- 6. TRAINER APPLICATIONS VIEW -->
+    <section id="view-trainers" class="view-section">
+      <div style="margin-bottom: 1.5rem;">
+        <h2>Trainer & Mentor Applications</h2>
+        <p>Industry professionals applying to lead training cohorts.</p>
+      </div>
+
+      <div class="table-container">
+        <table id="allTrainersTable">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Trainer Name</th>
+              <th>Primary Tech</th>
+              <th>Experience</th>
+              <th>Current Role</th>
+              <th>Availability</th>
+              <th>Resume</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <!-- JOB CREATE / EDIT MODAL -->
+  <div id="adminJobModal" class="modal-backdrop" style="position: fixed; inset: 0; background: rgba(0,0,0,0.8); display: none; align-items: center; justify-content: center; z-index: 1000; padding: 1.5rem;">
+    <div style="background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); width: 100%; max-width: 650px; max-height: 90vh; overflow-y: auto; padding: 2rem; position: relative;">
+      <button onclick="closeAdminJobModal()" style="position: absolute; top: 1.25rem; right: 1.25rem; background: none; border: none; color: var(--text-dim); font-size: 1.5rem; cursor: pointer;">&times;</button>
+      <h3 id="adminJobModalTitle">Create Job Opening</h3>
+
+      <form id="adminJobForm" style="margin-top: 1.5rem;">
+        <input type="hidden" id="editJobId">
+
+        <div class="form-group">
+          <label class="form-label">Job Title <span class="required">*</span></label>
+          <input type="text" id="jobTitleInput" class="form-control" required placeholder="e.g. Senior Playwright Engineer">
+        </div>
+
+        <div class="form-grid-2">
+          <div class="form-group">
+            <label class="form-label">Department <span class="required">*</span></label>
+            <select id="jobDeptInput" class="form-select">
+              <option value="Software Engineering">Software Engineering</option>
+              <option value="Quality Assurance">Quality Assurance</option>
+              <option value="Software Training">Software Training</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Location</label>
+            <input type="text" id="jobLocationInput" class="form-control" value="Chennai, India">
+          </div>
+        </div>
+
+        <div class="form-grid-2">
+          <div class="form-group">
+            <label class="form-label">Work Mode</label>
+            <select id="jobModeInput" class="form-select">
+              <option value="Hybrid">Hybrid</option>
+              <option value="Remote">Remote</option>
+              <option value="On-site">On-site</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Experience Required</label>
+            <input type="text" id="jobExpInput" class="form-control" value="2-4 years">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Salary Range</label>
+          <input type="text" id="jobSalaryInput" class="form-control" value="Competitive / Industry Standard">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Role Description <span class="required">*</span></label>
+          <textarea id="jobDescInput" class="form-control" rows="3" required placeholder="What will the engineer be working on?"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Requirements</label>
+          <textarea id="jobReqsInput" class="form-control" rows="3" placeholder="Key responsibilities and qualifications..."></textarea>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Skills (comma-separated)</label>
+          <input type="text" id="jobSkillsInput" class="form-control" placeholder="Playwright, TypeScript, CI/CD, Git">
+        </div>
+
+        <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">Save Job Opening</button>
+      </form>
+    </div>
   </div>
 
-</div>
-<script src="admin.js"></script>
-<script>
-    window.history.pushState(null, null, window.location.href);
+  <script>
+    const token = localStorage.getItem('codfis_admin_token');
+    if (!token) {
+      window.location.href = 'AdminLogin.html';
+    }
 
-   window.onpopstate = function () {
-    logout();
-    window.location.replace("AdminLogin.html");
-    };
+    const username = localStorage.getItem('codfis_admin_user') || 'admin';
+    document.getElementById('adminUsernameDisplay').textContent = username;
+
+    function logoutAdmin() {
+      localStorage.removeItem('codfis_admin_token');
+      localStorage.removeItem('codfis_admin_user');
+      window.location.href = 'AdminLogin.html';
+    }
+
+    function switchView(viewName) {
+      document.querySelectorAll('.view-section').forEach(el => el.classList.remove('active'));
+      document.querySelectorAll('.sidebar-btn').forEach(el => el.classList.remove('active'));
+
+      const target = document.getElementById(`view-${viewName}`);
+      if (target) target.classList.add('active');
+
+      const btn = Array.from(document.querySelectorAll('.sidebar-nav .sidebar-btn')).find(b => b.getAttribute('onclick')?.includes(viewName));
+      if (btn) btn.classList.add('active');
+
+      // Load section data
+      if (viewName === 'overview') loadOverview();
+      else if (viewName === 'projects') loadProjects();
+      else if (viewName === 'contacts') loadContacts();
+      else if (viewName === 'jobs') loadJobsAdmin();
+      else if (viewName === 'applications') loadApplications();
+      else if (viewName === 'trainers') loadTrainers();
+    }
+
+    async function apiFetch(url, options = {}) {
+      options.headers = {
+        ...options.headers,
+        'Authorization': `Bearer ${token}`
+      };
+      const res = await fetch(url, options);
+      if (res.status === 401) {
+        logoutAdmin();
+        throw new Error('Session expired');
+      }
+      return res.json();
+    }
+
+    // 1. Overview
+    async function loadOverview() {
+      try {
+        const data = await apiFetch('/api/admin/dashboard');
+        if (data.success) {
+          document.getElementById('statProjects').textContent = data.stats.projectEnquiries;
+          document.getElementById('statContacts').textContent = data.stats.contactMessages;
+          document.getElementById('statApplications').textContent = data.stats.jobApplications;
+          document.getElementById('statTrainers').textContent = data.stats.trainerApplications;
+          document.getElementById('statActiveJobs').textContent = data.stats.activeJobs;
+
+          const tbody = document.querySelector('#recentProjectsTable tbody');
+          if (data.recentProjects.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="5" style="text-align: center; color: var(--text-dim);">No enquiries yet.</td></tr>';
+          } else {
+            tbody.innerHTML = data.recentProjects.map(p => `
+              <tr>
+                <td>${p.createdAt ? p.createdAt.split(' ')[0] : 'Today'}</td>
+                <td><strong>${escapeHtml(p.name)}</strong><br><span style="color: var(--text-dim); font-size: 0.8rem;">${escapeHtml(p.company || 'Direct')}</span></td>
+                <td>${escapeHtml(p.projectType)}</td>
+                <td>${escapeHtml(p.budgetRange)}</td>
+                <td><span class="badge badge-yellow">${escapeHtml(p.status)}</span></td>
+              </tr>
+            `).join('');
+          }
+        }
+      } catch (err) {
+        console.error('Error loading dashboard:', err);
+      }
+    }
+
+    // 2. Project Enquiries
+    async function loadProjects() {
+      try {
+        const data = await apiFetch('/api/admin/project-enquiries');
+        const tbody = document.querySelector('#allProjectsTable tbody');
+        if (data.success) {
+          if (data.data.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="7" style="text-align: center; color: var(--text-dim);">No project enquiries recorded yet.</td></tr>';
+            return;
+          }
+          tbody.innerHTML = data.data.map(p => `
+            <tr>
+              <td>#${p.id}</td>
+              <td>${p.createdAt ? p.createdAt.split(' ')[0] : '-'}</td>
+              <td><strong>${escapeHtml(p.name)}</strong><br><span style="color: var(--text-dim); font-size: 0.8rem;">${escapeHtml(p.company || 'N/A')}</span></td>
+              <td>${escapeHtml(p.email)}<br><span style="color: var(--text-dim); font-size: 0.8rem;">${escapeHtml(p.phone || '')}</span></td>
+              <td><strong>${escapeHtml(p.projectType)}</strong><br><small style="color: var(--text-muted);">${escapeHtml(p.requirement)}</small></td>
+              <td>${escapeHtml(p.budgetRange)}<br><small style="color: var(--text-dim);">${escapeHtml(p.timeline || '')}</small></td>
+              <td>
+                <select onchange="updateProjectStatus(${p.id}, this.value)" class="form-select" style="font-size: 0.8rem; padding: 0.25rem 0.5rem;">
+                  <option value="New" ${p.status === 'New' ? 'selected' : ''}>New</option>
+                  <option value="Contacted" ${p.status === 'Contacted' ? 'selected' : ''}>Contacted</option>
+                  <option value="In Discussion" ${p.status === 'In Discussion' ? 'selected' : ''}>In Discussion</option>
+                  <option value="Archived" ${p.status === 'Archived' ? 'selected' : ''}>Archived</option>
+                </select>
+              </td>
+            </tr>
+          `).join('');
+        }
+      } catch (err) {
+        console.error(err);
+      }
+    }
+
+    async function updateProjectStatus(id, status) {
+      await apiFetch(`/api/admin/project-enquiries/${id}/status`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status })
+      });
+    }
+
+    // 3. Contacts
+    async function loadContacts() {
+      try {
+        const data = await apiFetch('/api/admin/contacts');
+        const tbody = document.querySelector('#allContactsTable tbody');
+        if (data.success) {
+          if (data.data.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; color: var(--text-dim);">No contact messages.</td></tr>';
+            return;
+          }
+          tbody.innerHTML = data.data.map(c => `
+            <tr>
+              <td>#${c.id}</td>
+              <td>${c.createdAt ? c.createdAt.split(' ')[0] : '-'}</td>
+              <td><strong>${escapeHtml(c.name)}</strong></td>
+              <td>${escapeHtml(c.email)}<br><small style="color: var(--text-dim);">${escapeHtml(c.phone || '')}</small></td>
+              <td><p style="font-size: 0.85rem; color: var(--text-muted);">${escapeHtml(c.message)}</p></td>
+              <td>
+                <select onchange="updateContactStatus(${c.id}, this.value)" class="form-select" style="font-size: 0.8rem; padding: 0.25rem 0.5rem;">
+                  <option value="New" ${c.status === 'New' ? 'selected' : ''}>New</option>
+                  <option value="Read" ${c.status === 'Read' ? 'selected' : ''}>Read</option>
+                  <option value="Archived" ${c.status === 'Archived' ? 'selected' : ''}>Archived</option>
+                </select>
+              </td>
+            </tr>
+          `).join('');
+        }
+      } catch (err) {
+        console.error(err);
+      }
+    }
+
+    async function updateContactStatus(id, status) {
+      await apiFetch(`/api/admin/contacts/${id}/status`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status })
+      });
+    }
+
+    // 4. Jobs Admin
+    async function loadJobsAdmin() {
+      try {
+        const data = await apiFetch('/api/admin/jobs');
+        const tbody = document.querySelector('#allJobsTable tbody');
+        if (data.success) {
+          tbody.innerHTML = data.data.map(j => `
+            <tr>
+              <td><strong>${escapeHtml(j.title)}</strong></td>
+              <td>${escapeHtml(j.department)}</td>
+              <td>${escapeHtml(j.location)}</td>
+              <td>${escapeHtml(j.workMode)}</td>
+              <td>${escapeHtml(j.experience)}</td>
+              <td>
+                <span class="badge ${j.active ? 'badge-green' : 'badge-gray'}">${j.active ? 'Active' : 'Archived'}</span>
+              </td>
+              <td>
+                <div style="display: flex; gap: 0.5rem;">
+                  <button class="btn btn-outline btn-sm" onclick="editJob(${JSON.stringify(j).replace(/"/g, '&quot;')})">Edit</button>
+                  <button class="btn btn-secondary btn-sm" onclick="toggleJobActive(${j.id}, ${j.active})">${j.active ? 'Deactivate' : 'Activate'}</button>
+                </div>
+              </td>
+            </tr>
+          `).join('');
+        }
+      } catch (err) {
+        console.error(err);
+      }
+    }
+
+    function openCreateJobModal() {
+      document.getElementById('editJobId').value = '';
+      document.getElementById('adminJobModalTitle').textContent = 'Create Job Opening';
+      document.getElementById('adminJobForm').reset();
+      document.getElementById('adminJobModal').style.display = 'flex';
+    }
+
+    function editJob(job) {
+      document.getElementById('editJobId').value = job.id;
+      document.getElementById('adminJobModalTitle').textContent = 'Edit Job Opening';
+      document.getElementById('jobTitleInput').value = job.title;
+      document.getElementById('jobDeptInput').value = job.department;
+      document.getElementById('jobLocationInput').value = job.location;
+      document.getElementById('jobModeInput').value = job.workMode;
+      document.getElementById('jobExpInput').value = job.experience;
+      document.getElementById('jobSalaryInput').value = job.salary;
+      document.getElementById('jobDescInput').value = job.description;
+      document.getElementById('jobReqsInput').value = job.requirements || '';
+      document.getElementById('jobSkillsInput').value = job.skills || '';
+      document.getElementById('adminJobModal').style.display = 'flex';
+    }
+
+    function closeAdminJobModal() {
+      document.getElementById('adminJobModal').style.display = 'none';
+    }
+
+    async function toggleJobActive(jobId, currentActive) {
+      await apiFetch(`/api/admin/jobs/${jobId}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ active: currentActive ? 0 : 1 })
+      });
+      loadJobsAdmin();
+    }
+
+    document.getElementById('adminJobForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const jobId = document.getElementById('editJobId').value;
+      const payload = {
+        title: document.getElementById('jobTitleInput').value.trim(),
+        department: document.getElementById('jobDeptInput').value,
+        location: document.getElementById('jobLocationInput').value.trim(),
+        workMode: document.getElementById('jobModeInput').value,
+        experience: document.getElementById('jobExpInput').value.trim(),
+        salary: document.getElementById('jobSalaryInput').value.trim(),
+        description: document.getElementById('jobDescInput').value.trim(),
+        requirements: document.getElementById('jobReqsInput').value.trim(),
+        skills: document.getElementById('jobSkillsInput').value.trim()
+      };
+
+      if (jobId) {
+        await apiFetch(`/api/admin/jobs/${jobId}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+      } else {
+        await apiFetch('/api/admin/jobs', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+      }
+
+      closeAdminJobModal();
+      loadJobsAdmin();
+    });
+
+    // 5. Job Applications
+    async function loadApplications() {
+      try {
+        const data = await apiFetch('/api/admin/applications');
+        const tbody = document.querySelector('#allApplicationsTable tbody');
+        if (data.success) {
+          if (data.data.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="7" style="text-align: center; color: var(--text-dim);">No job applications submitted yet.</td></tr>';
+            return;
+          }
+          tbody.innerHTML = data.data.map(a => `
+            <tr>
+              <td><code>${escapeHtml(a.applicationId)}</code></td>
+              <td><strong>${escapeHtml(a.jobTitle)}</strong></td>
+              <td>${escapeHtml(a.fullName)}<br><small style="color: var(--text-dim);">${escapeHtml(a.email)} | ${escapeHtml(a.phone)}</small></td>
+              <td>${escapeHtml(a.experience || 'N/A')}</td>
+              <td>${escapeHtml(a.noticePeriod || '')}<br><small style="color: var(--text-dim);">${escapeHtml(a.expectedSalary || '')}</small></td>
+              <td>
+                <a href="/api/admin/resumes/${a.id}/download?type=job" target="_blank" class="btn btn-outline btn-sm" onclick="downloadResumeDirect(event, ${a.id}, 'job')">
+                  📥 Resume
+                </a>
+              </td>
+              <td>
+                <select onchange="updateApplicationStatus(${a.id}, this.value)" class="form-select" style="font-size: 0.8rem; padding: 0.25rem 0.5rem;">
+                  <option value="New" ${a.status === 'New' ? 'selected' : ''}>New</option>
+                  <option value="Screening" ${a.status === 'Screening' ? 'selected' : ''}>Screening</option>
+                  <option value="Shortlisted" ${a.status === 'Shortlisted' ? 'selected' : ''}>Shortlisted</option>
+                  <option value="Interview" ${a.status === 'Interview' ? 'selected' : ''}>Interview</option>
+                  <option value="Selected" ${a.status === 'Selected' ? 'selected' : ''}>Selected</option>
+                  <option value="Rejected" ${a.status === 'Rejected' ? 'selected' : ''}>Rejected</option>
+                </select>
+              </td>
+            </tr>
+          `).join('');
+        }
+      } catch (err) {
+        console.error(err);
+      }
+    }
+
+    async function updateApplicationStatus(id, status) {
+      await apiFetch(`/api/admin/applications/${id}/status`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status })
+      });
+    }
+
+    // 6. Trainers
+    async function loadTrainers() {
+      try {
+        const data = await apiFetch('/api/admin/trainer-applications');
+        const tbody = document.querySelector('#allTrainersTable tbody');
+        if (data.success) {
+          if (data.data.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="8" style="text-align: center; color: var(--text-dim);">No trainer applications yet.</td></tr>';
+            return;
+          }
+          tbody.innerHTML = data.data.map(t => `
+            <tr>
+              <td><code>${escapeHtml(t.applicationId)}</code></td>
+              <td><strong>${escapeHtml(t.name)}</strong><br><small style="color: var(--text-dim);">${escapeHtml(t.email)} | ${escapeHtml(t.phone)}</small></td>
+              <td><span class="badge badge-yellow">${escapeHtml(t.primaryTech)}</span></td>
+              <td>${escapeHtml(t.experience)}</td>
+              <td>${escapeHtml(t.currentRole || 'N/A')}</td>
+              <td>${escapeHtml(t.availability || 'Weekends')}</td>
+              <td>
+                ${t.resumePath ? `
+                  <a href="/api/admin/resumes/${t.id}/download?type=trainer" class="btn btn-outline btn-sm" onclick="downloadResumeDirect(event, ${t.id}, 'trainer')">
+                    📥 CV
+                  </a>
+                ` : '<span style="color: var(--text-dim); font-size: 0.8rem;">No file</span>'}
+              </td>
+              <td>
+                <select onchange="updateTrainerStatus(${t.id}, this.value)" class="form-select" style="font-size: 0.8rem; padding: 0.25rem 0.5rem;">
+                  <option value="New" ${t.status === 'New' ? 'selected' : ''}>New</option>
+                  <option value="Under Review" ${t.status === 'Under Review' ? 'selected' : ''}>Under Review</option>
+                  <option value="Onboarded" ${t.status === 'Onboarded' ? 'selected' : ''}>Onboarded</option>
+                  <option value="Archived" ${t.status === 'Archived' ? 'selected' : ''}>Archived</option>
+                </select>
+              </td>
+            </tr>
+          `).join('');
+        }
+      } catch (err) {
+        console.error(err);
+      }
+    }
+
+    async function updateTrainerStatus(id, status) {
+      await apiFetch(`/api/admin/trainer-applications/${id}/status`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status })
+      });
+    }
+
+    // Secure resume downloader passing JWT bearer
+    async function downloadResumeDirect(event, id, type) {
+      event.preventDefault();
+      try {
+        const res = await fetch(`/api/admin/resumes/${id}/download?type=${type}`, {
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+        if (!res.ok) throw new Error('Failed to download resume');
+        const blob = await res.blob();
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `resume-${id}-${type}.pdf`;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+      } catch (err) {
+        alert(err.message);
+      }
+    }
+
+    function escapeHtml(str) {
+      if (!str) return '';
+      return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    }
+
+    // Initial load
+    loadOverview();
   </script>
-  <script src="AdminLogin.js"></script>
 </body>
 </html>

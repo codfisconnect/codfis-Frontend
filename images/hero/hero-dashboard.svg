@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 440" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#141414"/>
+      <stop offset="100%" stop-color="#0a0a0a"/>
+    </linearGradient>
+    <linearGradient id="accentGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#f5c400"/>
+      <stop offset="100%" stop-color="#d97706"/>
+    </linearGradient>
+  </defs>
+  <!-- Main Window -->
+  <rect x="10" y="10" width="660" height="420" rx="12" fill="url(#bgGrad)" stroke="#2b2b2b" stroke-width="1.5"/>
+  <!-- Header Bar -->
+  <rect x="10" y="10" width="660" height="42" rx="12" fill="#171717"/>
+  <circle cx="32" cy="31" r="5" fill="#ef4444"/>
+  <circle cx="48" cy="31" r="5" fill="#f5c400"/>
+  <circle cx="64" cy="31" r="5" fill="#10b981"/>
+  <rect x="90" y="23" width="220" height="16" rx="4" fill="#242424"/>
+  <text x="102" y="35" fill="#71717a" font-family="monospace" font-size="10">platform.concept/v2/pipeline</text>
+  <rect x="530" y="23" width="115" height="16" rx="8" fill="rgba(245,196,0,0.15)" stroke="rgba(245,196,0,0.3)"/>
+  <text x="542" y="35" fill="#f5c400" font-family="sans-serif" font-size="9" font-weight="bold">ARCHITECTURE DEMO</text>
+
+  <!-- Left Sidebar -->
+  <rect x="25" y="68" width="140" height="345" rx="8" fill="#121212" stroke="#222" stroke-width="1"/>
+  <rect x="40" y="88" width="110" height="10" rx="2" fill="#2a2a2a"/>
+  <rect x="40" y="112" width="90" height="10" rx="2" fill="rgba(245,196,0,0.4)"/>
+  <rect x="40" y="134" width="100" height="8" rx="2" fill="#202020"/>
+  <rect x="40" y="152" width="85" height="8" rx="2" fill="#202020"/>
+  <rect x="40" y="170" width="95" height="8" rx="2" fill="#202020"/>
+
+  <rect x="40" y="200" width="110" height="1" fill="#262626"/>
+  <rect x="40" y="215" width="80" height="8" rx="2" fill="#242424"/>
+  <rect x="40" y="235" width="100" height="8" rx="2" fill="#242424"/>
+  <rect x="40" y="255" width="90" height="8" rx="2" fill="#242424"/>
+
+  <!-- Conceptual KPI Cards -->
+  <rect x="180" y="68" width="150" height="80" rx="8" fill="#141414" stroke="#262626" stroke-width="1"/>
+  <text x="195" y="90" fill="#71717a" font-family="sans-serif" font-size="10" font-weight="600">SYSTEM ARCHITECTURE</text>
+  <text x="195" y="118" fill="#f5f5f5" font-family="sans-serif" font-size="17" font-weight="bold">Resilient</text>
+  <text x="195" y="136" fill="#10b981" font-family="sans-serif" font-size="10">Active Monitoring</text>
+
+  <rect x="342" y="68" width="150" height="80" rx="8" fill="#141414" stroke="#262626" stroke-width="1"/>
+  <text x="357" y="90" fill="#71717a" font-family="sans-serif" font-size="10" font-weight="600">TEST AUTOMATION</text>
+  <text x="357" y="118" fill="#f5f5f5" font-family="sans-serif" font-size="17" font-weight="bold">Playwright</text>
+  <text x="357" y="136" fill="#f5c400" font-family="sans-serif" font-size="10">Continuous Gate</text>
+
+  <rect x="504" y="68" width="150" height="80" rx="8" fill="#141414" stroke="#262626" stroke-width="1"/>
+  <text x="519" y="90" fill="#71717a" font-family="sans-serif" font-size="10" font-weight="600">API GATEWAY</text>
+  <text x="519" y="118" fill="#f5c400" font-family="sans-serif" font-size="17" font-weight="bold">Modular</text>
+  <text x="519" y="136" fill="#38bdf8" font-family="sans-serif" font-size="10">Token Auth &amp; Rate Limit</text>
+
+  <!-- Conceptual Graph Panel -->
+  <rect x="180" y="160" width="474" height="160" rx="8" fill="#121212" stroke="#262626" stroke-width="1"/>
+  <text x="200" y="185" fill="#a1a1a1" font-family="sans-serif" font-size="12" font-weight="600">Deployment Pipeline &amp; Integration Flow</text>
+  <line x1="200" y1="210" x2="630" y2="210" stroke="#1c1c1c" stroke-dasharray="3,3"/>
+  <line x1="200" y1="245" x2="630" y2="245" stroke="#1c1c1c" stroke-dasharray="3,3"/>
+  <line x1="200" y1="280" x2="630" y2="280" stroke="#1c1c1c" stroke-dasharray="3,3"/>
+  <path d="M200 280 C240 250, 270 270, 310 230 C350 190, 390 240, 430 210 C470 180, 520 220, 560 195 L630 185" fill="none" stroke="url(#accentGrad)" stroke-width="3"/>
+  <path d="M200 280 C240 250, 270 270, 310 230 C350 190, 390 240, 430 210 C470 180, 520 220, 560 195 L630 185 L630 300 L200 300 Z" fill="rgba(245,196,0,0.06)"/>
+
+  <!-- Conceptual Lower strip -->
+  <rect x="180" y="332" width="230" height="80" rx="8" fill="#141414" stroke="#262626" stroke-width="1"/>
+  <text x="195" y="352" fill="#71717a" font-family="sans-serif" font-size="10" font-weight="600">SECURITY PROTOCOLS</text>
+  <rect x="195" y="362" width="180" height="6" rx="3" fill="#242424"/>
+  <rect x="195" y="362" width="165" height="6" rx="3" fill="#10b981"/>
+  <text x="195" y="392" fill="#f5f5f5" font-family="sans-serif" font-size="11">Input Sanitization &amp; Safe Uploads</text>
+
+  <rect x="424" y="332" width="230" height="80" rx="8" fill="#141414" stroke="#262626" stroke-width="1"/>
+  <text x="439" y="352" fill="#71717a" font-family="sans-serif" font-size="10" font-weight="600">QUALITY ASSURANCE PIPELINE</text>
+  <text x="439" y="375" fill="#38bdf8" font-family="monospace" font-size="11">Automated UI &amp; API Regression</text>
+  <text x="439" y="394" fill="#71717a" font-family="monospace" font-size="10">Framework Design &amp; Test Execution</text>
+</svg>

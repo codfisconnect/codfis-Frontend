@@ -1,100 +1,455 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Contact — Codfis Technologies</title>
-  <link rel="stylesheet" href="codfis_premium.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact & Project Enquiries — Codfis Technologies</title>
+  <meta name="description" content="Get in touch with Codfis Technologies for software development project proposals, technical training consultations, or general enquiries.">
+  <link rel="icon" type="image/png" href="images/codfis-Tittle-logo .png">
+  <link rel="stylesheet" href="css/codfis-v2.css">
+  <style>
+    .page-hero {
+      padding: 5.5rem 0 3.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .form-tabs {
+      display: flex;
+      gap: 0.75rem;
+      margin-bottom: 2rem;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 1rem;
+    }
+    .tab-btn {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      padding: 0.7rem 1.4rem;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 0.92rem;
+      transition: var(--transition);
+    }
+    .tab-btn.active {
+      background: var(--accent);
+      color: #090909;
+      border-color: var(--accent);
+    }
+    .contact-layout {
+      display: grid;
+      grid-template-columns: 1.4fr 0.8fr;
+      gap: 3rem;
+    }
+    .contact-info-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 2.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.75rem;
+    }
+    .info-item {
+      display: flex;
+      gap: 1rem;
+      align-items: flex-start;
+    }
+    .info-item .icon {
+      font-size: 1.35rem;
+      color: var(--accent);
+    }
+    @media (max-width: 860px) {
+      .contact-layout {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
 </head>
 <body>
-  <header class="site-header">
-    <nav class="nav">
-      <div class="logo"><a href="index.html"><img data-media="branding.logo" alt="Codfis"></a></div>
-      <ul class="links">
-        <li class="nav-link"><a href="index.html">Home</a></li>
-        <li class="nav-link"><a href="solutions.html">Solutions</a></li>
-        <li class="nav-link"><a href="academy.html">Academy</a></li>
-        <li class="nav-link"><a href="careers.html">Careers</a></li>
-        <li class="nav-link"><a href="about.html">About</a></li>
-        <li class="nav-link"><a href="contact.html">Contact</a></li>
-+        <li class="nav-cta"><button class="btn" data-open-chat="business">Build Your Application</button></li>
-      </ul>
-    </nav>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="container nav-container">
+      <a href="index.html" class="brand-logo">
+        <img src="images/Codfis-logo-latest.png" alt="Codfis Technologies">
+      </a>
+
+      <nav class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="software-development.html">Software Development</a>
+        <a href="training.html">Training</a>
+        <a href="careers.html">Careers</a>
+        <a href="about.html">About</a>
+        <a href="contact.html" class="active">Contact</a>
+      </nav>
+
+      <div class="nav-cta-group">
+        <a href="contact.html?type=project" class="btn btn-primary btn-sm">Start a Project</a>
+        <a href="admin.html" class="btn btn-secondary btn-sm">Admin</a>
+        <button class="mobile-toggle" aria-label="Toggle navigation">☰</button>
+      </div>
+    </div>
   </header>
 
-  <section class="hero" style="background: linear-gradient(135deg, #ec4899 0%, #f43f5e 100%); min-height: 350px; display: flex; align-items: center; text-align: center; padding: 3rem 1rem; color: white;">
-    <div class="container" style="width: 100%; max-width: 900px;">
-      <h1 style="font-size: 3rem; margin: 0 0 1rem 0;">Contact Us</h1>
-      <p class="section-sub" style="font-size: 1.2rem; margin: 0; opacity: 0.95;">Have a project in mind? Let's discuss how we can help.</p>
-    </div>
-  </section>
+  <!-- Mobile Drawer -->
+  <div class="mobile-drawer">
+    <a href="index.html">Home</a>
+    <a href="software-development.html">Software Development</a>
+    <a href="training.html">Training</a>
+    <a href="careers.html">Careers</a>
+    <a href="about.html">About</a>
+    <a href="contact.html">Contact</a>
+    <a href="contact.html?type=project" class="btn btn-primary" style="margin-top: 1rem;">Start a Project</a>
+    <a href="admin.html" class="btn btn-secondary">Admin Login</a>
+  </div>
 
-  <main class="container">
-    <div class="contact-cards">
-      <div class="contact-card chat-card"><strong>📧 Email</strong><a href="mailto:HR@codfis.com">HR@codfis.com</a></div>
-      <div class="contact-card chat-card"><strong>📞 Phone</strong><a href="tel:+919884770747">+91 98847 70747</a></div>
-      <div class="contact-card chat-card"><strong>💬 WhatsApp</strong><a href="https://wa.me/919884770747" target="_blank">Message on WhatsApp</a></div>
-    </div>
+  <main>
+    <!-- PAGE HERO -->
+    <section class="page-hero">
+      <div class="container" style="max-width: 860px;">
+        <div class="section-tag">Direct Communication</div>
+        <h1>Let's discuss your next milestone.</h1>
+        <p style="font-size: 1.2rem; margin-top: 1.25rem; line-height: 1.6;">
+          Whether you want to build a custom application, enquire about technical training cohorts, or ask a question, our engineering team is here to assist.
+        </p>
+      </div>
+    </section>
 
-    <section style="margin-top: 3rem; max-width: 600px; margin-left: auto; margin-right: auto;">
-      <h2>Send us a Message</h2>
-      <form id="contact-form" style="display: grid; gap: 1rem;">
+    <!-- FORMS SECTION -->
+    <section class="section">
+      <div class="container contact-layout">
         <div>
-          <label for="contact-name">Your Name *</label>
-          <input type="text" id="contact-name" name="name" required style="width: 100%; padding: 0.75rem; border: 1px solid #ddd; border-radius: 6px; font-size: 1rem;">
+          <!-- Tab Navigation -->
+          <div class="form-tabs">
+            <button class="tab-btn active" id="tabProjectBtn" onclick="switchTab('project')">Project Enquiry</button>
+            <button class="tab-btn" id="tabGeneralBtn" onclick="switchTab('general')">General Contact</button>
+          </div>
+
+          <!-- PROJECT ENQUIRY FORM -->
+          <div id="projectFormContainer" class="card">
+            <h3 style="margin-bottom: 0.5rem;">Start a Software Project</h3>
+            <p style="font-size: 0.9rem; margin-bottom: 1.5rem;">Tell us about your business goals, required software capabilities, and desired timeline.</p>
+
+            <form id="projectForm">
+              <div id="projectAlert" class="alert"></div>
+
+              <div class="form-grid-2">
+                <div class="form-group">
+                  <label class="form-label">Your Name <span class="required">*</span></label>
+                  <input type="text" name="name" class="form-control" placeholder="Full Name" required>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label">Company / Organization</label>
+                  <input type="text" name="company" class="form-control" placeholder="e.g. Acme Health">
+                </div>
+              </div>
+
+              <div class="form-grid-2">
+                <div class="form-group">
+                  <label class="form-label">Email Address <span class="required">*</span></label>
+                  <input type="email" name="email" class="form-control" placeholder="work@company.com" required>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label">Phone Number</label>
+                  <input type="tel" name="phone" class="form-control" placeholder="+91 9876543210">
+                </div>
+              </div>
+
+              <div class="form-grid-2">
+                <div class="form-group">
+                  <label class="form-label">Project Type <span class="required">*</span></label>
+                  <select name="projectType" class="form-select" required>
+                    <option value="Web Application">Custom Web Application</option>
+                    <option value="Mobile App">Mobile App (iOS/Android)</option>
+                    <option value="Workflow Automation">Workflow Automation / Tool</option>
+                    <option value="API & Integrations">API Engineering & Integrations</option>
+                    <option value="QA & Testing Suite">QA & Automated Test Suite</option>
+                    <option value="Legacy Refactoring">Codebase Refactoring & Maintenance</option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label">Budget Range</label>
+                  <select name="budgetRange" class="form-select">
+                    <option value="Flexible / Under Discussion">Flexible / Need Estimation</option>
+                    <option value="₹1,00,000 - ₹3,00,000">₹1,00,000 - ₹3,00,000</option>
+                    <option value="₹3,00,000 - ₹8,00,000">₹3,00,000 - ₹8,00,000</option>
+                    <option value="₹8,00,000+">₹8,00,000+</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Target Timeline</label>
+                <input type="text" name="timeline" class="form-control" placeholder="e.g. Immediate, 1-2 months, Q3 Launch">
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Project Requirements & Scope <span class="required">*</span></label>
+                <textarea name="requirement" class="form-control" rows="4" placeholder="Briefly describe what you are building, the primary users, and key features required..." required></textarea>
+              </div>
+
+              <button type="submit" id="projectSubmitBtn" class="btn btn-primary btn-lg" style="width: 100%;">
+                Submit Project Enquiry
+              </button>
+            </form>
+          </div>
+
+          <!-- GENERAL CONTACT FORM -->
+          <div id="generalFormContainer" class="card" style="display: none;">
+            <h3 style="margin-bottom: 0.5rem;">Send Us a Message</h3>
+            <p style="font-size: 0.9rem; margin-bottom: 1.5rem;">Enquire about training tracks, partnership opportunities, or general questions.</p>
+
+            <form id="contactForm">
+              <div id="contactAlert" class="alert"></div>
+
+              <div class="form-grid-2">
+                <div class="form-group">
+                  <label class="form-label">Your Name <span class="required">*</span></label>
+                  <input type="text" name="name" class="form-control" placeholder="Full Name" required>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label">Email Address <span class="required">*</span></label>
+                  <input type="email" name="email" class="form-control" placeholder="you@domain.com" required>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Phone Number</label>
+                <input type="tel" name="phone" class="form-control" placeholder="+91 9876543210">
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Your Message <span class="required">*</span></label>
+                <textarea name="message" class="form-control" rows="5" placeholder="How can we assist you?" required></textarea>
+              </div>
+
+              <button type="submit" id="contactSubmitBtn" class="btn btn-primary btn-lg" style="width: 100%;">
+                Send Message
+              </button>
+            </form>
+          </div>
         </div>
+
+        <!-- Contact Info & Direct Links -->
         <div>
-          <label for="contact-email">Your Email *</label>
-          <input type="email" id="contact-email" name="email" required style="width: 100%; padding: 0.75rem; border: 1px solid #ddd; border-radius: 6px; font-size: 1rem;">
+          <div class="contact-info-card">
+            <div>
+              <div class="section-tag" style="margin-bottom: 0.5rem;">Office Location</div>
+              <h3>Codfis Technologies</h3>
+              <p style="margin-top: 0.5rem; font-size: 0.92rem;">
+                Royapettah, Chennai, Tamil Nadu, India.
+              </p>
+            </div>
+
+            <div class="info-item">
+              <div class="icon">✉️</div>
+              <div>
+                <div style="font-weight: 600; font-size: 0.9rem;">Email Us Directly</div>
+                <a href="mailto:HR@codfis.com" class="text-accent" style="font-size: 0.92rem;">HR@codfis.com</a>
+              </div>
+            </div>
+
+            <div class="info-item">
+              <div class="icon">📞</div>
+              <div>
+                <div style="font-weight: 600; font-size: 0.9rem;">Phone / Call</div>
+                <a href="tel:+919884770747" style="color: var(--text-muted); font-size: 0.92rem;">+91 98847 70747</a>
+              </div>
+            </div>
+
+            <div class="info-item">
+              <div class="icon">💬</div>
+              <div>
+                <div style="font-weight: 600; font-size: 0.9rem;">WhatsApp Direct</div>
+                <a href="https://wa.me/919884770747" target="_blank" rel="noopener" style="color: var(--text-muted); font-size: 0.92rem;">Chat on WhatsApp</a>
+              </div>
+            </div>
+
+            <div style="border-top: 1px solid var(--border); padding-top: 1.5rem;">
+              <h4 style="font-size: 0.9rem; margin-bottom: 0.75rem;">Business Operating Hours</h4>
+              <p style="font-size: 0.85rem; color: var(--text-dim);">
+                Monday – Friday: 9:30 AM – 6:30 PM IST<br>
+                Weekend: Training & Scheduled Deployments
+              </p>
+            </div>
+          </div>
         </div>
-        <div>
-          <label for="contact-phone">Phone Number</label>
-          <input type="tel" id="contact-phone" name="phone" style="width: 100%; padding: 0.75rem; border: 1px solid #ddd; border-radius: 6px; font-size: 1rem;">
-        </div>
-        <div>
-          <label for="contact-message">Your Message *</label>
-          <textarea id="contact-message" name="message" required rows="5" style="width: 100%; padding: 0.75rem; border: 1px solid #ddd; border-radius: 6px; font-size: 1rem; font-family: inherit;"></textarea>
-        </div>
-        <button type="submit" class="btn primary" style="padding: 0.75rem 2rem;">Send Message</button>
-      </form>
+      </div>
     </section>
   </main>
 
-  <footer class="end-content">
-    <div style="text-align:center; padding:2rem">© Codfis Technologies</div>
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container footer-grid">
+      <div class="footer-col">
+        <a href="index.html" class="brand-logo" style="margin-bottom: 1rem;">
+          <img src="images/Codfis-logo-latest.png" alt="Codfis Technologies">
+        </a>
+        <p style="font-size: 0.9rem; line-height: 1.6; margin-bottom: 1.5rem;">
+          Engineering custom software and training modern technology professionals.
+        </p>
+      </div>
+
+      <div class="footer-col">
+        <h4>Software Development</h4>
+        <ul class="footer-links">
+          <li><a href="software-development.html">Custom Applications</a></li>
+          <li><a href="software-development.html">Mobile Development</a></li>
+          <li><a href="software-development.html">Process</a></li>
+          <li><a href="contact.html?type=project">Project Enquiry</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Software Training</h4>
+        <ul class="footer-links">
+          <li><a href="training.html">Testing Tracks</a></li>
+          <li><a href="training.html">Full Stack Tracks</a></li>
+          <li><a href="careers.html#trainer-section">Become a Trainer</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Company</h4>
+        <ul class="footer-links">
+          <li><a href="about.html">About Codfis</a></li>
+          <li><a href="careers.html">Careers</a></li>
+          <li><a href="contact.html">Contact Us</a></li>
+          <li><a href="admin.html">Admin</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="container footer-bottom">
+      <div>© 2026 Codfis Technologies. All rights reserved.</div>
+      <div>Contact & Enquiries</div>
+    </div>
   </footer>
 
-  <button id="chatbot-button" aria-label="Open chat">💬</button>
-  <div id="chatbot-window" aria-hidden="true"></div>
-  <script src="src/config/media.js"></script>
-  <script src="src/config/contact.js"></script>
-  <script src="media-init.js"></script>
+  <script src="js/main.js"></script>
   <script>
-    // Contact form handler
-    document.getElementById('contact-form').addEventListener('submit', async (e) => {
+    function switchTab(type) {
+      const tabProject = document.getElementById('tabProjectBtn');
+      const tabGeneral = document.getElementById('tabGeneralBtn');
+      const projectContainer = document.getElementById('projectFormContainer');
+      const generalContainer = document.getElementById('generalFormContainer');
+
+      if (type === 'general') {
+        tabGeneral.classList.add('active');
+        tabProject.classList.remove('active');
+        projectContainer.style.display = 'none';
+        generalContainer.style.display = 'block';
+      } else {
+        tabProject.classList.add('active');
+        tabGeneral.classList.remove('active');
+        projectContainer.style.display = 'block';
+        generalContainer.style.display = 'none';
+      }
+    }
+
+    // Auto switch if URL has ?type=general or ?type=training
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('type') === 'general' || urlParams.get('type') === 'training') {
+      switchTab('general');
+    }
+
+    // Project Form Submission
+    document.getElementById('projectForm').addEventListener('submit', async (e) => {
       e.preventDefault();
-      const formData = new FormData(e.target);
-      const data = Object.fromEntries(formData);
-      
+      const form = e.target;
+      const alertEl = document.getElementById('projectAlert');
+      const btn = document.getElementById('projectSubmitBtn');
+
+      alertEl.className = 'alert';
+      alertEl.style.display = 'none';
+      btn.disabled = true;
+      btn.textContent = 'Submitting Enquiry...';
+
+      const payload = {
+        name: form.name.value.trim(),
+        company: form.company.value.trim(),
+        email: form.email.value.trim(),
+        phone: form.phone.value.trim(),
+        projectType: form.projectType.value,
+        budgetRange: form.budgetRange.value,
+        timeline: form.timeline.value.trim(),
+        requirement: form.requirement.value.trim()
+      };
+
+      try {
+        const res = await fetch('/api/project-enquiries', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        const data = await res.json();
+
+        if (data.success) {
+          alertEl.className = 'alert alert-success';
+          alertEl.innerHTML = `<strong>Enquiry Submitted!</strong> ${data.message}`;
+          alertEl.style.display = 'block';
+          form.reset();
+        } else {
+          throw new Error(data.error || 'Failed to submit enquiry');
+        }
+      } catch (err) {
+        alertEl.className = 'alert alert-error';
+        alertEl.textContent = err.message || 'Submission error.';
+        alertEl.style.display = 'block';
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'Submit Project Enquiry';
+      }
+    });
+
+    // General Contact Form Submission
+    document.getElementById('contactForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const form = e.target;
+      const alertEl = document.getElementById('contactAlert');
+      const btn = document.getElementById('contactSubmitBtn');
+
+      alertEl.className = 'alert';
+      alertEl.style.display = 'none';
+      btn.disabled = true;
+      btn.textContent = 'Sending Message...';
+
+      const payload = {
+        name: form.name.value.trim(),
+        email: form.email.value.trim(),
+        phone: form.phone.value.trim(),
+        message: form.message.value.trim()
+      };
+
       try {
         const res = await fetch('/api/contact', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(data)
+          body: JSON.stringify(payload)
         });
-        
-        if (res.ok) {
-          alert('Message sent successfully! We\'ll get back to you soon.');
-          e.target.reset();
+        const data = await res.json();
+
+        if (data.success) {
+          alertEl.className = 'alert alert-success';
+          alertEl.innerHTML = `<strong>Message Sent!</strong> ${data.message}`;
+          alertEl.style.display = 'block';
+          form.reset();
         } else {
-          alert('Failed to send message. Please try again.');
+          throw new Error(data.error || 'Failed to send message');
         }
       } catch (err) {
-        console.error('Error:', err);
-        alert('Error sending message. Please try again.');
+        alertEl.className = 'alert alert-error';
+        alertEl.textContent = err.message || 'Submission error.';
+        alertEl.style.display = 'block';
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'Send Message';
       }
     });
   </script>
-  <script src="chatbot.js"></script>
 </body>
 </html>

@@ -1,80 +1,684 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Careers — Codfis Technologies</title>
-  <link rel="stylesheet" href="codfis_premium.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Careers & Trainer Applications — Codfis Technologies</title>
+  <meta name="description" content="Explore open software engineering, QA, and mentoring positions at Codfis Technologies or apply to become a Technical Trainer.">
+  <link rel="icon" type="image/png" href="images/codfis-Tittle-logo .png">
+  <link rel="stylesheet" href="css/codfis-v2.css">
+  <style>
+    .page-hero {
+      padding: 5.5rem 0 3.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .jobs-filter-bar {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+    }
+    .job-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+    .job-item {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 1.75rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: var(--transition);
+      cursor: pointer;
+    }
+    .job-item:hover {
+      border-color: rgba(245, 158, 11, 0.4);
+      background: var(--surface-card);
+    }
+    .job-meta {
+      display: flex;
+      gap: 1rem;
+      margin-top: 0.6rem;
+      font-size: 0.85rem;
+      color: var(--text-dim);
+      flex-wrap: wrap;
+    }
+    .job-meta span {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+    
+    /* Modal */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(4px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      padding: 1.5rem;
+    }
+    .modal-backdrop.active {
+      display: flex;
+    }
+    .modal-content {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      width: 100%;
+      max-width: 650px;
+      max-height: 90vh;
+      overflow-y: auto;
+      padding: 2.25rem;
+      position: relative;
+    }
+    .modal-close {
+      position: absolute;
+      top: 1.25rem;
+      right: 1.25rem;
+      background: transparent;
+      border: none;
+      color: var(--text-dim);
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+    .modal-close:hover {
+      color: #fff;
+    }
+    @media (max-width: 768px) {
+      .job-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1.25rem;
+      }
+    }
+  </style>
 </head>
 <body>
-  <header class="site-header">
-    <nav class="nav">
-      <div class="logo"><a href="index.html"><img data-media="branding.logo" alt="Codfis"></a></div>
-      <ul class="links">
-        <li class="nav-link"><a href="index.html">Home</a></li>
-        <li class="nav-link"><a href="solutions.html">Solutions</a></li>
-        <li class="nav-link"><a href="academy.html">Academy</a></li>
-        <li class="nav-link"><a href="careers.html">Careers</a></li>
-        <li class="nav-link"><a href="about.html">About</a></li>
-        <li class="nav-link"><a href="contact.html">Contact</a></li>
-+        <li class="nav-cta"><button class="btn" data-open-chat="business">Build Your Application</button></li>
-      </ul>
-    </nav>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="container nav-container">
+      <a href="index.html" class="brand-logo">
+        <img src="images/Codfis-logo-latest.png" alt="Codfis Technologies">
+      </a>
+
+      <nav class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="software-development.html">Software Development</a>
+        <a href="training.html">Training</a>
+        <a href="careers.html" class="active">Careers</a>
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+
+      <div class="nav-cta-group">
+        <a href="#trainer-section" class="btn btn-secondary btn-sm">Become a Trainer</a>
+        <a href="admin.html" class="btn btn-secondary btn-sm">Admin</a>
+        <button class="mobile-toggle" aria-label="Toggle navigation">☰</button>
+      </div>
+    </div>
   </header>
 
-  <section class="hero" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); min-height: 350px; display: flex; align-items: center; text-align: center; padding: 3rem 1rem; color: white;">
-    <div class="container" style="width: 100%; max-width: 900px;">
-      <h1 style="font-size: 3rem; margin: 0 0 1rem 0;">Careers at Codfis</h1>
-      <p class="section-sub" style="font-size: 1.2rem; margin: 0; opacity: 0.95;">Join our team or become a trainer. Grow with us!</p>
-    </div>
-  </section>
+  <!-- Mobile Drawer -->
+  <div class="mobile-drawer">
+    <a href="index.html">Home</a>
+    <a href="software-development.html">Software Development</a>
+    <a href="training.html">Training</a>
+    <a href="careers.html">Careers</a>
+    <a href="about.html">About</a>
+    <a href="contact.html">Contact</a>
+    <a href="#trainer-section" class="btn btn-secondary" style="margin-top: 1rem;">Become a Trainer</a>
+    <a href="admin.html" class="btn btn-secondary">Admin Login</a>
+  </div>
 
-  <main class="container">
-    <div class="career-cards">
-      <div class="case-card">
-        <h3>👨‍💼 Apply for a Job</h3>
-        <p>Join our talented team of engineers and technologists.</p>
-        <a href="#" class="btn">View Open Positions</a>
+  <main>
+    <!-- PAGE HERO -->
+    <section class="page-hero">
+      <div class="container" style="max-width: 860px;">
+        <div class="section-tag">Careers at Codfis</div>
+        <h1>Build software with engineers who care about craft.</h1>
+        <p style="font-size: 1.2rem; margin-top: 1.25rem; line-height: 1.6;">
+          Join our engineering team or share your industry mastery as a specialized technical trainer. We value clean code, intellectual curiosity, and autonomous execution.
+        </p>
+        <div style="margin-top: 2rem; display: flex; gap: 1rem; flex-wrap: wrap;">
+          <a href="#open-positions" class="btn btn-primary btn-lg">View Open Positions</a>
+          <a href="#trainer-section" class="btn btn-secondary btn-lg">Become a Trainer</a>
+        </div>
       </div>
-      <div class="case-card">
-        <h3>👨‍🏫 Become a Trainer</h3>
-        <p>Share your expertise and train the next generation of engineers.</p>
-        <a href="newTrainers.html" class="btn">Apply as Trainer</a>
-      </div>
-    </div>
+    </section>
 
-    <section style="margin-top: 3rem;">
-      <h2>Why Work With Us?</h2>
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; margin-top: 1rem;">
-        <div>
-          <h3>🚀 Cutting-edge Projects</h3>
-          <p>Work on AI, web, mobile and cloud projects for clients worldwide.</p>
+    <!-- CULTURE / WHY JOIN -->
+    <section class="section">
+      <div class="container">
+        <div class="section-head">
+          <div class="section-tag">Engineering Culture</div>
+          <h2>Why Build at Codfis</h2>
+          <p>What working alongside our engineering team looks like.</p>
         </div>
-        <div>
-          <h3>📚 Learning Culture</h3>
-          <p>Continuous upskilling with emerging technologies and best practices.</p>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem;">
+          <div class="card">
+            <h4>Modern Tech Stacks</h4>
+            <p style="margin-top: 0.5rem; font-size: 0.9rem;">Work with current frameworks, automated pipelines, clean architectures, and modern cloud deployment patterns.</p>
+          </div>
+          <div class="card">
+            <h4>Autonomy & Impact</h4>
+            <p style="margin-top: 0.5rem; font-size: 0.9rem;">Own your technical decisions. We avoid bureaucracy and empower developers to ship impactful features.</p>
+          </div>
+          <div class="card">
+            <h4>Knowledge Sharing</h4>
+            <p style="margin-top: 0.5rem; font-size: 0.9rem;">Regular internal architecture teardowns, book discussions, and continuous support for learning new technologies.</p>
+          </div>
+          <div class="card">
+            <h4>Flexible Work Options</h4>
+            <p style="margin-top: 0.5rem; font-size: 0.9rem;">Hybrid and remote arrangements designed to respect focus time and deep, uninterrupted engineering work.</p>
+          </div>
         </div>
-        <div>
-          <h3>💼 Professional Growth</h3>
-          <p>Clear career paths and opportunities for advancement.</p>
+      </div>
+    </section>
+
+    <!-- OPEN POSITIONS -->
+    <section class="section" id="open-positions" style="background: #0d0d0d; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);">
+      <div class="container">
+        <div class="section-head">
+          <div class="section-tag">Open Roles</div>
+          <h2>Current Openings</h2>
+          <p>Explore full-time engineering and quality assurance positions.</p>
         </div>
-        <div>
-          <h3>🤝 Collaborative Team</h3>
-          <p>Work with talented engineers in a supportive environment.</p>
+
+        <div class="jobs-filter-bar">
+          <input type="text" id="jobSearch" class="form-control" placeholder="Search by role or skill (e.g. Playwright, Node, React)..." style="flex: 1; min-width: 260px;">
+          <select id="departmentFilter" class="form-select" style="max-width: 220px;">
+            <option value="All">All Departments</option>
+            <option value="Software Engineering">Software Engineering</option>
+            <option value="Quality Assurance">Quality Assurance</option>
+            <option value="Software Training">Software Training</option>
+          </select>
+        </div>
+
+        <div id="jobLoading" style="text-align: center; padding: 2rem; color: var(--text-dim);">
+          Loading positions...
+        </div>
+
+        <div id="jobList" class="job-list" style="display: none;"></div>
+
+        <div id="jobEmpty" style="display: none; text-align: center; padding: 3rem; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-md);">
+          <h3>Currently there are no open positions matching your criteria.</h3>
+          <p style="margin-top: 0.5rem;">Please check back soon or submit your profile via our trainer application below.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- BECOME A TRAINER SECTION -->
+    <section class="section" id="trainer-section">
+      <div class="container" style="max-width: 800px;">
+        <div class="section-head">
+          <div class="section-tag">Trainer Application</div>
+          <h2>Become a Technical Trainer</h2>
+          <p>Passionate about mentoring? Train the next cohort of engineers on weekends or evenings with competitive compensation.</p>
+        </div>
+
+        <div class="card">
+          <form id="trainerForm" enctype="multipart/form-data">
+            <div id="trainerAlert" class="alert"></div>
+
+            <div class="form-grid-2">
+              <div class="form-group">
+                <label class="form-label">Full Name <span class="required">*</span></label>
+                <input type="text" name="name" class="form-control" placeholder="e.g. Sarah Jenkins" required>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Email Address <span class="required">*</span></label>
+                <input type="email" name="email" class="form-control" placeholder="you@domain.com" required>
+              </div>
+            </div>
+
+            <div class="form-grid-2">
+              <div class="form-group">
+                <label class="form-label">Phone Number <span class="required">*</span></label>
+                <input type="tel" name="phone" class="form-control" placeholder="+91 9876543210" required>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Current Location</label>
+                <input type="text" name="location" class="form-control" placeholder="e.g. Chennai, Bangalore, Remote">
+              </div>
+            </div>
+
+            <div class="form-grid-2">
+              <div class="form-group">
+                <label class="form-label">Primary Technology / Domain <span class="required">*</span></label>
+                <input type="text" name="primaryTech" class="form-control" placeholder="e.g. Playwright, Selenium Java, React, SQL" required>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Years of Industry Experience <span class="required">*</span></label>
+                <input type="text" name="experience" class="form-control" placeholder="e.g. 5 years" required>
+              </div>
+            </div>
+
+            <div class="form-grid-2">
+              <div class="form-group">
+                <label class="form-label">Current Role & Company</label>
+                <input type="text" name="currentRole" class="form-control" placeholder="e.g. Senior QA Engineer at FinTech Corp">
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">LinkedIn Profile URL</label>
+                <input type="url" name="linkedIn" class="form-control" placeholder="https://linkedin.com/in/username">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Preferred Training Topics</label>
+              <input type="text" name="preferredTopics" class="form-control" placeholder="e.g. API Automation, CI/CD with Playwright, TestNG Framework Design">
+            </div>
+
+            <div class="form-grid-2">
+              <div class="form-group">
+                <label class="form-label">Availability</label>
+                <select name="availability" class="form-select">
+                  <option value="Weekends Only">Weekends Only</option>
+                  <option value="Weekday Evenings">Weekday Evenings</option>
+                  <option value="Flexible / Full-time">Flexible / Full-time</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Expected Compensation</label>
+                <input type="text" name="expectedCompensation" class="form-control" placeholder="e.g. Per hour or cohort rate">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Attach Resume / CV (PDF, DOC, DOCX up to 5MB)</label>
+              <input type="file" name="resume" class="form-control" accept=".pdf,.doc,.docx">
+              <div class="form-help">Optional for trainers with complete LinkedIn/GitHub profile links.</div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Additional Information / Teaching Philosophy</label>
+              <textarea name="additionalInfo" class="form-control" rows="3" placeholder="Tell us about previous mentoring experience or topics you enjoy explaining..."></textarea>
+            </div>
+
+            <button type="submit" id="trainerSubmitBtn" class="btn btn-primary btn-lg" style="width: 100%;">
+              Submit Trainer Application
+            </button>
+          </form>
         </div>
       </div>
     </section>
   </main>
 
-  <footer class="end-content">
-    <div style="text-align:center; padding:2rem">© Codfis Technologies</div>
+  <!-- JOB APPLICATION MODAL -->
+  <div id="jobModal" class="modal-backdrop">
+    <div class="modal-content">
+      <button class="modal-close" onclick="closeJobModal()">&times;</button>
+      
+      <div id="jobDetailView">
+        <div id="modalJobBadge" class="badge badge-yellow" style="margin-bottom: 0.75rem;">Department</div>
+        <h2 id="modalJobTitle">Job Title</h2>
+        <div id="modalJobMeta" class="job-meta" style="margin: 0.75rem 0 1.5rem;"></div>
+
+        <div style="margin-bottom: 1.5rem;">
+          <h4>Role Description</h4>
+          <p id="modalJobDesc" style="margin-top: 0.5rem; font-size: 0.92rem;"></p>
+        </div>
+
+        <div style="margin-bottom: 1.5rem;">
+          <h4>Requirements & Qualifications</h4>
+          <p id="modalJobReqs" style="margin-top: 0.5rem; font-size: 0.92rem;"></p>
+        </div>
+
+        <div style="margin-bottom: 2rem;">
+          <h4>Required Skills</h4>
+          <div id="modalJobSkills" style="margin-top: 0.5rem; font-family: monospace; font-size: 0.88rem; color: var(--accent);"></div>
+        </div>
+
+        <button class="btn btn-primary btn-lg" style="width: 100%;" onclick="showJobApplicationForm()">
+          Apply for this Position →
+        </button>
+      </div>
+
+      <!-- Application Form View inside Modal -->
+      <div id="jobFormView" style="display: none;">
+        <button class="btn btn-secondary btn-sm" onclick="backToJobDetails()" style="margin-bottom: 1.5rem;">
+          ← Back to Role Details
+        </button>
+        <h3>Apply: <span id="formJobTitle" class="text-accent"></span></h3>
+        <p style="font-size: 0.9rem; margin-bottom: 1.5rem;">Please provide your details below. We review applications on a rolling basis.</p>
+
+        <form id="jobApplicationForm" enctype="multipart/form-data">
+          <div id="applicationAlert" class="alert"></div>
+
+          <div class="form-grid-2">
+            <div class="form-group">
+              <label class="form-label">Full Name <span class="required">*</span></label>
+              <input type="text" name="fullName" class="form-control" required placeholder="Full Name">
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Email Address <span class="required">*</span></label>
+              <input type="email" name="email" class="form-control" required placeholder="you@domain.com">
+            </div>
+          </div>
+
+          <div class="form-grid-2">
+            <div class="form-group">
+              <label class="form-label">Phone Number <span class="required">*</span></label>
+              <input type="tel" name="phone" class="form-control" required placeholder="+91 9876543210">
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Current Location</label>
+              <input type="text" name="location" class="form-control" placeholder="e.g. Chennai, Remote">
+            </div>
+          </div>
+
+          <div class="form-grid-2">
+            <div class="form-group">
+              <label class="form-label">Total Experience</label>
+              <input type="text" name="experience" class="form-control" placeholder="e.g. 3.5 years">
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Current Company</label>
+              <input type="text" name="currentCompany" class="form-control" placeholder="Current employer (optional)">
+            </div>
+          </div>
+
+          <div class="form-grid-2">
+            <div class="form-group">
+              <label class="form-label">Notice Period</label>
+              <input type="text" name="noticePeriod" class="form-control" placeholder="e.g. Immediate / 30 days">
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Expected CTC / Salary</label>
+              <input type="text" name="expectedSalary" class="form-control" placeholder="e.g. ₹10 LPA">
+            </div>
+          </div>
+
+          <div class="form-grid-2">
+            <div class="form-group">
+              <label class="form-label">LinkedIn Profile</label>
+              <input type="url" name="linkedIn" class="form-control" placeholder="https://linkedin.com/in/...">
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">GitHub / Portfolio URL</label>
+              <input type="url" name="github" class="form-control" placeholder="https://github.com/...">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Resume / CV <span class="required">*</span> (PDF, DOC, DOCX up to 5MB)</label>
+            <input type="file" name="resume" class="form-control" accept=".pdf,.doc,.docx" required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Cover Letter / Note</label>
+            <textarea name="coverLetter" class="form-control" rows="3" placeholder="Briefly introduce yourself and why you're a strong fit for this role..."></textarea>
+          </div>
+
+          <button type="submit" id="jobSubmitBtn" class="btn btn-primary btn-lg" style="width: 100%;">
+            Submit Application
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container footer-grid">
+      <div class="footer-col">
+        <a href="index.html" class="brand-logo" style="margin-bottom: 1rem;">
+          <img src="images/Codfis-logo-latest.png" alt="Codfis Technologies">
+        </a>
+        <p style="font-size: 0.9rem; line-height: 1.6; margin-bottom: 1.5rem;">
+          Codfis Technologies is a modern engineering consultancy and technology training organization.
+        </p>
+      </div>
+
+      <div class="footer-col">
+        <h4>Software Development</h4>
+        <ul class="footer-links">
+          <li><a href="software-development.html">Custom Software</a></li>
+          <li><a href="software-development.html">Mobile Apps</a></li>
+          <li><a href="contact.html?type=project">Start a Project</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Software Training</h4>
+        <ul class="footer-links">
+          <li><a href="training.html">Testing Tracks</a></li>
+          <li><a href="training.html">Full Stack Tracks</a></li>
+          <li><a href="#trainer-section">Become a Trainer</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Company</h4>
+        <ul class="footer-links">
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="careers.html">Careers</a></li>
+          <li><a href="contact.html">Contact</a></li>
+          <li><a href="admin.html">Admin</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="container footer-bottom">
+      <div>© 2026 Codfis Technologies. All rights reserved.</div>
+      <div>Careers & Mentorship Platform</div>
+    </div>
   </footer>
 
-  <button id="chatbot-button" aria-label="Open chat">💬</button>
-  <div id="chatbot-window" aria-hidden="true"></div>
-  <script src="src/config/media.js"></script>
-  <script src="src/config/contact.js"></script>
-  <script src="media-init.js"></script>
-  <script src="chatbot.js"></script>
+  <script src="js/main.js"></script>
+  <script>
+    let allJobs = [];
+    let currentSelectedJob = null;
+
+    async function loadJobs() {
+      const loadingEl = document.getElementById('jobLoading');
+      const listEl = document.getElementById('jobList');
+      const emptyEl = document.getElementById('jobEmpty');
+      const deptFilter = document.getElementById('departmentFilter').value;
+      const search = document.getElementById('jobSearch').value.trim();
+
+      loadingEl.style.display = 'block';
+      listEl.style.display = 'none';
+      emptyEl.style.display = 'none';
+
+      try {
+        const params = new URLSearchParams();
+        if (deptFilter !== 'All') params.append('department', deptFilter);
+        if (search) params.append('search', search);
+
+        const res = await fetch(`/api/jobs?${params.toString()}`);
+        const data = await res.json();
+
+        loadingEl.style.display = 'none';
+
+        if (data.success && data.data.length > 0) {
+          allJobs = data.data;
+          renderJobs(allJobs);
+          listEl.style.display = 'flex';
+        } else {
+          emptyEl.style.display = 'block';
+        }
+      } catch (err) {
+        console.error('Error loading jobs:', err);
+        loadingEl.textContent = 'Failed to load jobs. Please try refreshing.';
+      }
+    }
+
+    function renderJobs(jobs) {
+      const listEl = document.getElementById('jobList');
+      listEl.innerHTML = jobs.map(j => `
+        <div class="job-item" onclick="openJobModal(${j.id})">
+          <div>
+            <div class="badge badge-yellow" style="margin-bottom: 0.4rem;">${escapeHtml(j.department)}</div>
+            <h3>${escapeHtml(j.title)}</h3>
+            <div class="job-meta">
+              <span>📍 ${escapeHtml(j.location)}</span>
+              <span>💼 ${escapeHtml(j.workMode)}</span>
+              <span>⏱️ ${escapeHtml(j.experience)}</span>
+              <span>💰 ${escapeHtml(j.salary || 'Competitive')}</span>
+            </div>
+          </div>
+          <div>
+            <button class="btn btn-outline btn-sm">View & Apply →</button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function openJobModal(jobId) {
+      currentSelectedJob = allJobs.find(j => j.id === jobId);
+      if (!currentSelectedJob) return;
+
+      document.getElementById('modalJobBadge').textContent = currentSelectedJob.department;
+      document.getElementById('modalJobTitle').textContent = currentSelectedJob.title;
+      document.getElementById('formJobTitle').textContent = currentSelectedJob.title;
+      
+      document.getElementById('modalJobMeta').innerHTML = `
+        <span>📍 ${escapeHtml(currentSelectedJob.location)}</span>
+        <span>💼 ${escapeHtml(currentSelectedJob.workMode)}</span>
+        <span>⏱️ ${escapeHtml(currentSelectedJob.experience)}</span>
+        <span>💰 ${escapeHtml(currentSelectedJob.salary || 'Competitive')}</span>
+      `;
+
+      document.getElementById('modalJobDesc').textContent = currentSelectedJob.description;
+      document.getElementById('modalJobReqs').textContent = currentSelectedJob.requirements || 'Experience in modern software engineering practices.';
+      document.getElementById('modalJobSkills').textContent = currentSelectedJob.skills || 'Engineering & QA fundamentals';
+
+      document.getElementById('jobDetailView').style.display = 'block';
+      document.getElementById('jobFormView').style.display = 'none';
+      document.getElementById('jobModal').classList.add('active');
+    }
+
+    function closeJobModal() {
+      document.getElementById('jobModal').classList.remove('active');
+    }
+
+    function showJobApplicationForm() {
+      document.getElementById('jobDetailView').style.display = 'none';
+      document.getElementById('jobFormView').style.display = 'block';
+    }
+
+    function backToJobDetails() {
+      document.getElementById('jobFormView').style.display = 'none';
+      document.getElementById('jobDetailView').style.display = 'block';
+    }
+
+    function escapeHtml(str) {
+      if (!str) return '';
+      return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    }
+
+    // Filter event listeners
+    document.getElementById('jobSearch').addEventListener('input', debounce(loadJobs, 300));
+    document.getElementById('departmentFilter').addEventListener('change', loadJobs);
+
+    function debounce(func, wait) {
+      let timeout;
+      return function(...args) {
+        clearTimeout(timeout);
+        timeout = setTimeout(() => func.apply(this, args), wait);
+      };
+    }
+
+    // Submit Job Application
+    document.getElementById('jobApplicationForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const form = e.target;
+      const alertEl = document.getElementById('applicationAlert');
+      const submitBtn = document.getElementById('jobSubmitBtn');
+
+      alertEl.className = 'alert';
+      alertEl.style.display = 'none';
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Submitting Application...';
+
+      const formData = new FormData(form);
+
+      try {
+        const res = await fetch(`/api/jobs/${currentSelectedJob.id}/apply`, {
+          method: 'POST',
+          body: formData
+        });
+        const data = await res.json();
+
+        if (data.success) {
+          alertEl.className = 'alert alert-success';
+          alertEl.innerHTML = `<strong>Application Submitted!</strong> Your application ID is <code>${data.data.applicationId}</code>. Our hiring team will review your profile shortly.`;
+          alertEl.style.display = 'block';
+          form.reset();
+        } else {
+          throw new Error(data.error || 'Failed to submit application');
+        }
+      } catch (err) {
+        alertEl.className = 'alert alert-error';
+        alertEl.textContent = err.message || 'Error submitting application.';
+        alertEl.style.display = 'block';
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Submit Application';
+      }
+    });
+
+    // Submit Trainer Application
+    document.getElementById('trainerForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const form = e.target;
+      const alertEl = document.getElementById('trainerAlert');
+      const submitBtn = document.getElementById('trainerSubmitBtn');
+
+      alertEl.className = 'alert';
+      alertEl.style.display = 'none';
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Submitting Trainer Application...';
+
+      const formData = new FormData(form);
+
+      try {
+        const res = await fetch('/api/trainer-applications', {
+          method: 'POST',
+          body: formData
+        });
+        const data = await res.json();
+
+        if (data.success) {
+          alertEl.className = 'alert alert-success';
+          alertEl.innerHTML = `<strong>Application Received!</strong> Reference ID: <code>${data.data.applicationId}</code>. Thank you for your interest in mentoring at Codfis. We will reach out soon.`;
+          alertEl.style.display = 'block';
+          form.reset();
+        } else {
+          throw new Error(data.error || 'Failed to submit trainer application');
+        }
+      } catch (err) {
+        alertEl.className = 'alert alert-error';
+        alertEl.textContent = err.message || 'Error submitting trainer application.';
+        alertEl.style.display = 'block';
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Submit Trainer Application';
+      }
+    });
+
+    // Init
+    loadJobs();
+  </script>
 </body>
 </html>

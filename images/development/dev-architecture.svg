@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 540 320" width="100%" height="100%">
+  <rect width="540" height="320" rx="10" fill="#121212" stroke="#262626" stroke-width="1"/>
+  <rect x="20" y="20" width="500" height="30" rx="6" fill="#1a1a1a"/>
+  <circle cx="38" cy="35" r="4" fill="#ef4444"/>
+  <circle cx="52" cy="35" r="4" fill="#f5c400"/>
+  <circle cx="66" cy="35" r="4" fill="#10b981"/>
+  <rect x="90" y="27" width="150" height="16" rx="3" fill="#252525"/>
+  <rect x="30" y="70" width="230" height="100" rx="6" fill="#161616" stroke="#282828"/>
+  <rect x="45" y="85" width="120" height="10" rx="2" fill="#f5c400"/>
+  <rect x="45" y="105" width="180" height="6" rx="2" fill="#333"/>
+  <rect x="45" y="118" width="140" height="6" rx="2" fill="#333"/>
+  <rect x="45" y="135" width="80" height="18" rx="4" fill="#2a2a2a"/>
+  <rect x="280" y="70" width="230" height="100" rx="6" fill="#161616" stroke="#282828"/>
+  <rect x="295" y="85" width="90" height="10" rx="2" fill="#38bdf8"/>
+  <rect x="295" y="105" width="170" height="6" rx="2" fill="#333"/>
+  <rect x="295" y="118" width="130" height="6" rx="2" fill="#333"/>
+  <rect x="295" y="135" width="80" height="18" rx="4" fill="#2a2a2a"/>
+  <rect x="30" y="185" width="480" height="110" rx="6" fill="#0e0e0e" stroke="#222"/>
+  <text x="50" y="212" fill="#f5c400" font-family="monospace" font-size="12">export async function buildEnterpriseSolution() {</text>
+  <text x="70" y="235" fill="#34d399" font-family="monospace" font-size="11">  const architecture = await deployMicroservices();</text>
+  <text x="70" y="255" fill="#38bdf8" font-family="monospace" font-size="11">  return architecture.verifyQualityGates();</text>
+  <text x="50" y="275" fill="#f5c400" font-family="monospace" font-size="12">}</text>
+</svg>
