@@ -98,11 +98,9 @@
   );
 }
 
-@media (max-width: 600px) {
+@media (max-width: 768px) {
   [data-theme="light"] .hero-home {
     background-color: #F8F9FA;
-    padding-top: 0.5rem;
-    padding-bottom: 1rem;
   }
   [data-theme="light"] .hero-overlay-horizontal {
     background: linear-gradient(
@@ -113,40 +111,16 @@
       #F8F9FA 100%
     );
   }
-  [data-theme="light"] .hero-overlay-bottom {
-    display: none;
-  }
   [data-theme="light"] .hero-content {
     background: rgba(255, 255, 255, 0.94);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    padding: 1.15rem 1.1rem !important;
-    border-radius: var(--radius-lg);
     border: 1px solid rgba(229, 231, 235, 0.85);
     box-shadow: 0 8px 20px -4px rgba(0, 0, 0, 0.07), 0 3px 8px -2px rgba(0, 0, 0, 0.03);
-    margin: 2.25rem 0 0.5rem;
   }
   [data-theme="light"] .hero-content h1 {
-    font-size: 1.7rem;
-    line-height: 1.2;
     color: #111827;
   }
   [data-theme="light"] .hero-content p {
     color: #4B5563;
-    font-size: 0.88rem;
-    line-height: 1.4;
-    margin-top: 0.5rem;
-  }
-  [data-theme="light"] .hero-ctas {
-    margin-top: 1rem;
-    flex-direction: column;
-    gap: 0.55rem;
-  }
-  [data-theme="light"] .hero-ctas .btn {
-    width: 100%;
-    text-align: center;
-    padding: 0.68rem 1rem;
-    font-size: 0.92rem;
   }
 }
 
@@ -1044,7 +1018,10 @@ textarea.form-control:focus {
     font-size: 0.75rem;
     letter-spacing: 0.08em;
     margin-bottom: 1rem;
-    padding: 0 0.75rem;
+    padding: 0 1rem;
+  }
+  .marquee-container {
+    padding: 0.5rem 1rem;
   }
   .client-logo-card {
     width: 150px !important;
@@ -1059,6 +1036,7 @@ textarea.form-control:focus {
   .marquee-track {
     gap: 0.85rem;
     animation-duration: 25s;
+    padding-right: 1rem;
   }
 }
 
