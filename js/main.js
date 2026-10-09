@@ -7,27 +7,121 @@
 })();
 
 document.addEventListener('DOMContentLoaded', () => {
-  // Theme Toggle Setup
+  // Interactive Lamp Pull-Cord Theme Toggle Setup
+  const lampSVG = `
+    <div class="lamp-flash"></div>
+    <svg class="lamp-svg-icon" viewBox="0 0 32 44" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <defs>
+        <radialGradient id="lampGlowGradient" cx="50%" cy="10%" r="90%">
+          <stop offset="0%" stop-color="#F5C400" stop-opacity="0.85" />
+          <stop offset="50%" stop-color="#F5C400" stop-opacity="0.35" />
+          <stop offset="100%" stop-color="#F5C400" stop-opacity="0" />
+        </radialGradient>
+      </defs>
+      <!-- Soft Light Cone / Glow -->
+      <path class="lamp-glow" d="M16 15 L2 38 L30 38 Z" />
+      <!-- Lamp Stand Pole -->
+      <line class="lamp-stand" x1="16" y1="13" x2="16" y2="40" />
+      <!-- Lamp Weighted Base -->
+      <ellipse class="lamp-base" cx="16" cy="40" rx="9" ry="2.5" />
+      <!-- Warm Bulb -->
+      <circle class="lamp-bulb" cx="16" cy="14" r="3" />
+      <!-- Flared Warm Lampshade -->
+      <path class="lamp-shade" d="M10 5 L22 5 L26 14 L6 14 Z" stroke-linejoin="round" />
+      <!-- Animated Pull-Cord Assembly -->
+      <g class="lamp-cord-group">
+        <line class="lamp-cord-line" x1="22" y1="14" x2="22" y2="25" />
+        <circle class="lamp-cord-handle" cx="22" cy="26" r="2.2" />
+      </g>
+    </svg>
+  `;
+
   const themeToggleButtons = document.querySelectorAll('.theme-toggle');
-  
-  function updateThemeIcons(theme) {
-    themeToggleButtons.forEach(btn => {
-      btn.innerHTML = theme === 'light' ? '🌙' : '☀️';
-      btn.setAttribute('aria-label', theme === 'light' ? 'Switch to dark theme' : 'Switch to light theme');
-      btn.setAttribute('title', theme === 'light' ? 'Switch to dark theme' : 'Switch to light theme');
-    });
+
+  function renderLampToggle(btn, theme) {
+    btn.classList.add('lamp-toggle-btn');
+    btn.innerHTML = lampSVG;
+    const isLight = theme === 'light';
+    btn.setAttribute('aria-label', isLight ? 'Switch to dark mode (Pull cord)' : 'Switch to light mode (Pull cord)');
+    btn.setAttribute('title', isLight ? 'Switch to dark mode' : 'Switch to light mode');
+    btn.setAttribute('aria-pressed', isLight ? 'true' : 'false');
+  }
+
+  function triggerPullCord(btn, callback) {
+    const cordGroup = btn.querySelector('.lamp-cord-group');
+    const flashEl = btn.querySelector('.lamp-flash');
+
+    if (cordGroup) {
+      cordGroup.classList.remove('cord-pulling');
+      void cordGroup.offsetWidth; // trigger reflow
+      cordGroup.classList.add('cord-pulling');
+    }
+
+    if (flashEl) {
+      flashEl.classList.add('flashing');
+      setTimeout(() => flashEl.classList.remove('flashing'), 320);
+    }
+
+    // Execute theme switch after natural pull moment (~140ms)
+    setTimeout(() => {
+      if (typeof callback === 'function') callback();
+    }, 140);
   }
 
   const currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
-  updateThemeIcons(currentTheme);
 
   themeToggleButtons.forEach(btn => {
-    btn.addEventListener('click', () => {
-      const activeTheme = document.documentElement.getAttribute('data-theme') || 'dark';
-      const newTheme = activeTheme === 'dark' ? 'light' : 'dark';
-      document.documentElement.setAttribute('data-theme', newTheme);
-      localStorage.setItem('codfis-theme', newTheme);
-      updateThemeIcons(newTheme);
+    renderLampToggle(btn, currentTheme);
+
+    let isDragging = false;
+    let startY = 0;
+
+    btn.addEventListener('click', (e) => {
+      triggerPullCord(btn, () => {
+        const activeTheme = document.documentElement.getAttribute('data-theme') || 'dark';
+        const newTheme = activeTheme === 'dark' ? 'light' : 'dark';
+        document.documentElement.setAttribute('data-theme', newTheme);
+        localStorage.setItem('codfis-theme', newTheme);
+        themeToggleButtons.forEach(b => renderLampToggle(b, newTheme));
+      });
+    });
+
+    // Support dragging downward on touch / mouse
+    btn.addEventListener('mousedown', (e) => {
+      isDragging = true;
+      startY = e.clientY;
+    });
+
+    btn.addEventListener('touchstart', (e) => {
+      if (e.touches && e.touches[0]) {
+        isDragging = true;
+        startY = e.touches[0].clientY;
+      }
+    }, { passive: true });
+
+    const handleDragEnd = (clientY) => {
+      if (isDragging && clientY - startY > 15) {
+        btn.click();
+      }
+      isDragging = false;
+    };
+
+    window.addEventListener('mouseup', (e) => {
+      if (isDragging) handleDragEnd(e.clientY);
+    });
+
+    window.addEventListener('touchend', (e) => {
+      if (isDragging && e.changedTouches && e.changedTouches[0]) {
+        handleDragEnd(e.changedTouches[0].clientY);
+      }
+    });
+
+    // Keyboard support: Enter / Space triggers pull cord
+    btn.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        btn.click();
+      }
     });
   });
 
