@@ -71,6 +71,22 @@
       border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
     }
 
+    [data-theme="light"] .leader-portrait-wrap {
+      background: radial-gradient(circle at 50% 50%, rgba(0, 0, 0, 0.03) 0%, #F3F4F6 100%);
+      border-color: #E5E7EB;
+    }
+    [data-theme="light"] .leader-profile-card.founder-card .leader-portrait-wrap {
+      border-color: rgba(217, 163, 0, 0.45);
+    }
+    [data-theme="light"] .leader-quote {
+      background: rgba(0, 0, 0, 0.03);
+      color: #374151;
+    }
+    [data-theme="light"] .leader-profile-card.founder-card {
+      border-color: rgba(217, 163, 0, 0.4);
+      background: linear-gradient(180deg, #FFFFFF 0%, rgba(217, 163, 0, 0.04) 100%);
+    }
+
     @media (max-width: 820px) {
       .leader-profile-card {
         grid-template-columns: 1fr;
@@ -83,8 +99,8 @@
         margin: 0 auto;
       }
       .leader-profile-card.founder-card .leader-portrait-wrap {
-        height: 310px; /* still ~12% larger on mobile */
-        max-width: 280px;
+        height: 315px; /* ~12% larger on mobile */
+        max-width: 285px;
       }
     }
   </style>
@@ -152,42 +168,44 @@
 
         <div class="leadership-stack">
           
-          <!-- 1. FOUNDER (Male in Suit/Glasses) FIRST at the top (~10-15% larger) -->
+          <!-- 1. FOUNDER: Salman (FIRST at the top, ~10-15% larger) -->
           <div class="leader-profile-card founder-card">
             <div class="leader-portrait-wrap">
-              <img src="images/founders/founder-cutout.png" alt="Founder, Codfis Technologies" class="leader-portrait-img">
+              <img src="images/founders/founder-cutout.png" alt="Salman — Founder, Codfis Technologies" class="leader-portrait-img">
             </div>
             <div>
               <div class="badge badge-yellow" style="margin-bottom: 0.5rem;">Founder</div>
-              <h3 style="font-size: 1.6rem;">Technology, Mentorship & Craft</h3>
-              <p style="margin-top: 0.85rem; line-height: 1.7; color: var(--text);">
-                He started as an engineer who loved breaking down complex concepts so anyone could understand them. He cares deeply about clean fundamentals, defensive architecture, and thoughtful execution.
+              <h3 style="font-size: 1.65rem; margin-bottom: 0.25rem;">Salman</h3>
+              <div style="font-size: 0.95rem; color: var(--accent); font-weight: 600; margin-bottom: 0.75rem;">Founder &amp; Engineering Lead</div>
+              <p style="margin-top: 0.65rem; line-height: 1.7; color: var(--text);">
+                An engineer focused on clean architecture, defensive engineering, and hands-on technical mentorship. He leads software development standards and oversees practical technology tracks at Codfis.
               </p>
-              <p style="margin-top: 0.75rem; line-height: 1.7; color: var(--text-muted);">
-                Whether architecting an internal application or mentoring a candidate through their first automation pipeline, his standard is simple: build things cleanly, take pride in the craft, and never cut corners on quality.
+              <p style="margin-top: 0.65rem; line-height: 1.7; color: var(--text-muted);">
+                Whether architecting client solutions or mentoring candidates through test automation and full-stack development, his philosophy emphasizes deep fundamentals, code quality, and building dependable systems.
               </p>
               <div class="leader-quote">
-                &ldquo;Building software isn’t about showing off complexity. It’s about creating dependable solutions that quietly make life easier.&rdquo;
+                &ldquo;Building software isn’t about unnecessary complexity. It’s about creating dependable, well-crafted solutions that quietly solve real business problems.&rdquo;
               </div>
             </div>
           </div>
 
-          <!-- 2. CO-FOUNDER (Female with Hijab) UNDERNEATH -->
+          <!-- 2. CO-FOUNDER: Ismath (UNDERNEATH Salman) -->
           <div class="leader-profile-card">
             <div class="leader-portrait-wrap">
-              <img src="images/founders/co-founder-cutout.png" alt="Co-Founder, Codfis Technologies" class="leader-portrait-img">
+              <img src="images/founders/co-founder-cutout.png" alt="Ismath — Co-Founder, Codfis Technologies" class="leader-portrait-img">
             </div>
             <div>
               <div class="badge" style="background: rgba(255, 255, 255, 0.08); color: var(--text); border: 1px solid var(--border); margin-bottom: 0.5rem;">Co-Founder</div>
-              <h3 style="font-size: 1.5rem;">People, Relationships & Growth</h3>
-              <p style="margin-top: 0.85rem; line-height: 1.7; color: var(--text);">
-                She believes that enduring organizations are built on empathy, clear communication, and how sincerely you look after the people working with you.
+              <h3 style="font-size: 1.5rem; margin-bottom: 0.25rem;">Ismath</h3>
+              <div style="font-size: 0.95rem; color: var(--accent); font-weight: 600; margin-bottom: 0.75rem;">Co-Founder &amp; Operations Lead</div>
+              <p style="margin-top: 0.65rem; line-height: 1.7; color: var(--text);">
+                Guides talent engagement, operational workflows, and client relationships. She ensures learner development and project collaborations at Codfis are built on empathy, transparency, and consistency.
               </p>
-              <p style="margin-top: 0.75rem; line-height: 1.7; color: var(--text-muted);">
-                Her focus is making sure every learner feels encouraged, every client collaboration is grounded in transparency, and the internal culture inside Codfis remains open and authentic.
+              <p style="margin-top: 0.65rem; line-height: 1.7; color: var(--text-muted);">
+                Her focus is cultivating an open learning environment where aspiring professionals gain confidence and partners experience dependable, transparent communication.
               </p>
               <div class="leader-quote">
-                &ldquo;Software matters, but people come first. When you invest in people and treat them with respect, great work naturally follows.&rdquo;
+                &ldquo;Technology creates opportunities, but people build enduring craft. When you support people sincerely, quality and results follow naturally.&rdquo;
               </div>
             </div>
           </div>
