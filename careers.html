@@ -150,10 +150,10 @@
       <div class="container" style="max-width: 860px;">
         <div class="section-tag">Careers at Codfis</div>
         <h1>Build software with engineers who care about craft.</h1>
-        <p style="font-size: 1.2rem; margin-top: 1.25rem; line-height: 1.6;">
-          Join our engineering team or share your industry mastery as a specialized technical trainer. We value clean code, intellectual curiosity, and autonomous execution.
+        <p style="font-size: 1.15rem; margin-top: 1rem; line-height: 1.6; color: var(--text-muted);">
+          Join our engineering team or share your expertise as a technical trainer.
         </p>
-        <div style="margin-top: 2rem; display: flex; gap: 1rem; flex-wrap: wrap;">
+        <div style="margin-top: 1.75rem; display: flex; gap: 1rem; flex-wrap: wrap;">
           <a href="#open-positions" class="btn btn-primary btn-lg">View Open Positions</a>
           <a href="#trainer-section" class="btn btn-secondary btn-lg">Become a Trainer</a>
         </div>
@@ -200,7 +200,7 @@
           <div class="section-tag" style="margin-bottom: 0.5rem;">Trainer Application</div>
           <h2 style="font-size: 1.75rem; margin-bottom: 0.5rem;">Become a Technical Trainer</h2>
           <p style="color: var(--text-muted); max-width: 540px; margin: 0 auto 1.5rem; font-size: 0.98rem; line-height: 1.55;">
-            Share your expertise. Help the next generation of developers grow. Weekend and evening cohorts with competitive compensation.
+            Share your expertise. Help the next generation of developers grow.
           </p>
           <button type="button" id="toggleTrainerBtn" class="btn btn-primary btn-lg" onclick="toggleTrainerForm()">
             Apply as a Trainer ↓
@@ -515,25 +515,68 @@
         if (deptFilter !== 'All') params.append('department', deptFilter);
         if (search) params.append('search', search);
 
-        const res = await fetch(`/api/jobs?${params.toString()}`);
-        const data = await res.json();
+        let data = null;
+        let res = null;
+
+        try {
+          res = await fetch(`/api/jobs?${params.toString()}`);
+          if (res.ok) {
+            data = await res.json();
+          }
+        } catch (e) {
+          console.warn('Primary /api/jobs fetch failed, attempting fallback...', e);
+        }
+
+        // Production Vercel static fallback if /api/jobs is unavailable
+        if (!data || !data.success) {
+          const fallbackRes = await fetch('/api/jobs.json');
+          if (fallbackRes.ok) {
+            data = await fallbackRes.json();
+          }
+        }
 
         loadingEl.style.display = 'none';
 
-        if (data.success && data.data.length > 0) {
+        if (data && data.success && Array.isArray(data.data)) {
+          let jobs = data.data;
+
+          // Client-side filtering in case static JSON was loaded directly
+          if (deptFilter !== 'All') {
+            jobs = jobs.filter(j => j.department === deptFilter);
+          }
+          if (search) {
+            const q = search.toLowerCase();
+            jobs = jobs.filter(j =>
+              (j.title && j.title.toLowerCase().includes(q)) ||
+              (j.department && j.department.toLowerCase().includes(q)) ||
+              (j.skills && j.skills.toLowerCase().includes(q)) ||
+              (j.location && j.location.toLowerCase().includes(q))
+            );
+          }
+
           allJobs = data.data;
-          renderJobs(allJobs);
-          listEl.style.display = 'flex';
+
+          if (jobs.length > 0) {
+            renderJobs(jobs);
+            listEl.style.display = 'flex';
+          } else {
+            emptyEl.style.display = 'block';
+            emptyEl.innerHTML = `
+              <h3 style="font-size: 1.25rem;">No current openings matching your criteria.</h3>
+              <p style="margin: 0.5rem 0 1.25rem; color: var(--text-muted); font-size: 0.95rem;">Please check back soon or submit your profile via our trainer application below.</p>
+              <a href="#trainer-section" class="btn btn-outline btn-sm">Explore Trainer Opportunities ↓</a>
+            `;
+          }
         } else {
-          emptyEl.style.display = 'block';
+          throw new Error('API returned unsuccessful response');
         }
       } catch (err) {
         console.error('Error loading jobs:', err);
         loadingEl.style.display = 'none';
         emptyEl.style.display = 'block';
         emptyEl.innerHTML = `
-          <h3>Unable to load current job openings.</h3>
-          <p style="margin: 0.5rem 0 1rem; color: var(--text-muted);">Please check your network connection or try refreshing the job listings.</p>
+          <h3 style="font-size: 1.2rem; margin-bottom: 0.35rem;">Unable to load current job openings.</h3>
+          <p style="margin: 0.35rem 0 1rem; color: var(--text-muted); font-size: 0.92rem;">Please check your network connection or try refreshing the job listings.</p>
           <button onclick="loadJobs()" class="btn btn-primary btn-sm">↻ Retry Loading Jobs</button>
         `;
       }
