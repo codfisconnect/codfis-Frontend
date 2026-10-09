@@ -121,7 +121,12 @@
       }
       .hero-content {
         max-width: 100%;
-        padding: 3.25rem 0 2.5rem;
+        padding: 3rem 0 2.25rem;
+      }
+      .hero-home p {
+        font-size: 0.98rem;
+        line-height: 1.5;
+        margin-top: 0.85rem;
       }
       .hero-bg-img {
         object-position: 70% center;
@@ -129,9 +134,9 @@
       .hero-overlay-horizontal {
         background: linear-gradient(
           180deg,
-          rgba(9, 9, 9, 0.88) 0%,
-          rgba(9, 9, 9, 0.78) 60%,
-          rgba(9, 9, 9, 0.72) 100%
+          rgba(9, 9, 9, 0.92) 0%,
+          rgba(9, 9, 9, 0.85) 55%,
+          rgba(9, 9, 9, 0.78) 100%
         );
       }
     }
@@ -150,13 +155,14 @@
       display: flex;
       flex-direction: column;
       transition: var(--transition);
+      height: 100%;
     }
     .pillar-card:hover {
       border-color: rgba(245, 196, 0, 0.4);
       transform: translateY(-2px);
     }
     .pillar-img {
-      height: 180px;
+      height: 160px;
       width: 100%;
       background: #141414;
       border-bottom: 1px solid var(--border);
@@ -168,41 +174,43 @@
       object-fit: cover;
     }
     .pillar-body {
-      padding: 1.75rem;
+      padding: 1.5rem;
       flex: 1;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
+      gap: 1rem;
     }
     @media (max-width: 768px) {
       .pillars-grid {
         grid-template-columns: 1fr 1fr;
-        gap: 0.85rem;
+        gap: 0.75rem;
       }
       .pillar-img {
-        height: 110px;
+        height: 100px;
       }
       .pillar-body {
-        padding: 1rem 0.85rem;
+        padding: 0.85rem 0.75rem;
+        gap: 0.75rem;
       }
       .pillar-body h3 {
-        font-size: 1.05rem;
+        font-size: 0.95rem;
+        line-height: 1.25;
       }
       .pillar-body p {
-        font-size: 0.82rem;
-        line-height: 1.45;
-        margin: 0.4rem 0 0.85rem;
-        display: -webkit-box;
-        -webkit-line-clamp: 3;
-        -webkit-box-orient: vertical;
-        overflow: hidden;
+        font-size: 0.8rem;
+        line-height: 1.4;
+        margin: 0.35rem 0 0;
+        display: block; /* No clipping or truncated ellipsis */
       }
       .pillar-body .btn {
-        padding: 0.5rem 0.65rem;
-        font-size: 0.82rem;
+        padding: 0.45rem 0.5rem;
+        font-size: 0.78rem;
+        text-align: center;
+        white-space: nowrap;
       }
     }
-    @media (max-width: 360px) {
+    @media (max-width: 350px) {
       .pillars-grid {
         grid-template-columns: 1fr;
       }
@@ -275,7 +283,103 @@
       </div>
     </section>
 
-    <!-- 2. TWO PILLARS OF EXCELLENCE (Side-by-Side on Mobile) -->
+    <!-- 2. COMPACT CLIENT LOGOS (Immediately below Hero) -->
+    <section class="clients-section">
+      <div class="container">
+        <div class="clients-title">Clients &amp; Organizations We've Worked With</div>
+        <div class="marquee-container">
+          <div class="marquee-track">
+            <div class="client-logo-card">
+              <picture>
+                <source srcset="images/clients/land-rover.webp" type="image/webp">
+                <img src="images/clients/land-rover.png" alt="Land Rover logo" loading="lazy" width="185" height="102">
+              </picture>
+            </div>
+            <div class="client-logo-card">
+              <picture>
+                <source srcset="images/clients/chrysler.webp" type="image/webp">
+                <img src="images/clients/chrysler.png" alt="Chrysler logo" loading="lazy" width="211" height="62">
+              </picture>
+            </div>
+            <div class="client-logo-card">
+              <picture>
+                <source srcset="images/clients/penn-foster.webp" type="image/webp">
+                <img src="images/clients/penn-foster.png" alt="Penn Foster logo" loading="lazy" width="200" height="87">
+              </picture>
+            </div>
+            <div class="client-logo-card">
+              <picture>
+                <source srcset="images/clients/fulcrum.webp" type="image/webp">
+                <img src="images/clients/fulcrum.png" alt="Fulcrum logo" loading="lazy" width="198" height="108">
+              </picture>
+            </div>
+            <div class="client-logo-card">
+              <picture>
+                <source srcset="images/clients/shisha-world.webp" type="image/webp">
+                <img src="images/clients/shisha-world.png" alt="Shisha World logo" loading="lazy" width="191" height="98">
+              </picture>
+            </div>
+            <div class="client-logo-card">
+              <picture>
+                <source srcset="images/clients/madras-bar-association.webp" type="image/webp">
+                <img src="images/clients/madras-bar-association.png" alt="The Madras Bar Association logo" loading="lazy" width="222" height="114">
+              </picture>
+            </div>
+            <div class="client-logo-card">
+              <picture>
+                <source srcset="images/clients/her-pretty-things.webp" type="image/webp">
+                <img src="images/clients/her-pretty-things.png" alt="Her Pretty Things logo" loading="lazy" width="136" height="121">
+              </picture>
+            </div>
+            <!-- Duplicate for seamless infinite marquee loop -->
+            <div class="client-logo-card">
+              <picture>
+                <source srcset="images/clients/land-rover.webp" type="image/webp">
+                <img src="images/clients/land-rover.png" alt="Land Rover logo" loading="lazy" width="185" height="102">
+              </picture>
+            </div>
+            <div class="client-logo-card">
+              <picture>
+                <source srcset="images/clients/chrysler.webp" type="image/webp">
+                <img src="images/clients/chrysler.png" alt="Chrysler logo" loading="lazy" width="211" height="62">
+              </picture>
+            </div>
+            <div class="client-logo-card">
+              <picture>
+                <source srcset="images/clients/penn-foster.webp" type="image/webp">
+                <img src="images/clients/penn-foster.png" alt="Penn Foster logo" loading="lazy" width="200" height="87">
+              </picture>
+            </div>
+            <div class="client-logo-card">
+              <picture>
+                <source srcset="images/clients/fulcrum.webp" type="image/webp">
+                <img src="images/clients/fulcrum.png" alt="Fulcrum logo" loading="lazy" width="198" height="108">
+              </picture>
+            </div>
+            <div class="client-logo-card">
+              <picture>
+                <source srcset="images/clients/shisha-world.webp" type="image/webp">
+                <img src="images/clients/shisha-world.png" alt="Shisha World logo" loading="lazy" width="191" height="98">
+              </picture>
+            </div>
+            <div class="client-logo-card">
+              <picture>
+                <source srcset="images/clients/madras-bar-association.webp" type="image/webp">
+                <img src="images/clients/madras-bar-association.png" alt="The Madras Bar Association logo" loading="lazy" width="222" height="114">
+              </picture>
+            </div>
+            <div class="client-logo-card">
+              <picture>
+                <source srcset="images/clients/her-pretty-things.webp" type="image/webp">
+                <img src="images/clients/her-pretty-things.png" alt="Her Pretty Things logo" loading="lazy" width="136" height="121">
+              </picture>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. TWO PILLARS OF EXCELLENCE (Side-by-Side on Mobile) -->
     <section class="section">
       <div class="container">
         <div class="section-head reveal">
@@ -465,105 +569,7 @@
           </div>
         </div>
       </div>
-    </section>
-
-    <!-- 5. COMPACT CLIENT LOGOS -->
-    <section class="clients-section">
-      <div class="container">
-        <div class="clients-title">Clients &amp; Organizations We've Worked With</div>
-        <div class="marquee-container">
-          <div class="marquee-track">
-            <div class="client-logo-card">
-              <picture>
-                <source srcset="images/clients/land-rover.webp" type="image/webp">
-                <img src="images/clients/land-rover.png" alt="Land Rover logo" loading="lazy" width="185" height="102">
-              </picture>
-            </div>
-            <div class="client-logo-card">
-              <picture>
-                <source srcset="images/clients/chrysler.webp" type="image/webp">
-                <img src="images/clients/chrysler.png" alt="Chrysler logo" loading="lazy" width="211" height="62">
-              </picture>
-            </div>
-            <div class="client-logo-card">
-              <picture>
-                <source srcset="images/clients/penn-foster.webp" type="image/webp">
-                <img src="images/clients/penn-foster.png" alt="Penn Foster logo" loading="lazy" width="200" height="87">
-              </picture>
-            </div>
-            <div class="client-logo-card">
-              <picture>
-                <source srcset="images/clients/fulcrum.webp" type="image/webp">
-                <img src="images/clients/fulcrum.png" alt="Fulcrum logo" loading="lazy" width="198" height="108">
-              </picture>
-            </div>
-            <div class="client-logo-card">
-              <picture>
-                <source srcset="images/clients/shisha-world.webp" type="image/webp">
-                <img src="images/clients/shisha-world.png" alt="Shisha World logo" loading="lazy" width="191" height="98">
-              </picture>
-            </div>
-            <div class="client-logo-card">
-              <picture>
-                <source srcset="images/clients/madras-bar-association.webp" type="image/webp">
-                <img src="images/clients/madras-bar-association.png" alt="The Madras Bar Association logo" loading="lazy" width="222" height="114">
-              </picture>
-            </div>
-            <div class="client-logo-card">
-              <picture>
-                <source srcset="images/clients/her-pretty-things.webp" type="image/webp">
-                <img src="images/clients/her-pretty-things.png" alt="Her Pretty Things logo" loading="lazy" width="136" height="121">
-              </picture>
-            </div>
-            <!-- Duplicate for seamless infinite marquee loop -->
-            <div class="client-logo-card">
-              <picture>
-                <source srcset="images/clients/land-rover.webp" type="image/webp">
-                <img src="images/clients/land-rover.png" alt="Land Rover logo" loading="lazy" width="185" height="102">
-              </picture>
-            </div>
-            <div class="client-logo-card">
-              <picture>
-                <source srcset="images/clients/chrysler.webp" type="image/webp">
-                <img src="images/clients/chrysler.png" alt="Chrysler logo" loading="lazy" width="211" height="62">
-              </picture>
-            </div>
-            <div class="client-logo-card">
-              <picture>
-                <source srcset="images/clients/penn-foster.webp" type="image/webp">
-                <img src="images/clients/penn-foster.png" alt="Penn Foster logo" loading="lazy" width="200" height="87">
-              </picture>
-            </div>
-            <div class="client-logo-card">
-              <picture>
-                <source srcset="images/clients/fulcrum.webp" type="image/webp">
-                <img src="images/clients/fulcrum.png" alt="Fulcrum logo" loading="lazy" width="198" height="108">
-              </picture>
-            </div>
-            <div class="client-logo-card">
-              <picture>
-                <source srcset="images/clients/shisha-world.webp" type="image/webp">
-                <img src="images/clients/shisha-world.png" alt="Shisha World logo" loading="lazy" width="191" height="98">
-              </picture>
-            </div>
-            <div class="client-logo-card">
-              <picture>
-                <source srcset="images/clients/madras-bar-association.webp" type="image/webp">
-                <img src="images/clients/madras-bar-association.png" alt="The Madras Bar Association logo" loading="lazy" width="222" height="114">
-              </picture>
-            </div>
-            <div class="client-logo-card">
-              <picture>
-                <source srcset="images/clients/her-pretty-things.webp" type="image/webp">
-                <img src="images/clients/her-pretty-things.png" alt="Her Pretty Things logo" loading="lazy" width="136" height="121">
-              </picture>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- 6. FINAL COMPACT CALL TO ACTION -->
+    <!-- 5. FINAL COMPACT CALL TO ACTION -->
     <section class="section" style="padding: 3.5rem 0;">
       <div class="container" style="text-align: center;">
         <h2>Ready to build or learn with Codfis?</h2>

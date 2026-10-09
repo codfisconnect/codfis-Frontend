@@ -1161,49 +1161,115 @@ textarea.form-control:focus {
 }
 
 /* Footer */
+/* Compact Modern Footer (Reduced by ~50% visual height) */
 .footer {
   margin-top: auto;
   background-color: #050505;
   border-top: 1px solid var(--border);
-  padding: 4.5rem 0 2rem;
+  padding: 2.25rem 0 1.25rem;
 }
 
-.footer-grid {
+.footer-grid,
+.footer-compact-grid {
   display: grid;
-  grid-template-columns: 2fr 1fr 1fr 1fr;
-  gap: 3rem;
-  margin-bottom: 3.5rem;
+  grid-template-columns: 1.5fr 1fr 1fr 1fr;
+  gap: 2rem;
+  margin-bottom: 1.5rem;
+  align-items: start;
 }
 
+.footer-brand-side {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.footer-brand-side .brand-logo img {
+  height: 32px;
+  width: auto;
+}
+
+.footer-tagline {
+  font-size: 0.86rem;
+  color: var(--text-muted);
+  line-height: 1.45;
+  max-width: 320px;
+}
+
+.footer-links-side {
+  display: contents;
+}
+
+.footer-link-group h5,
 .footer-col h4 {
   color: var(--text);
-  font-size: 0.95rem;
+  font-size: 0.82rem;
+  font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
-  margin-bottom: 1.25rem;
-}
-
-.footer-links li {
+  letter-spacing: 0.08em;
   margin-bottom: 0.75rem;
 }
 
-.footer-links a {
-  font-size: 0.9rem;
-  color: var(--text-muted);
+.footer-link-group ul,
+.footer-links {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  list-style: none;
 }
 
+.footer-link-group a,
+.footer-links a {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  transition: color 0.2s ease;
+}
+
+.footer-link-group a:hover,
 .footer-links a:hover {
   color: var(--accent);
 }
 
 .footer-bottom {
-  padding-top: 2rem;
+  padding-top: 1rem;
   border-top: 1px solid var(--border);
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   color: var(--text-dim);
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+@media (max-width: 860px) {
+  .footer-grid,
+  .footer-compact-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem 1rem;
+  }
+  .footer-brand-side,
+  .footer-col:first-child {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 480px) {
+  .footer {
+    padding: 1.75rem 0 1rem;
+  }
+  .footer-grid,
+  .footer-compact-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 1.25rem 0.75rem;
+    margin-bottom: 1.25rem;
+  }
+  .footer-bottom {
+    flex-direction: column;
+    text-align: center;
+    gap: 0.35rem;
+    padding-top: 0.85rem;
+  }
 }
 
 /* Mobile Navigation Drawer */
@@ -1403,7 +1469,9 @@ textarea.form-control:focus {
   background: transparent;
   border: 1px solid var(--border);
   border-radius: var(--radius-md);
-  padding: 0.25rem 0.45rem;
+  padding: 0.2rem 0.4rem;
+  min-width: 44px;
+  min-height: 44px;
   display: inline-flex;
   align-items: center;
   justify-content: center;

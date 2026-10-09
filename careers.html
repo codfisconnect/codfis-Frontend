@@ -160,38 +160,8 @@
       </div>
     </section>
 
-    <!-- CULTURE / WHY JOIN -->
-    <section class="section">
-      <div class="container">
-        <div class="section-head">
-          <div class="section-tag">Engineering Culture</div>
-          <h2>Why Build at Codfis</h2>
-          <p>What working alongside our engineering team looks like.</p>
-        </div>
-
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem;">
-          <div class="card">
-            <h4>Modern Tech Stacks</h4>
-            <p style="margin-top: 0.5rem; font-size: 0.9rem;">Work with current frameworks, automated pipelines, clean architectures, and modern cloud deployment patterns.</p>
-          </div>
-          <div class="card">
-            <h4>Autonomy & Impact</h4>
-            <p style="margin-top: 0.5rem; font-size: 0.9rem;">Own your technical decisions. We avoid bureaucracy and empower developers to ship impactful features.</p>
-          </div>
-          <div class="card">
-            <h4>Knowledge Sharing</h4>
-            <p style="margin-top: 0.5rem; font-size: 0.9rem;">Regular internal architecture teardowns, book discussions, and continuous support for learning new technologies.</p>
-          </div>
-          <div class="card">
-            <h4>Flexible Work Options</h4>
-            <p style="margin-top: 0.5rem; font-size: 0.9rem;">Hybrid and remote arrangements designed to respect focus time and deep, uninterrupted engineering work.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
     <!-- OPEN POSITIONS -->
-    <section class="section" id="open-positions" style="background: #0d0d0d; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);">
+    <section class="section" id="open-positions" style="scroll-margin-top: 80px; background: var(--surface); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);">
       <div class="container">
         <div class="section-head">
           <div class="section-tag">Open Roles</div>
@@ -200,8 +170,8 @@
         </div>
 
         <div class="jobs-filter-bar">
-          <input type="text" id="jobSearch" class="form-control" placeholder="Search by role or skill (e.g. Playwright, Node, React)..." style="flex: 1; min-width: 260px;">
-          <select id="departmentFilter" class="form-select" style="max-width: 220px;">
+          <input type="text" id="jobSearch" class="form-control" placeholder="Search by role or skill (e.g. Playwright, Node, React)..." style="flex: 1; min-width: 240px;">
+          <select id="departmentFilter" class="form-select" style="min-width: 200px;">
             <option value="All">All Departments</option>
             <option value="Software Engineering">Software Engineering</option>
             <option value="Quality Assurance">Quality Assurance</option>
@@ -215,25 +185,39 @@
 
         <div id="jobList" class="job-list" style="display: none;"></div>
 
-        <div id="jobEmpty" style="display: none; text-align: center; padding: 3rem; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-md);">
-          <h3>Currently there are no open positions matching your criteria.</h3>
-          <p style="margin-top: 0.5rem;">Please check back soon or submit your profile via our trainer application below.</p>
+        <div id="jobEmpty" style="display: none; text-align: center; padding: 2.5rem 1.5rem; background: var(--surface-card); border: 1px solid var(--border); border-radius: var(--radius-md);">
+          <h3 style="font-size: 1.25rem;">No current openings matching your criteria.</h3>
+          <p style="margin: 0.5rem 0 1.25rem; color: var(--text-muted); font-size: 0.95rem;">Please check back soon or submit your profile via our trainer application below.</p>
+          <a href="#trainer-section" class="btn btn-outline btn-sm">Explore Trainer Opportunities ↓</a>
         </div>
       </div>
     </section>
 
-    <!-- BECOME A TRAINER SECTION -->
-    <section class="section" id="trainer-section">
+    <!-- BECOME A TRAINER SECTION (Compact & Collapsible) -->
+    <section class="section" id="trainer-section" style="scroll-margin-top: 80px;">
       <div class="container" style="max-width: 800px;">
-        <div class="section-head">
-          <div class="section-tag">Trainer Application</div>
-          <h2>Become a Technical Trainer</h2>
-          <p>Passionate about mentoring? Train the next cohort of engineers on weekends or evenings with competitive compensation.</p>
+        <div class="card" style="padding: 2.25rem 2rem; text-align: center;" id="trainerTeaserBox">
+          <div class="section-tag" style="margin-bottom: 0.5rem;">Trainer Application</div>
+          <h2 style="font-size: 1.75rem; margin-bottom: 0.5rem;">Become a Technical Trainer</h2>
+          <p style="color: var(--text-muted); max-width: 540px; margin: 0 auto 1.5rem; font-size: 0.98rem; line-height: 1.55;">
+            Share your expertise. Help the next generation of developers grow. Weekend and evening cohorts with competitive compensation.
+          </p>
+          <button type="button" id="toggleTrainerBtn" class="btn btn-primary btn-lg" onclick="toggleTrainerForm()">
+            Apply as a Trainer ↓
+          </button>
         </div>
 
-        <div class="card">
+        <div class="card" id="trainerFormContainer" style="display: none; margin-top: 1.5rem; padding: 2.25rem 2rem;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; border-bottom: 1px solid var(--border); padding-bottom: 1rem;">
+            <div>
+              <h3 style="margin-bottom: 0.25rem;">Trainer Application Form</h3>
+              <p style="font-size: 0.88rem; color: var(--text-muted);">Provide your professional details and domain expertise.</p>
+            </div>
+            <button type="button" class="btn btn-secondary btn-sm" onclick="toggleTrainerForm()">Close ✕</button>
+          </div>
+
           <form id="trainerForm" enctype="multipart/form-data">
-            <div id="trainerAlert" class="alert"></div>
+            <div id="trainerAlert" class="alert" style="display: none;"></div>
 
             <div class="form-grid-2">
               <div class="form-group">
@@ -273,7 +257,7 @@
 
             <div class="form-grid-2">
               <div class="form-group">
-                <label class="form-label">Current Role & Company</label>
+                <label class="form-label">Current Role &amp; Company</label>
                 <input type="text" name="currentRole" class="form-control" placeholder="e.g. Senior QA Engineer at FinTech Corp">
               </div>
 
@@ -307,7 +291,7 @@
             <div class="form-group">
               <label class="form-label">Attach Resume / CV (PDF, DOC, DOCX up to 5MB)</label>
               <input type="file" name="resume" class="form-control" accept=".pdf,.doc,.docx">
-              <div class="form-help">Optional for trainers with complete LinkedIn/GitHub profile links.</div>
+              <div class="form-help">Optional for trainers with complete LinkedIn profile links.</div>
             </div>
 
             <div class="form-group">
@@ -315,9 +299,14 @@
               <textarea name="additionalInfo" class="form-control" rows="3" placeholder="Tell us about previous mentoring experience or topics you enjoy explaining..."></textarea>
             </div>
 
-            <button type="submit" id="trainerSubmitBtn" class="btn btn-primary btn-lg" style="width: 100%;">
-              Submit Trainer Application
-            </button>
+            <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+              <button type="submit" id="trainerSubmitBtn" class="btn btn-primary btn-lg" style="flex: 1;">
+                Submit Application
+              </button>
+              <button type="button" class="btn btn-secondary btn-lg" onclick="toggleTrainerForm()">
+                Cancel
+              </button>
+            </div>
           </form>
         </div>
       </div>
@@ -494,6 +483,21 @@
   <script>
     let allJobs = [];
     let currentSelectedJob = null;
+
+    function toggleTrainerForm() {
+      const teaser = document.getElementById('trainerTeaserBox');
+      const formCont = document.getElementById('trainerFormContainer');
+      const isHidden = formCont.style.display === 'none';
+      if (isHidden) {
+        formCont.style.display = 'block';
+        teaser.style.display = 'none';
+        formCont.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      } else {
+        formCont.style.display = 'none';
+        teaser.style.display = 'block';
+        teaser.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    }
 
     async function loadJobs() {
       const loadingEl = document.getElementById('jobLoading');
