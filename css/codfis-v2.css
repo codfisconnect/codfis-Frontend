@@ -105,16 +105,16 @@
   [data-theme="light"] .hero-overlay-horizontal {
     background: linear-gradient(
       180deg,
-      rgba(248, 249, 250, 0.10) 0%,
-      rgba(248, 249, 250, 0.35) 28%,
-      rgba(248, 249, 250, 0.90) 70%,
+      rgba(248, 249, 250, 0.08) 0%,
+      rgba(248, 249, 250, 0.28) 30%,
+      rgba(248, 249, 250, 0.82) 75%,
       #F8F9FA 100%
     );
   }
   [data-theme="light"] .hero-content {
     background: rgba(255, 255, 255, 0.94);
     border: 1px solid rgba(229, 231, 235, 0.85);
-    box-shadow: 0 8px 20px -4px rgba(0, 0, 0, 0.07), 0 3px 8px -2px rgba(0, 0, 0, 0.03);
+    box-shadow: 0 6px 18px -3px rgba(0, 0, 0, 0.06), 0 2px 6px -2px rgba(0, 0, 0, 0.03);
   }
   [data-theme="light"] .hero-content h1 {
     color: #111827;
