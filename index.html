@@ -4,17 +4,20 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Codfis Technologies — Professional Software Development & Technology Training</title>
-  <meta name="description" content="Custom software, web applications, automation and technology training built around real business needs. Chennai, India.">
-  <link rel="icon" type="image/png" href="images/codfis-Tittle-logo .png">
+  <meta name="description" content="Custom software engineering and hands-on technology training built around real business needs. Chennai, India.">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="images/apple-touch-icon.png">
   <link rel="stylesheet" href="css/codfis-v2.css">
   <style>
     .hero-home {
       position: relative;
-      min-height: 82vh;
+      min-height: 76vh;
       display: flex;
       align-items: center;
       overflow: hidden;
-      background-color: #090909;
+      background-color: var(--bg);
       border-bottom: 1px solid var(--border);
     }
     .hero-bg-container {
@@ -41,7 +44,6 @@
         transform: scale(1);
       }
     }
-    /* Directional overlays: Left dark for text legibility, right clear for office brightness, subtle bottom fade */
     .hero-overlay-horizontal {
       position: absolute;
       inset: 0;
@@ -72,7 +74,7 @@
       position: relative;
       z-index: 3;
       max-width: 620px;
-      padding: 5.5rem 0 4.5rem;
+      padding: 5rem 0 4rem;
       animation: heroTextEntrance 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     }
     @keyframes heroTextEntrance {
@@ -86,40 +88,31 @@
       }
     }
     .hero-home h1 {
-      font-size: clamp(2.4rem, 4.2vw, 3.8rem);
-      line-height: 1.15;
+      font-size: clamp(2.3rem, 4.4vw, 3.6rem);
+      line-height: 1.16;
       font-weight: 700;
-      letter-spacing: -0.02em;
+      letter-spacing: -0.025em;
       margin-top: 0.75rem;
     }
     .hero-home p {
-      font-size: 1.15rem;
-      margin-top: 1.35rem;
-      line-height: 1.65;
-      color: #A1A1A1;
+      font-size: 1.1rem;
+      margin-top: 1.25rem;
+      line-height: 1.6;
+      color: var(--text-muted);
     }
     .hero-ctas {
       display: flex;
       gap: 1rem;
-      margin-top: 2.25rem;
+      margin-top: 2rem;
       flex-wrap: wrap;
     }
     @media (max-width: 1024px) {
       .hero-home {
-        min-height: 75vh;
+        min-height: 70vh;
       }
       .hero-content {
         max-width: 540px;
-        padding: 4.5rem 0 3.5rem;
-      }
-      .hero-overlay-horizontal {
-        background: linear-gradient(
-          90deg,
-          rgba(9, 9, 9, 0.96) 0%,
-          rgba(9, 9, 9, 0.90) 45%,
-          rgba(9, 9, 9, 0.60) 75%,
-          rgba(9, 9, 9, 0.25) 100%
-        );
+        padding: 4rem 0 3rem;
       }
     }
     @media (max-width: 768px) {
@@ -128,7 +121,7 @@
       }
       .hero-content {
         max-width: 100%;
-        padding: 4rem 0 3.5rem;
+        padding: 3.25rem 0 2.5rem;
       }
       .hero-bg-img {
         object-position: 70% center;
@@ -136,16 +129,18 @@
       .hero-overlay-horizontal {
         background: linear-gradient(
           180deg,
-          rgba(9, 9, 9, 0.92) 0%,
-          rgba(9, 9, 9, 0.82) 65%,
-          rgba(9, 9, 9, 0.70) 100%
+          rgba(9, 9, 9, 0.88) 0%,
+          rgba(9, 9, 9, 0.78) 60%,
+          rgba(9, 9, 9, 0.72) 100%
         );
       }
     }
+
+    /* Pillars Grid - Side by Side on Mobile */
     .pillars-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 2rem;
+      gap: 1.5rem;
     }
     .pillar-card {
       background: var(--surface);
@@ -161,7 +156,7 @@
       transform: translateY(-2px);
     }
     .pillar-img {
-      height: 220px;
+      height: 180px;
       width: 100%;
       background: #141414;
       border-bottom: 1px solid var(--border);
@@ -173,20 +168,42 @@
       object-fit: cover;
     }
     .pillar-body {
-      padding: 2.25rem;
+      padding: 1.75rem;
       flex: 1;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
     }
-    .tech-radar-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 3rem;
-      align-items: center;
+    @media (max-width: 768px) {
+      .pillars-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 0.85rem;
+      }
+      .pillar-img {
+        height: 110px;
+      }
+      .pillar-body {
+        padding: 1rem 0.85rem;
+      }
+      .pillar-body h3 {
+        font-size: 1.05rem;
+      }
+      .pillar-body p {
+        font-size: 0.82rem;
+        line-height: 1.45;
+        margin: 0.4rem 0 0.85rem;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+      .pillar-body .btn {
+        padding: 0.5rem 0.65rem;
+        font-size: 0.82rem;
+      }
     }
-    @media (max-width: 900px) {
-      .hero-grid, .pillars-grid, .tech-radar-grid {
+    @media (max-width: 360px) {
+      .pillars-grid {
         grid-template-columns: 1fr;
       }
     }
@@ -197,7 +214,7 @@
   <!-- Header -->
   <header class="header">
     <div class="container nav-container">
-      <a href="index.html" class="brand-logo">
+      <a href="index.html" class="brand-logo" aria-label="Codfis Technologies Home">
         <img src="images/Codfis-logo-latest.png" alt="Codfis Technologies">
       </a>
 
@@ -211,6 +228,7 @@
       </nav>
 
       <div class="nav-cta-group">
+        <button class="theme-toggle" aria-label="Toggle theme" title="Toggle theme">☀️</button>
         <a href="contact.html?type=project" class="btn btn-primary btn-sm">Start a Project</a>
         <a href="admin.html" class="btn btn-secondary btn-sm" title="Admin Portal">Admin</a>
         <button class="mobile-toggle" aria-label="Toggle navigation">☰</button>
@@ -220,20 +238,19 @@
 
   <!-- Mobile Drawer -->
   <div class="mobile-drawer">
-    <a href="index.html">Home</a>
+    <a href="index.html" class="active">Home</a>
     <a href="software-development.html">Software Development</a>
     <a href="training.html">Training</a>
     <a href="careers.html">Careers</a>
     <a href="about.html">About</a>
     <a href="contact.html">Contact</a>
-    <a href="contact.html?type=project" class="btn btn-primary" style="margin-top: 1rem;">Start a Project</a>
+    <a href="contact.html?type=project" class="btn btn-primary">Start a Project</a>
     <a href="admin.html" class="btn btn-secondary">Admin Login</a>
   </div>
 
   <main>
-    <!-- PART 5 — HOMEPAGE HERO WITH INTEGRATED OFFICE VISUAL -->
+    <!-- 1. HOMEPAGE HERO -->
     <section class="hero-home">
-      <!-- Full-width Office Visual Background (Mirrored: Corridor on Left, Workstations on Right) -->
       <div class="hero-bg-container">
         <picture>
           <source srcset="images/hero/codfis-office-hero.webp" type="image/webp">
@@ -243,122 +260,23 @@
         <div class="hero-overlay-bottom"></div>
       </div>
 
-      <!-- Left-Aligned Content Container -->
       <div class="container" style="position: relative; z-index: 3;">
         <div class="hero-content">
           <div class="section-tag">CODFIS TECHNOLOGIES</div>
           <h1>Build software that <span class="text-gradient">works for your business.</span></h1>
           <p>
-            Custom software, web applications, automation and technology training built around real business needs. We bridge technical architecture with verified delivery.
+            Custom software engineering and practical technology training built around real business needs. Chennai, India.
           </p>
           <div class="hero-ctas">
-            <a href="contact.html?type=project" class="btn btn-primary btn-lg">Start a Project</a>
-            <a href="software-development.html" class="btn btn-secondary btn-lg">Explore Services</a>
+            <a href="software-development.html" class="btn btn-primary btn-lg">Explore Development Services</a>
+            <a href="training.html" class="btn btn-secondary btn-lg">Explore Training Tracks</a>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- PART 6 — CLIENT SECTION (HORIZONTAL LOGO RAIL) -->
-    <section class="clients-section">
-      <div class="container">
-        <div class="clients-title">Clients &amp; Organizations We've Worked With</div>
-        <div class="marquee-container">
-          <div class="marquee-track">
-            <!-- 7 Extracted Logos in Preferred Curation Order -->
-            <div class="client-logo-card">
-              <picture>
-                <source srcset="images/clients/land-rover.webp" type="image/webp">
-                <img src="images/clients/land-rover.png" alt="Land Rover logo" loading="lazy" width="185" height="102">
-              </picture>
-            </div>
-            <div class="client-logo-card">
-              <picture>
-                <source srcset="images/clients/chrysler.webp" type="image/webp">
-                <img src="images/clients/chrysler.png" alt="Chrysler logo" loading="lazy" width="211" height="62">
-              </picture>
-            </div>
-            <div class="client-logo-card">
-              <picture>
-                <source srcset="images/clients/penn-foster.webp" type="image/webp">
-                <img src="images/clients/penn-foster.png" alt="Penn Foster logo" loading="lazy" width="200" height="87">
-              </picture>
-            </div>
-            <div class="client-logo-card">
-              <picture>
-                <source srcset="images/clients/fulcrum.webp" type="image/webp">
-                <img src="images/clients/fulcrum.png" alt="Fulcrum logo" loading="lazy" width="198" height="108">
-              </picture>
-            </div>
-            <div class="client-logo-card">
-              <picture>
-                <source srcset="images/clients/shisha-world.webp" type="image/webp">
-                <img src="images/clients/shisha-world.png" alt="Shisha World logo" loading="lazy" width="191" height="98">
-              </picture>
-            </div>
-            <div class="client-logo-card">
-              <picture>
-                <source srcset="images/clients/madras-bar-association.webp" type="image/webp">
-                <img src="images/clients/madras-bar-association.png" alt="The Madras Bar Association logo" loading="lazy" width="222" height="114">
-              </picture>
-            </div>
-            <div class="client-logo-card">
-              <picture>
-                <source srcset="images/clients/her-pretty-things.webp" type="image/webp">
-                <img src="images/clients/her-pretty-things.png" alt="Her Pretty Things logo" loading="lazy" width="136" height="121">
-              </picture>
-            </div>
-
-            <!-- Seamless infinite loop duplicate -->
-            <div class="client-logo-card">
-              <picture>
-                <source srcset="images/clients/land-rover.webp" type="image/webp">
-                <img src="images/clients/land-rover.png" alt="Land Rover logo" loading="lazy" width="185" height="102">
-              </picture>
-            </div>
-            <div class="client-logo-card">
-              <picture>
-                <source srcset="images/clients/chrysler.webp" type="image/webp">
-                <img src="images/clients/chrysler.png" alt="Chrysler logo" loading="lazy" width="211" height="62">
-              </picture>
-            </div>
-            <div class="client-logo-card">
-              <picture>
-                <source srcset="images/clients/penn-foster.webp" type="image/webp">
-                <img src="images/clients/penn-foster.png" alt="Penn Foster logo" loading="lazy" width="200" height="87">
-              </picture>
-            </div>
-            <div class="client-logo-card">
-              <picture>
-                <source srcset="images/clients/fulcrum.webp" type="image/webp">
-                <img src="images/clients/fulcrum.png" alt="Fulcrum logo" loading="lazy" width="198" height="108">
-              </picture>
-            </div>
-            <div class="client-logo-card">
-              <picture>
-                <source srcset="images/clients/shisha-world.webp" type="image/webp">
-                <img src="images/clients/shisha-world.png" alt="Shisha World logo" loading="lazy" width="191" height="98">
-              </picture>
-            </div>
-            <div class="client-logo-card">
-              <picture>
-                <source srcset="images/clients/madras-bar-association.webp" type="image/webp">
-                <img src="images/clients/madras-bar-association.png" alt="The Madras Bar Association logo" loading="lazy" width="222" height="114">
-              </picture>
-            </div>
-            <div class="client-logo-card">
-              <picture>
-                <source srcset="images/clients/her-pretty-things.webp" type="image/webp">
-                <img src="images/clients/her-pretty-things.png" alt="Her Pretty Things logo" loading="lazy" width="136" height="121">
-              </picture>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- PART 7 — TWO CORE BUSINESS AREAS (LARGE VISUAL TREATMENT) -->
-    <section class="section" style="background: #0d0d0d;">
+    <!-- 2. TWO PILLARS OF EXCELLENCE (Side-by-Side on Mobile) -->
+    <section class="section">
       <div class="container">
         <div class="section-head reveal">
           <div class="section-tag">Core Focus</div>
@@ -374,14 +292,14 @@
             </div>
             <div class="pillar-body">
               <div>
-                <div class="badge badge-yellow" style="margin-bottom: 0.75rem;">01. Engineering</div>
+                <div class="badge badge-yellow" style="margin-bottom: 0.5rem;">01. Engineering</div>
                 <h3>Software Development</h3>
-                <p style="margin: 0.75rem 0 1.5rem;">
-                  Build custom software, web applications, workflow automation, and digital products tailored to modern business operations.
+                <p>
+                  Build custom software, web applications, workflow automation, and digital platforms tailored to modern business operations.
                 </p>
               </div>
               <div>
-                <a href="software-development.html" class="btn btn-primary" style="width: 100%;">Explore Development Services →</a>
+                <a href="software-development.html" class="btn btn-primary" style="width: 100%;">Explore Services →</a>
               </div>
             </div>
           </div>
@@ -393,14 +311,14 @@
             </div>
             <div class="pillar-body">
               <div>
-                <div class="badge badge-yellow" style="margin-bottom: 0.75rem;">02. Academy</div>
+                <div class="badge badge-yellow" style="margin-bottom: 0.5rem;">02. Academy</div>
                 <h3>Software Training</h3>
-                <p style="margin: 0.75rem 0 1.5rem;">
-                  Hands-on technology training for students, professionals, and engineering organizations designed and mentored by working developers.
+                <p>
+                  Hands-on technology training for students and engineering organizations designed and mentored by active developers.
                 </p>
               </div>
               <div>
-                <a href="training.html" class="btn btn-primary" style="width: 100%;">Explore Training Tracks →</a>
+                <a href="training.html" class="btn btn-primary" style="width: 100%;">Explore Tracks →</a>
               </div>
             </div>
           </div>
@@ -408,169 +326,14 @@
       </div>
     </section>
 
-    <!-- PART 8 — WHAT WE BUILD (HORIZONTAL CAROUSEL ONLY - NO MULTI-ROW) -->
-    <section class="section">
+    <!-- 3. HOW WE DELIVER (Connected Process Stages) -->
+    <section class="section" style="background: var(--surface-card); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);">
       <div class="container">
         <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem;">
           <div>
-            <div class="section-tag">Services & Capabilities</div>
-            <h2>What We Build</h2>
-            <p>From client portals to cloud integrations, engineered for scale.</p>
-          </div>
-          <div class="carousel-controls">
-            <button class="carousel-btn prev" aria-label="Previous service">←</button>
-            <button class="carousel-btn next" aria-label="Next service">→</button>
-          </div>
-        </div>
-
-        <div class="carousel-wrapper reveal">
-          <div class="carousel-track">
-            <!-- Card 1 -->
-            <div class="carousel-card">
-              <div>
-                <div class="card-icon">🌐</div>
-                <h4>Business Websites</h4>
-                <p style="margin-top: 0.5rem; font-size: 0.9rem;">Modern, lightning-fast web applications built for conversion, SEO performance, and responsive screens.</p>
-              </div>
-              <div style="margin-top: 1.5rem; font-size: 0.82rem; color: var(--accent);">Clean UI • High Speed</div>
-            </div>
-
-            <!-- Card 2 -->
-            <div class="carousel-card">
-              <div>
-                <div class="card-icon">💻</div>
-                <h4>Web Applications</h4>
-                <p style="margin-top: 0.5rem; font-size: 0.9rem;">Interactive client portals, SaaS modules, and administrative dashboards engineered with Node.js and React.</p>
-              </div>
-              <div style="margin-top: 1.5rem; font-size: 0.82rem; color: var(--accent);">Modular • Cloud Native</div>
-            </div>
-
-            <!-- Card 3 -->
-            <div class="carousel-card">
-              <div>
-                <div class="card-icon">📱</div>
-                <h4>Mobile Applications</h4>
-                <p style="margin-top: 0.5rem; font-size: 0.9rem;">Cross-platform mobile apps for iOS and Android with unified backend APIs and smooth gesture interaction.</p>
-              </div>
-              <div style="margin-top: 1.5rem; font-size: 0.82rem; color: var(--accent);">Cross Platform • Offline Sync</div>
-            </div>
-
-            <!-- Card 4 -->
-            <div class="carousel-card">
-              <div>
-                <div class="card-icon">⚙️</div>
-                <h4>Custom Business Software</h4>
-                <p style="margin-top: 0.5rem; font-size: 0.9rem;">Bespoke internal platforms and database systems tailored precisely around unique organizational workflows.</p>
-              </div>
-              <div style="margin-top: 1.5rem; font-size: 0.82rem; color: var(--accent);">Custom Logic • Scalable DB</div>
-            </div>
-
-            <!-- Card 5 -->
-            <div class="carousel-card">
-              <div>
-                <div class="card-icon">🤖</div>
-                <h4>AI Applications</h4>
-                <p style="margin-top: 0.5rem; font-size: 0.9rem;">Intelligent document processors, query triage assistants, and predictive automation pipelines.</p>
-              </div>
-              <div style="margin-top: 1.5rem; font-size: 0.82rem; color: var(--accent);">Practical AI • Automated</div>
-            </div>
-
-            <!-- Card 6 -->
-            <div class="carousel-card">
-              <div>
-                <div class="card-icon">🔗</div>
-                <h4>API Systems & Integrations</h4>
-                <p style="margin-top: 0.5rem; font-size: 0.9rem;">Secure RESTful services linking payment systems, CRM databases, messaging gateways, and cloud storage.</p>
-              </div>
-              <div style="margin-top: 1.5rem; font-size: 0.82rem; color: var(--accent);">High Throughput • Token Auth</div>
-            </div>
-
-            <!-- Card 7 -->
-            <div class="carousel-card">
-              <div>
-                <div class="card-icon">⚡</div>
-                <h4>Automation</h4>
-                <p style="margin-top: 0.5rem; font-size: 0.9rem;">Eliminate manual data entries, streamline approvals, and synchronize distributed business tools automatically.</p>
-              </div>
-              <div style="margin-top: 1.5rem; font-size: 0.82rem; color: var(--accent);">Efficiency • Error Free</div>
-            </div>
-
-            <!-- Card 8 -->
-            <div class="carousel-card">
-              <div>
-                <div class="card-icon">🛡️</div>
-                <h4>Maintenance & Support</h4>
-                <p style="margin-top: 0.5rem; font-size: 0.9rem;">Continuous regression monitoring, database performance tuning, security patching, and on-call engineering.</p>
-              </div>
-              <div style="margin-top: 1.5rem; font-size: 0.82rem; color: var(--accent);">Uptime Monitoring • SLA</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- PART 9 — SELECTED WORK / PROJECTS (VISUAL CARDS) -->
-    <section class="section" style="background: #0d0d0d; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);">
-      <div class="container">
-        <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 2.5rem; flex-wrap: wrap; gap: 1rem;">
-          <div>
-            <div class="section-tag">Case Studies & Concepts</div>
-            <h2>Selected Work</h2>
-            <p>Proven execution patterns and demonstrated engineering deliverables.</p>
-          </div>
-          <div class="carousel-controls">
-            <button class="carousel-btn prev" aria-label="Previous project">←</button>
-            <button class="carousel-btn next" aria-label="Next project">→</button>
-          </div>
-        </div>
-
-        <div class="carousel-wrapper reveal">
-          <div class="carousel-track">
-            <!-- Project 1 -->
-            <div class="carousel-card" style="flex: 0 0 380px; padding: 0; overflow: hidden;">
-              <img src="images/projects/project-workflow.svg" alt="Enterprise Workflow Portal" width="480" height="260" style="width: 100%; border-bottom: 1px solid var(--border);">
-              <div style="padding: 1.75rem;">
-                <div class="badge badge-yellow" style="margin-bottom: 0.5rem;">Web Application • Concept</div>
-                <h4>Enterprise Workflow Portal</h4>
-                <p style="font-size: 0.88rem; margin: 0.5rem 0 1rem;">Centralized operations management replacing manual paperwork with audited role-based digital approvals.</p>
-                <div style="font-size: 0.8rem; font-family: monospace; color: var(--accent);">Node.js • React • PostgreSQL</div>
-              </div>
-            </div>
-
-            <!-- Project 2 -->
-            <div class="carousel-card" style="flex: 0 0 380px; padding: 0; overflow: hidden;">
-              <img src="images/projects/project-qa.svg" alt="Playwright Automation Framework" width="480" height="260" style="width: 100%; border-bottom: 1px solid var(--border);">
-              <div style="padding: 1.75rem;">
-                <div class="badge badge-yellow" style="margin-bottom: 0.5rem;">Quality Engineering • Demo Project</div>
-                <h4>Automated Regression Framework</h4>
-                <p style="font-size: 0.88rem; margin: 0.5rem 0 1rem;">End-to-end continuous test automation suite demonstrating Page Object Models and parallel headless execution.</p>
-                <div style="font-size: 0.8rem; font-family: monospace; color: var(--accent);">Playwright • TypeScript • GitHub Actions</div>
-              </div>
-            </div>
-
-            <!-- Project 3 -->
-            <div class="carousel-card" style="flex: 0 0 380px; padding: 0; overflow: hidden;">
-              <img src="images/projects/project-api.svg" alt="Secure API Gateway" width="480" height="260" style="width: 100%; border-bottom: 1px solid var(--border);">
-              <div style="padding: 1.75rem;">
-                <div class="badge badge-yellow" style="margin-bottom: 0.5rem;">Cloud Infrastructure • Concept</div>
-                <h4>Partner Integration API</h4>
-                <p style="font-size: 0.88rem; margin: 0.5rem 0 1rem;">Token-authenticated REST architecture with input validation, route rate limiting, and centralized logging.</p>
-                <div style="font-size: 0.8rem; font-family: monospace; color: var(--accent);">Express • SQLite/PostgreSQL • JWT</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- PART 10 — DELIVERY PROCESS (HORIZONTAL INTERACTIVE STEPPER 01 -> 07) -->
-    <section class="section">
-      <div class="container">
-        <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 2.5rem; flex-wrap: wrap; gap: 1rem;">
-          <div>
-            <div class="section-tag">Methodology</div>
+            <div class="section-tag">Delivery Approach</div>
             <h2>How We Deliver</h2>
-            <p>An interactive, milestone-driven process with measurable progress at every phase.</p>
+            <p>A milestone-driven, transparent sequence from discovery to ongoing support.</p>
           </div>
           <div class="carousel-controls">
             <button class="carousel-btn prev" aria-label="Previous delivery phase">←</button>
@@ -584,106 +347,61 @@
           </div>
 
           <div class="process-track">
-            <!-- Step 1 -->
             <div class="process-node-card active">
               <div class="process-node-circle">01</div>
-              <h4>Discover</h4>
-              <p>Clarify requirements, constraints, user personas, and target KPIs.</p>
+              <h4>Discovery</h4>
+              <p>Clarify requirements, constraints, and success KPIs.</p>
             </div>
-
-            <!-- Step 2 -->
             <div class="process-node-card">
               <div class="process-node-circle">02</div>
-              <h4>Plan</h4>
-              <p>Technical architecture, database modeling, and interface wireframes.</p>
+              <h4>Planning</h4>
+              <p>Architecture, database modeling, and interface wireframes.</p>
             </div>
-
-            <!-- Step 3 -->
             <div class="process-node-card">
               <div class="process-node-circle">03</div>
               <h4>Design</h4>
-              <p>Interactive prototypes, design tokens, and usability review.</p>
+              <p>Interactive prototypes and design tokens.</p>
             </div>
-
-            <!-- Step 4 -->
             <div class="process-node-card">
               <div class="process-node-circle">04</div>
-              <h4>Build</h4>
-              <p>Clean, modular code written in agile sprints with bi-weekly demos.</p>
+              <h4>Development</h4>
+              <p>Clean, modular code written in agile sprints.</p>
             </div>
-
-            <!-- Step 5 -->
             <div class="process-node-card">
               <div class="process-node-circle">05</div>
-              <h4>Test</h4>
-              <p>Automated Playwright regression suites, security checks, and mobile QA.</p>
+              <h4>Testing</h4>
+              <p>Automated Playwright regression suites &amp; security QA.</p>
             </div>
-
-            <!-- Step 6 -->
             <div class="process-node-card">
               <div class="process-node-circle">06</div>
-              <h4>Launch</h4>
-              <p>Zero-downtime production deployment, DNS, and cloud observability.</p>
+              <h4>Delivery</h4>
+              <p>Production deployment, DNS, and cloud setup.</p>
             </div>
-
-            <!-- Step 7 -->
             <div class="process-node-card">
               <div class="process-node-circle">07</div>
               <h4>Support</h4>
-              <p>Performance monitoring, database maintenance, and continuous upgrades.</p>
+              <p>Performance monitoring and continuous upgrades.</p>
             </div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- PART 11 — ENGINEERING & TECHNOLOGY VISUAL SECTION -->
-    <section class="section" style="background: #0d0d0d; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);">
-      <div class="container tech-radar-grid">
-        <div class="reveal">
-          <div class="section-tag">Engineering Standards</div>
-          <h2>Battle-tested technologies. Zero fragile hype.</h2>
-          <p style="margin: 1.25rem 0; line-height: 1.7;">
-            We carefully select programming languages, libraries, and cloud platforms that guarantee high uptime, maintainable codebases, and seamless team onboarding.
-          </p>
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1.5rem;">
-            <div class="card" style="padding: 1rem;">
-              <h4 style="color: var(--accent); font-size: 0.95rem;">Frontend</h4>
-              <p style="font-size: 0.85rem; margin-top: 0.25rem;">React, TypeScript, Modern CSS</p>
-            </div>
-            <div class="card" style="padding: 1rem;">
-              <h4 style="color: var(--accent); font-size: 0.95rem;">Backend</h4>
-              <p style="font-size: 0.85rem; margin-top: 0.25rem;">Node.js, Express, Python</p>
-            </div>
-            <div class="card" style="padding: 1rem;">
-              <h4 style="color: var(--accent); font-size: 0.95rem;">Testing</h4>
-              <p style="font-size: 0.85rem; margin-top: 0.25rem;">Playwright, Selenium, Jest</p>
-            </div>
-            <div class="card" style="padding: 1rem;">
-              <h4 style="color: var(--accent); font-size: 0.95rem;">Cloud & DB</h4>
-              <p style="font-size: 0.85rem; margin-top: 0.25rem;">PostgreSQL, Docker, AWS</p>
-            </div>
-          </div>
-        </div>
-
-        <div class="reveal">
-          <img src="images/development/dev-architecture.svg" alt="Codfis Architecture Visualization" width="540" height="320" style="border: 1px solid var(--border); border-radius: var(--radius-lg);">
-        </div>
-      </div>
-    </section>
-
-    <!-- PART 12 & 13 — SOFTWARE TRAINING PROGRAMS (ONE HORIZONTAL CAROUSEL ONLY) -->
+    <!-- 4. SOFTWARE TRAINING PROGRAMS PREVIEW (Compact Grid / Swipe) -->
     <section class="section">
       <div class="container">
-        <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 2.5rem; flex-wrap: wrap; gap: 1rem;">
+        <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem;">
           <div>
             <div class="section-tag">Technology Academy</div>
             <h2>Software Training Programs</h2>
-            <p>Hands-on engineering curricula taught by practicing professionals.</p>
+            <p>Practical curricula taught by practicing software engineers.</p>
           </div>
-          <div class="carousel-controls">
-            <button class="carousel-btn prev" aria-label="Previous course">←</button>
-            <button class="carousel-btn next" aria-label="Next course">→</button>
+          <div style="display: flex; gap: 0.75rem; align-items: center;">
+            <a href="training-tracks.html" class="btn btn-outline btn-sm">Browse All Tracks →</a>
+            <div class="carousel-controls" style="margin-bottom: 0;">
+              <button class="carousel-btn prev" aria-label="Previous course">←</button>
+              <button class="carousel-btn next" aria-label="Next course">→</button>
+            </div>
           </div>
         </div>
 
@@ -693,11 +411,14 @@
             <div class="carousel-card">
               <div>
                 <div class="badge badge-yellow" style="margin-bottom: 0.75rem;">Test Automation</div>
-                <h4>Automation Testing with Playwright</h4>
-                <p style="margin: 0.75rem 0; font-size: 0.9rem;">Modern browser automation, Page Object Model design, API mocking, and CI/CD parallel execution.</p>
-                <div style="font-size: 0.85rem; color: var(--text-dim);">Duration: 8 Weeks • Live Labs</div>
+                <h4>Playwright Test Automation</h4>
+                <p style="margin: 0.75rem 0; font-size: 0.9rem;">Modern web testing, Page Object Model design, API mocking, and CI/CD pipelines.</p>
+                <div style="font-size: 0.85rem; color: var(--text-dim);">3 Months • 1 hr/day</div>
               </div>
-              <a href="training.html" class="btn btn-primary btn-sm" style="margin-top: 1.5rem;">View Syllabus →</a>
+              <div style="display: flex; gap: 0.5rem; margin-top: 1.5rem;">
+                <a href="syllabus-playwright.html" class="btn btn-primary btn-sm" style="flex: 1;">View Syllabus</a>
+                <a href="training.html" class="btn btn-secondary btn-sm">Explore</a>
+              </div>
             </div>
 
             <!-- Course 2 -->
@@ -705,116 +426,189 @@
               <div>
                 <div class="badge badge-yellow" style="margin-bottom: 0.75rem;">Enterprise Standard</div>
                 <h4>Selenium WebDriver with Java</h4>
-                <p style="margin: 0.75rem 0; font-size: 0.9rem;">Core Java for testers, TestNG framework architecture, Maven, and Cucumber BDD integration.</p>
-                <div style="font-size: 0.85rem; color: var(--text-dim);">Duration: 10 Weeks • Live Labs</div>
+                <p style="margin: 0.75rem 0; font-size: 0.9rem;">Core Java, TestNG framework architecture, Maven, and Cucumber BDD integration.</p>
+                <div style="font-size: 0.85rem; color: var(--text-dim);">3 Months • 1 hr/day</div>
               </div>
-              <a href="training.html" class="btn btn-primary btn-sm" style="margin-top: 1.5rem;">View Syllabus →</a>
+              <div style="display: flex; gap: 0.5rem; margin-top: 1.5rem;">
+                <a href="syllabus-selenium.html" class="btn btn-primary btn-sm" style="flex: 1;">View Syllabus</a>
+                <a href="training.html" class="btn btn-secondary btn-sm">Explore</a>
+              </div>
             </div>
 
             <!-- Course 3 -->
             <div class="carousel-card">
               <div>
-                <div class="badge badge-yellow" style="margin-bottom: 0.75rem;">Full Stack</div>
-                <h4>Full Stack JavaScript Engineering</h4>
-                <p style="margin: 0.75rem 0; font-size: 0.9rem;">Master Node.js, Express, React, TypeScript, and relational SQL database modeling from scratch.</p>
-                <div style="font-size: 0.85rem; color: var(--text-dim);">Duration: 12 Weeks • Project Driven</div>
+                <div class="badge badge-yellow" style="margin-bottom: 0.75rem;">Software Testing</div>
+                <h4>Manual Software Testing</h4>
+                <p style="margin: 0.75rem 0; font-size: 0.9rem;">SDLC, STLC, test case design, bug lifecycle, JIRA management, and SQL verification.</p>
+                <div style="font-size: 0.85rem; color: var(--text-dim);">3 Months • Practical Scenarios</div>
               </div>
-              <a href="training.html" class="btn btn-primary btn-sm" style="margin-top: 1.5rem;">View Syllabus →</a>
+              <div style="display: flex; gap: 0.5rem; margin-top: 1.5rem;">
+                <a href="syllabus-manual-testing.html" class="btn btn-primary btn-sm" style="flex: 1;">View Syllabus</a>
+                <a href="training.html" class="btn btn-secondary btn-sm">Explore</a>
+              </div>
             </div>
 
             <!-- Course 4 -->
             <div class="carousel-card">
               <div>
-                <div class="badge badge-yellow" style="margin-bottom: 0.75rem;">Data Analytics</div>
-                <h4>Data Analytics & Business Intelligence</h4>
-                <p style="margin: 0.75rem 0; font-size: 0.9rem;">Advanced SQL transformations, exploratory data cleaning, and executive dashboarding with Power BI.</p>
-                <div style="font-size: 0.85rem; color: var(--text-dim);">Duration: 8 Weeks • Practical Case Studies</div>
+                <div class="badge badge-yellow" style="margin-bottom: 0.75rem;">Full Stack</div>
+                <h4>Full Stack Engineering</h4>
+                <p style="margin: 0.75rem 0; font-size: 0.9rem;">Master Node.js, Express, React, TypeScript, and relational SQL database modeling.</p>
+                <div style="font-size: 0.85rem; color: var(--text-dim);">12 Weeks • Project Driven</div>
               </div>
-              <a href="training.html" class="btn btn-primary btn-sm" style="margin-top: 1.5rem;">View Syllabus →</a>
-            </div>
-
-            <!-- Course 5 -->
-            <div class="carousel-card">
-              <div>
-                <div class="badge badge-yellow" style="margin-bottom: 0.75rem;">Cloud & Infrastructure</div>
-                <h4>Cloud & DevOps Fundamentals</h4>
-                <p style="margin: 0.75rem 0; font-size: 0.9rem;">Docker containerization, GitHub Actions CI/CD workflows, Linux servers, and cloud deployment pipelines.</p>
-                <div style="font-size: 0.85rem; color: var(--text-dim);">Duration: 6 Weeks • Real Pipelines</div>
+              <div style="display: flex; gap: 0.5rem; margin-top: 1.5rem;">
+                <a href="training-tracks.html" class="btn btn-primary btn-sm" style="flex: 1;">Details</a>
+                <a href="training.html" class="btn btn-secondary btn-sm">Explore</a>
               </div>
-              <a href="training.html" class="btn btn-primary btn-sm" style="margin-top: 1.5rem;">View Syllabus →</a>
             </div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- PART 14 — CAREERS PREVIEW (DYNAMIC FROM /api/jobs) -->
-    <section class="section" style="background: #0d0d0d; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);">
+    <!-- 5. COMPACT CLIENT LOGOS -->
+    <section class="clients-section">
       <div class="container">
-        <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 2.5rem; flex-wrap: wrap; gap: 1rem;">
-          <div>
-            <div class="section-tag">Talent & Culture</div>
-            <h2>Build your career with technology.</h2>
-            <p>We are always looking for passionate engineers, QA architects, and technical mentors.</p>
+        <div class="clients-title">Clients &amp; Organizations We've Worked With</div>
+        <div class="marquee-container">
+          <div class="marquee-track">
+            <div class="client-logo-card">
+              <picture>
+                <source srcset="images/clients/land-rover.webp" type="image/webp">
+                <img src="images/clients/land-rover.png" alt="Land Rover logo" loading="lazy" width="185" height="102">
+              </picture>
+            </div>
+            <div class="client-logo-card">
+              <picture>
+                <source srcset="images/clients/chrysler.webp" type="image/webp">
+                <img src="images/clients/chrysler.png" alt="Chrysler logo" loading="lazy" width="211" height="62">
+              </picture>
+            </div>
+            <div class="client-logo-card">
+              <picture>
+                <source srcset="images/clients/penn-foster.webp" type="image/webp">
+                <img src="images/clients/penn-foster.png" alt="Penn Foster logo" loading="lazy" width="200" height="87">
+              </picture>
+            </div>
+            <div class="client-logo-card">
+              <picture>
+                <source srcset="images/clients/fulcrum.webp" type="image/webp">
+                <img src="images/clients/fulcrum.png" alt="Fulcrum logo" loading="lazy" width="198" height="108">
+              </picture>
+            </div>
+            <div class="client-logo-card">
+              <picture>
+                <source srcset="images/clients/shisha-world.webp" type="image/webp">
+                <img src="images/clients/shisha-world.png" alt="Shisha World logo" loading="lazy" width="191" height="98">
+              </picture>
+            </div>
+            <div class="client-logo-card">
+              <picture>
+                <source srcset="images/clients/madras-bar-association.webp" type="image/webp">
+                <img src="images/clients/madras-bar-association.png" alt="The Madras Bar Association logo" loading="lazy" width="222" height="114">
+              </picture>
+            </div>
+            <div class="client-logo-card">
+              <picture>
+                <source srcset="images/clients/her-pretty-things.webp" type="image/webp">
+                <img src="images/clients/her-pretty-things.png" alt="Her Pretty Things logo" loading="lazy" width="136" height="121">
+              </picture>
+            </div>
+            <!-- Duplicate for seamless infinite marquee loop -->
+            <div class="client-logo-card">
+              <picture>
+                <source srcset="images/clients/land-rover.webp" type="image/webp">
+                <img src="images/clients/land-rover.png" alt="Land Rover logo" loading="lazy" width="185" height="102">
+              </picture>
+            </div>
+            <div class="client-logo-card">
+              <picture>
+                <source srcset="images/clients/chrysler.webp" type="image/webp">
+                <img src="images/clients/chrysler.png" alt="Chrysler logo" loading="lazy" width="211" height="62">
+              </picture>
+            </div>
+            <div class="client-logo-card">
+              <picture>
+                <source srcset="images/clients/penn-foster.webp" type="image/webp">
+                <img src="images/clients/penn-foster.png" alt="Penn Foster logo" loading="lazy" width="200" height="87">
+              </picture>
+            </div>
+            <div class="client-logo-card">
+              <picture>
+                <source srcset="images/clients/fulcrum.webp" type="image/webp">
+                <img src="images/clients/fulcrum.png" alt="Fulcrum logo" loading="lazy" width="198" height="108">
+              </picture>
+            </div>
+            <div class="client-logo-card">
+              <picture>
+                <source srcset="images/clients/shisha-world.webp" type="image/webp">
+                <img src="images/clients/shisha-world.png" alt="Shisha World logo" loading="lazy" width="191" height="98">
+              </picture>
+            </div>
+            <div class="client-logo-card">
+              <picture>
+                <source srcset="images/clients/madras-bar-association.webp" type="image/webp">
+                <img src="images/clients/madras-bar-association.png" alt="The Madras Bar Association logo" loading="lazy" width="222" height="114">
+              </picture>
+            </div>
+            <div class="client-logo-card">
+              <picture>
+                <source srcset="images/clients/her-pretty-things.webp" type="image/webp">
+                <img src="images/clients/her-pretty-things.png" alt="Her Pretty Things logo" loading="lazy" width="136" height="121">
+              </picture>
+            </div>
           </div>
-          <div style="display: flex; gap: 0.75rem;">
-            <a href="careers.html" class="btn btn-primary btn-sm">View All Positions</a>
-            <a href="careers.html#trainer-section" class="btn btn-secondary btn-sm">Become a Trainer</a>
-          </div>
-        </div>
-
-        <div id="homeJobsLoading" style="text-align: center; padding: 2rem; color: var(--text-dim);">Loading open positions...</div>
-        <div id="homeJobsContainer" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.5rem;"></div>
-        <div id="homeJobsEmpty" style="display: none; text-align: center; padding: 2.5rem; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-md);">
-          <h4>Currently there are no open positions. Please check again soon.</h4>
-          <p style="margin-top: 0.5rem; font-size: 0.9rem;">You can also submit your profile through our trainer application.</p>
         </div>
       </div>
     </section>
 
-    <!-- FINAL CALL TO ACTION -->
-    <section class="section">
+    <!-- 6. FINAL COMPACT CALL TO ACTION -->
+    <section class="section" style="padding: 3.5rem 0;">
       <div class="container" style="text-align: center;">
-        <h2>Have a project in mind? <span class="text-gradient">Let's build it.</span></h2>
-        <p style="margin: 1rem auto 2.25rem; max-width: 550px;">
-          Tell us about your requirements, timeline, and goals. We will provide a comprehensive engineering discovery plan.
+        <h2>Ready to build or learn with Codfis?</h2>
+        <p style="margin: 0.85rem auto 1.75rem; max-width: 520px; font-size: 1rem;">
+          Whether you have a software project in mind or want to master engineering skills, we are ready to help.
         </p>
-        <a href="contact.html?type=project" class="btn btn-primary btn-lg">Start a Project With Us</a>
+        <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+          <a href="contact.html?type=project" class="btn btn-primary btn-lg">Start a Project With Us</a>
+          <a href="https://wa.me/919884770747?text=Hi%20Codfis%20Technologies%2C%20I%20would%20like%20to%20discuss%20a%20software%20project%20or%20training%20enquiry" target="_blank" rel="noopener" class="btn btn-secondary btn-lg" style="border-color: #25D366; color: #25D366;">Chat on WhatsApp 💬</a>
+        </div>
       </div>
     </section>
   </main>
 
-  <!-- PART 36 — FOOTER -->
+  <!-- 7. COMPACT FOOTER -->
   <footer class="footer">
     <div class="container footer-grid">
       <div class="footer-col">
-        <a href="index.html" class="brand-logo" style="margin-bottom: 1rem;">
+        <a href="index.html" class="brand-logo" style="margin-bottom: 0.75rem;">
           <img src="images/Codfis-logo-latest.png" alt="Codfis Technologies">
         </a>
-        <p style="font-size: 0.9rem; line-height: 1.6; margin-bottom: 1.5rem;">
-          Codfis Technologies is a modern engineering consultancy and technology training organization focused on delivering reliable custom software and career-defining technical skills.
+        <p style="font-size: 0.88rem; line-height: 1.5; margin-bottom: 1rem;">
+          Engineering custom software and training modern technology professionals. Headquartered in Chennai, India.
         </p>
         <div style="font-size: 0.85rem; color: var(--text-dim);">
-          Chennai, India • HR@codfis.com • +91 98847 70747
+          <a href="https://wa.me/919884770747" target="_blank" rel="noopener" style="color: var(--accent);">WhatsApp: +91 98847 70747</a> • HR@codfis.com
         </div>
       </div>
 
       <div class="footer-col">
         <h4>Software Development</h4>
         <ul class="footer-links">
-          <li><a href="software-development.html">Web Applications</a></li>
-          <li><a href="software-development.html">Mobile Development</a></li>
           <li><a href="software-development.html">Custom Software</a></li>
-          <li><a href="contact.html?type=project">Start a Project</a></li>
+          <li><a href="software-development.html#services">Web Applications</a></li>
+          <li><a href="software-development.html#services">Workflow Automation</a></li>
+          <li><a href="contact.html?type=project">Project Enquiry</a></li>
         </ul>
       </div>
 
       <div class="footer-col">
         <h4>Software Training</h4>
         <ul class="footer-links">
-          <li><a href="training.html">Playwright Automation</a></li>
-          <li><a href="training.html">Selenium with Java</a></li>
-          <li><a href="training.html">Full Stack Track</a></li>
+          <li><a href="syllabus-playwright.html">Playwright Automation</a></li>
+          <li><a href="syllabus-selenium.html">Selenium with Java</a></li>
+          <li><a href="training-tracks.html">Browse All Tracks</a></li>
           <li><a href="careers.html#trainer-section">Become a Trainer</a></li>
         </ul>
       </div>
@@ -831,55 +625,11 @@
     </div>
 
     <div class="container footer-bottom">
-      <div>© 2026 Codfis Technologies. All rights reserved.</div>
-      <div>Designed for performance, clarity, and visual impact.</div>
+      <div>&copy; 2026 Codfis Technologies. All rights reserved.</div>
+      <div>Software Development &amp; Training &bull; Chennai, India</div>
     </div>
   </footer>
 
   <script src="js/main.js"></script>
-  <script>
-    // Load Dynamic Jobs preview on homepage
-    async function loadHomeJobs() {
-      const loader = document.getElementById('homeJobsLoading');
-      const container = document.getElementById('homeJobsContainer');
-      const empty = document.getElementById('homeJobsEmpty');
-
-      try {
-        const res = await fetch('/api/jobs');
-        const data = await res.json();
-        loader.style.display = 'none';
-
-        if (data.success && data.data.length > 0) {
-          const topJobs = data.data.slice(0, 3);
-          container.innerHTML = topJobs.map(j => `
-            <div class="card" style="display: flex; flex-direction: column; justify-content: space-between;">
-              <div>
-                <div class="badge badge-yellow" style="margin-bottom: 0.75rem;">${escapeHtml(j.department)}</div>
-                <h4>${escapeHtml(j.title)}</h4>
-                <div style="font-size: 0.85rem; color: var(--text-dim); margin: 0.5rem 0 1rem;">
-                  📍 ${escapeHtml(j.location)} • 💼 ${escapeHtml(j.workMode)} • ⏱️ ${escapeHtml(j.experience)}
-                </div>
-                <p style="font-size: 0.88rem; line-height: 1.5;">${escapeHtml(j.description).slice(0, 110)}...</p>
-              </div>
-              <div style="margin-top: 1.5rem;">
-                <a href="careers.html" class="btn btn-outline btn-sm" style="width: 100%;">View Role & Apply →</a>
-              </div>
-            </div>
-          `).join('');
-        } else {
-          empty.style.display = 'block';
-        }
-      } catch (err) {
-        loader.textContent = 'Unable to load positions right now.';
-      }
-    }
-
-    function escapeHtml(str) {
-      if (!str) return '';
-      return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
-    }
-
-    loadHomeJobs();
-  </script>
 </body>
 </html>

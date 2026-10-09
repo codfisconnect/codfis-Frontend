@@ -5,7 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Careers & Trainer Applications — Codfis Technologies</title>
   <meta name="description" content="Explore open software engineering, QA, and mentoring positions at Codfis Technologies or apply to become a Technical Trainer.">
-  <link rel="icon" type="image/png" href="images/codfis-Tittle-logo .png">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="images/apple-touch-icon.png">
   <link rel="stylesheet" href="css/codfis-v2.css">
   <style>
     .page-hero {
@@ -119,6 +122,9 @@
       </nav>
 
       <div class="nav-cta-group">
+        <button id="themeToggleBtn" class="theme-toggle" aria-label="Toggle color theme" title="Toggle theme">
+          <span class="theme-icon">🌙</span>
+        </button>
         <a href="#trainer-section" class="btn btn-secondary btn-sm">Become a Trainer</a>
         <a href="admin.html" class="btn btn-secondary btn-sm">Admin</a>
         <button class="mobile-toggle" aria-label="Toggle navigation">☰</button>
@@ -437,50 +443,50 @@
     </div>
   </div>
 
-  <!-- Footer -->
+  <!-- Compact Footer -->
   <footer class="footer">
-    <div class="container footer-grid">
-      <div class="footer-col">
-        <a href="index.html" class="brand-logo" style="margin-bottom: 1rem;">
+    <div class="container footer-compact-grid">
+      <div class="footer-brand-side">
+        <a href="index.html" class="brand-logo">
           <img src="images/Codfis-logo-latest.png" alt="Codfis Technologies">
         </a>
-        <p style="font-size: 0.9rem; line-height: 1.6; margin-bottom: 1.5rem;">
-          Codfis Technologies is a modern engineering consultancy and technology training organization.
+        <p class="footer-tagline">
+          Engineering custom software and training modern technology professionals in Chennai, India.
         </p>
       </div>
 
-      <div class="footer-col">
-        <h4>Software Development</h4>
-        <ul class="footer-links">
-          <li><a href="software-development.html">Custom Software</a></li>
-          <li><a href="software-development.html">Mobile Apps</a></li>
-          <li><a href="contact.html?type=project">Start a Project</a></li>
-        </ul>
-      </div>
+      <div class="footer-links-side">
+        <div class="footer-link-group">
+          <h5>Services</h5>
+          <ul>
+            <li><a href="software-development.html">Software Development</a></li>
+            <li><a href="training.html">Software Training</a></li>
+            <li><a href="training-tracks.html">Browse Tracks</a></li>
+          </ul>
+        </div>
 
-      <div class="footer-col">
-        <h4>Software Training</h4>
-        <ul class="footer-links">
-          <li><a href="training.html">Testing Tracks</a></li>
-          <li><a href="training.html">Full Stack Tracks</a></li>
-          <li><a href="#trainer-section">Become a Trainer</a></li>
-        </ul>
-      </div>
+        <div class="footer-link-group">
+          <h5>Company</h5>
+          <ul>
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="careers.html">Careers</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </div>
 
-      <div class="footer-col">
-        <h4>Company</h4>
-        <ul class="footer-links">
-          <li><a href="about.html">About Us</a></li>
-          <li><a href="careers.html">Careers</a></li>
-          <li><a href="contact.html">Contact</a></li>
-          <li><a href="admin.html">Admin</a></li>
-        </ul>
+        <div class="footer-link-group">
+          <h5>Direct Contact</h5>
+          <ul>
+            <li><a href="https://wa.me/919884770747" target="_blank" rel="noopener" class="text-accent">WhatsApp: +91 98847 70747</a></li>
+            <li><a href="mailto:HR@codfis.com">HR@codfis.com</a></li>
+          </ul>
+        </div>
       </div>
     </div>
 
     <div class="container footer-bottom">
       <div>© 2026 Codfis Technologies. All rights reserved.</div>
-      <div>Careers & Mentorship Platform</div>
+      <div>Careers & Recruitment Platform</div>
     </div>
   </footer>
 
@@ -519,7 +525,13 @@
         }
       } catch (err) {
         console.error('Error loading jobs:', err);
-        loadingEl.textContent = 'Failed to load jobs. Please try refreshing.';
+        loadingEl.style.display = 'none';
+        emptyEl.style.display = 'block';
+        emptyEl.innerHTML = `
+          <h3>Unable to load current job openings.</h3>
+          <p style="margin: 0.5rem 0 1rem; color: var(--text-muted);">Please check your network connection or try refreshing the job listings.</p>
+          <button onclick="loadJobs()" class="btn btn-primary btn-sm">↻ Retry Loading Jobs</button>
+        `;
       }
     }
 

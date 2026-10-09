@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>All Training Tracks & Syllabi — Codfis Technologies</title>
+  <meta name="description" content="Explore Codfis Technologies software training courses in Chennai. 3-month practical tracks in Playwright Automation, Selenium with Java, and Manual Testing.">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="images/apple-touch-icon.png">
+  <link rel="stylesheet" href="css/codfis-v2.css">
+  <style>
+    .page-hero {
+      padding: 4.5rem 0 3rem;
+      border-bottom: 1px solid var(--border);
+      background: radial-gradient(circle at 20% 20%, rgba(245, 196, 0, 0.05) 0%, transparent 60%);
+    }
+    .catalog-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 2rem;
+    }
+    .course-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: var(--transition);
+    }
+    .course-card:hover {
+      border-color: rgba(245, 196, 0, 0.4);
+      transform: translateY(-3px);
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+    }
+    .course-visual {
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      margin-bottom: 1.5rem;
+      border: 1px solid var(--border);
+      background: #000;
+      height: 180px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .course-visual img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .course-meta-tags {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      margin: 1rem 0;
+    }
+    .course-tag {
+      background: rgba(245, 196, 0, 0.1);
+      color: var(--accent);
+      border: 1px solid rgba(245, 196, 0, 0.25);
+      font-size: 0.78rem;
+      padding: 0.25rem 0.6rem;
+      border-radius: 4px;
+      font-weight: 600;
+    }
+    .course-info-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      margin-bottom: 1.5rem;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="container nav-container">
+      <a href="index.html" class="brand-logo">
+        <img src="images/Codfis-logo-latest.png" alt="Codfis Technologies">
+      </a>
+
+      <nav class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="software-development.html">Software Development</a>
+        <a href="training.html">Training</a>
+        <a href="careers.html">Careers</a>
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+
+      <div class="nav-cta-group">
+        <button id="themeToggleBtn" class="theme-toggle" aria-label="Toggle color theme" title="Toggle theme">
+          <span class="theme-icon">🌙</span>
+        </button>
+        <a href="contact.html?type=training" class="btn btn-primary btn-sm">Enquire Training</a>
+        <button class="mobile-toggle" aria-label="Toggle navigation">☰</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Drawer -->
+  <div class="mobile-drawer">
+    <a href="index.html">Home</a>
+    <a href="software-development.html">Software Development</a>
+    <a href="training.html">Training</a>
+    <a href="training-tracks.html" class="active">Browse Tracks</a>
+    <a href="careers.html">Careers</a>
+    <a href="about.html">About</a>
+    <a href="contact.html">Contact</a>
+    <a href="contact.html?type=training" class="btn btn-primary" style="margin-top: 1rem;">Enquire Training</a>
+    <a href="admin.html" class="btn btn-secondary">Admin Login</a>
+  </div>
+
+  <main>
+    <!-- PAGE HERO -->
+    <section class="page-hero">
+      <div class="container" style="max-width: 860px;">
+        <div class="section-tag">Curriculum Catalog</div>
+        <h1>Practical Software Training Tracks</h1>
+        <p style="font-size: 1.15rem; margin-top: 1.25rem; line-height: 1.6; color: var(--text-muted);">
+          Each track is structured as a comprehensive 3-month program with daily 1-hour live sessions (Mon–Sat) taught by working developers in Chennai.
+        </p>
+      </div>
+    </section>
+
+    <!-- CATALOG GRID -->
+    <section class="section">
+      <div class="container">
+        <div class="catalog-grid">
+
+          <!-- COURSE 1: Playwright -->
+          <div class="course-card">
+            <div>
+              <div class="course-visual">
+                <img src="images/training/playwright-course.svg" alt="Playwright Automation">
+              </div>
+              <div class="badge badge-yellow">Modern Automation</div>
+              <h3 style="margin-top: 0.75rem;">Automation Testing with Playwright</h3>
+              <p style="font-size: 0.92rem; color: var(--text-muted); margin-top: 0.5rem;">
+                End-to-end web testing with Microsoft Playwright, TypeScript/JavaScript, Page Object Models, and CI/CD pipeline automation.
+              </p>
+              <div class="course-meta-tags">
+                <span class="course-tag">Playwright</span>
+                <span class="course-tag">TypeScript</span>
+                <span class="course-tag">API Testing</span>
+                <span class="course-tag">CI/CD</span>
+              </div>
+              <div class="course-info-list">
+                <div>⏱️ <strong>Duration:</strong> 3 Months (1 hr/day, Mon–Sat)</div>
+                <div>🎯 <strong>Prerequisites:</strong> Basic programming interest</div>
+                <div>💼 <strong>Format:</strong> Daily live coding + Framework build</div>
+              </div>
+            </div>
+            <div>
+              <a href="syllabus-playwright.html" class="btn btn-primary" style="width: 100%;">View Full Syllabus & Enquire →</a>
+              <a href="https://wa.me/919884770747?text=Hi%20Codfis,%20I%20would%20like%20to%20enquire%20about%20the%20Playwright%20Automation%20course." target="_blank" rel="noopener" class="btn btn-outline" style="width: 100%; margin-top: 0.6rem;">💬 WhatsApp Enquiry</a>
+            </div>
+          </div>
+
+          <!-- COURSE 2: Selenium WebDriver with Java -->
+          <div class="course-card">
+            <div>
+              <div class="course-visual">
+                <img src="images/training/selenium-course.svg" alt="Selenium with Java">
+              </div>
+              <div class="badge badge-yellow">Enterprise Standard</div>
+              <h3 style="margin-top: 0.75rem;">Selenium WebDriver with Java</h3>
+              <p style="font-size: 0.92rem; color: var(--text-muted); margin-top: 0.5rem;">
+                Industry standard automation track. Core Java, OOP architecture, Selenium 4, TestNG, Maven, and Data-Driven frameworks.
+              </p>
+              <div class="course-meta-tags">
+                <span class="course-tag">Core Java</span>
+                <span class="course-tag">Selenium 4</span>
+                <span class="course-tag">TestNG</span>
+                <span class="course-tag">Maven</span>
+              </div>
+              <div class="course-info-list">
+                <div>⏱️ <strong>Duration:</strong> 3 Months (1 hr/day, Mon–Sat)</div>
+                <div>🎯 <strong>Prerequisites:</strong> Basic logic fundamentals</div>
+                <div>💼 <strong>Format:</strong> Daily live coding + Real framework</div>
+              </div>
+            </div>
+            <div>
+              <a href="syllabus-selenium.html" class="btn btn-primary" style="width: 100%;">View Full Syllabus & Enquire →</a>
+              <a href="https://wa.me/919884770747?text=Hi%20Codfis,%20I%20would%20like%20to%20enquire%20about%20the%20Selenium%20Java%20course." target="_blank" rel="noopener" class="btn btn-outline" style="width: 100%; margin-top: 0.6rem;">💬 WhatsApp Enquiry</a>
+            </div>
+          </div>
+
+          <!-- COURSE 3: Manual Testing -->
+          <div class="course-card">
+            <div>
+              <div class="course-visual">
+                <img src="images/training/manual-testing.svg" alt="Manual Software Testing">
+              </div>
+              <div class="badge badge-yellow">QA Foundation</div>
+              <h3 style="margin-top: 0.75rem;">Manual Software Testing & QA</h3>
+              <p style="font-size: 0.92rem; color: var(--text-muted); margin-top: 0.5rem;">
+                Foundations of software quality: SDLC/STLC, test case design, defect lifecycle in Jira, API validation with Postman, and SQL for testers.
+              </p>
+              <div class="course-meta-tags">
+                <span class="course-tag">SDLC / STLC</span>
+                <span class="course-tag">Jira</span>
+                <span class="course-tag">Postman</span>
+                <span class="course-tag">SQL</span>
+              </div>
+              <div class="course-info-list">
+                <div>⏱️ <strong>Duration:</strong> 3 Months (1 hr/day, Mon–Sat)</div>
+                <div>🎯 <strong>Prerequisites:</strong> No prior coding required</div>
+                <div>💼 <strong>Format:</strong> Real test artifacts + Mock audits</div>
+              </div>
+            </div>
+            <div>
+              <a href="syllabus-manual-testing.html" class="btn btn-primary" style="width: 100%;">View Full Syllabus & Enquire →</a>
+              <a href="https://wa.me/919884770747?text=Hi%20Codfis,%20I%20would%20like%20to%20enquire%20about%20the%20Manual%20Testing%20course." target="_blank" rel="noopener" class="btn btn-outline" style="width: 100%; margin-top: 0.6rem;">💬 WhatsApp Enquiry</a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Compact Footer -->
+  <footer class="footer">
+    <div class="container footer-compact-grid">
+      <div class="footer-brand-side">
+        <a href="index.html" class="brand-logo">
+          <img src="images/Codfis-logo-latest.png" alt="Codfis Technologies">
+        </a>
+        <p class="footer-tagline">
+          Engineering custom software and training modern technology professionals in Chennai, India.
+        </p>
+      </div>
+
+      <div class="footer-links-side">
+        <div class="footer-link-group">
+          <h5>Services</h5>
+          <ul>
+            <li><a href="software-development.html">Software Development</a></li>
+            <li><a href="training.html">Software Training</a></li>
+            <li><a href="training-tracks.html">Browse Tracks</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-link-group">
+          <h5>Company</h5>
+          <ul>
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="careers.html">Careers</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-link-group">
+          <h5>Direct Contact</h5>
+          <ul>
+            <li><a href="https://wa.me/919884770747" target="_blank" rel="noopener" class="text-accent">WhatsApp: +91 98847 70747</a></li>
+            <li><a href="mailto:HR@codfis.com">HR@codfis.com</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="container footer-bottom">
+      <div>© 2026 Codfis Technologies. All rights reserved.</div>
+      <div>Software Development & Training</div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

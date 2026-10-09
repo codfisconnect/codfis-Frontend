@@ -1,8 +1,36 @@
-/**
- * Codfis Technologies V2 - Shared Carousel, Stepper & Animation Controller
- */
+// 0. Theme Controller (Immediate execution to prevent FOUC)
+(function initTheme() {
+  const savedTheme = localStorage.getItem('codfis-theme');
+  const systemPrefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+  const initialTheme = savedTheme ? savedTheme : (systemPrefersDark ? 'dark' : 'dark'); // Default dark
+  document.documentElement.setAttribute('data-theme', initialTheme);
+})();
 
 document.addEventListener('DOMContentLoaded', () => {
+  // Theme Toggle Setup
+  const themeToggleButtons = document.querySelectorAll('.theme-toggle');
+  
+  function updateThemeIcons(theme) {
+    themeToggleButtons.forEach(btn => {
+      btn.innerHTML = theme === 'light' ? '🌙' : '☀️';
+      btn.setAttribute('aria-label', theme === 'light' ? 'Switch to dark theme' : 'Switch to light theme');
+      btn.setAttribute('title', theme === 'light' ? 'Switch to dark theme' : 'Switch to light theme');
+    });
+  }
+
+  const currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
+  updateThemeIcons(currentTheme);
+
+  themeToggleButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const activeTheme = document.documentElement.getAttribute('data-theme') || 'dark';
+      const newTheme = activeTheme === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', newTheme);
+      localStorage.setItem('codfis-theme', newTheme);
+      updateThemeIcons(newTheme);
+    });
+  });
+
   // 1. Mobile Drawer Toggle with Body Scroll Lock & Auto Close
   const toggleBtn = document.querySelector('.mobile-toggle');
   const drawer = document.querySelector('.mobile-drawer');
@@ -216,21 +244,105 @@ document.addEventListener('DOMContentLoaded', () => {
 
   initAllCarousels();
 
-  // 5. Interactive Process Stepper (01 -> 07)
-  const stepperTrack = document.querySelector('.process-track');
-  const stepperFill = document.querySelector('.process-line-fill');
-  const nodeCards = document.querySelectorAll('.process-node-card');
+  // 6. Reusable Vertical Slider Controller
+  function initVerticalSliders() {
+    const sliderContainers = document.querySelectorAll('.vertical-slider-container');
 
-  if (stepperTrack && nodeCards.length > 0) {
-    nodeCards.forEach((card, index) => {
-      card.addEventListener('click', () => {
-        nodeCards.forEach(c => c.classList.remove('active'));
-        card.classList.add('active');
-        if (stepperFill) {
-          const pct = ((index + 1) / nodeCards.length) * 100;
-          stepperFill.style.width = `${pct}%`;
+    sliderContainers.forEach(container => {
+      const slides = container.querySelectorAll('.v-slide');
+      const prevBtn = container.querySelector('.v-slider-btn.prev');
+      const nextBtn = container.querySelector('.v-slider-btn.next');
+      const indicatorsContainer = container.querySelector('.v-slider-indicators');
+      let currentIndex = 0;
+
+      if (!slides.length) return;
+
+      // Create indicator dots dynamically if indicators container exists
+      if (indicatorsContainer) {
+        indicatorsContainer.innerHTML = '';
+        slides.forEach((_, idx) => {
+          const dot = document.createElement('button');
+          dot.className = `v-indicator-dot ${idx === 0 ? 'active' : ''}`;
+          dot.setAttribute('aria-label', `Go to slide ${idx + 1}`);
+          dot.addEventListener('click', () => goToSlide(idx));
+          indicatorsContainer.appendChild(dot);
+        });
+      }
+
+      function goToSlide(index) {
+        if (index < 0) index = slides.length - 1;
+        if (index >= slides.length) index = 0;
+
+        slides.forEach((slide, idx) => {
+          if (idx === index) {
+            slide.classList.add('active');
+          } else {
+            slide.classList.remove('active');
+          }
+        });
+
+        if (indicatorsContainer) {
+          const dots = indicatorsContainer.querySelectorAll('.v-indicator-dot');
+          dots.forEach((dot, idx) => {
+            if (idx === index) {
+              dot.classList.add('active');
+            } else {
+              dot.classList.remove('active');
+            }
+          });
+        }
+
+        currentIndex = index;
+      }
+
+      if (prevBtn) {
+        prevBtn.addEventListener('click', (e) => {
+          e.preventDefault();
+          goToSlide(currentIndex - 1);
+        });
+      }
+
+      if (nextBtn) {
+        nextBtn.addEventListener('click', (e) => {
+          e.preventDefault();
+          goToSlide(currentIndex + 1);
+        });
+      }
+
+      // Touch gesture support on mobile
+      let touchStartY = 0;
+      let touchStartX = 0;
+      container.addEventListener('touchstart', (e) => {
+        if (e.touches.length !== 1) return;
+        touchStartY = e.touches[0].pageY;
+        touchStartX = e.touches[0].pageX;
+      }, { passive: true });
+
+      container.addEventListener('touchend', (e) => {
+        if (!e.changedTouches || e.changedTouches.length !== 1) return;
+        const diffY = e.changedTouches[0].pageY - touchStartY;
+        const diffX = e.changedTouches[0].pageX - touchStartX;
+        
+        // Vertical swipe with high confidence
+        if (Math.abs(diffY) > 50 && Math.abs(diffY) > Math.abs(diffX)) {
+          if (diffY < 0) {
+            goToSlide(currentIndex + 1); // Swipe up
+          } else {
+            goToSlide(currentIndex - 1); // Swipe down
+          }
+        }
+      }, { passive: true });
+
+      // Keyboard navigation
+      container.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
+          goToSlide(currentIndex - 1);
+        } else if (e.key === 'ArrowDown' || e.key === 'ArrowRight') {
+          goToSlide(currentIndex + 1);
         }
       });
     });
   }
+
+  initVerticalSliders();
 });

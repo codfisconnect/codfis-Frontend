@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Selenium WebDriver with Java Syllabus — Codfis Technologies</title>
+  <meta name="description" content="Comprehensive 12-Module syllabus for Selenium WebDriver with Java at Codfis Technologies. 3 months, 1 hr/day Mon-Sat.">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="images/apple-touch-icon.png">
+  <link rel="stylesheet" href="css/codfis-v2.css">
+  <style>
+    .page-hero {
+      padding: 4.5rem 0 3rem;
+      border-bottom: 1px solid var(--border);
+      background: radial-gradient(circle at 20% 20%, rgba(245, 196, 0, 0.05) 0%, transparent 60%);
+    }
+    .syllabus-layout {
+      display: grid;
+      grid-template-columns: 1.5fr 1fr;
+      gap: 3rem;
+      align-items: start;
+    }
+    .module-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 1.5rem;
+      margin-bottom: 1rem;
+      transition: var(--transition);
+    }
+    .module-card:hover {
+      border-color: rgba(245, 196, 0, 0.4);
+    }
+    .module-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.5rem;
+    }
+    .module-num {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .sidebar-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 2rem;
+      position: sticky;
+      top: 100px;
+    }
+    .schedule-pill {
+      background: rgba(245, 196, 0, 0.1);
+      border: 1px solid rgba(245, 196, 0, 0.3);
+      padding: 1rem;
+      border-radius: var(--radius-md);
+      margin: 1.25rem 0;
+    }
+    @media (max-width: 900px) {
+      .syllabus-layout {
+        grid-template-columns: 1fr;
+      }
+      .sidebar-card {
+        position: static;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="container nav-container">
+      <a href="index.html" class="brand-logo">
+        <img src="images/Codfis-logo-latest.png" alt="Codfis Technologies">
+      </a>
+
+      <nav class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="software-development.html">Software Development</a>
+        <a href="training.html">Training</a>
+        <a href="careers.html">Careers</a>
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+
+      <div class="nav-cta-group">
+        <button id="themeToggleBtn" class="theme-toggle" aria-label="Toggle color theme" title="Toggle theme">
+          <span class="theme-icon">🌙</span>
+        </button>
+        <a href="training-tracks.html" class="btn btn-secondary btn-sm">All Tracks</a>
+        <button class="mobile-toggle" aria-label="Toggle navigation">☰</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Drawer -->
+  <div class="mobile-drawer">
+    <a href="index.html">Home</a>
+    <a href="software-development.html">Software Development</a>
+    <a href="training.html">Training</a>
+    <a href="training-tracks.html">Browse Tracks</a>
+    <a href="careers.html">Careers</a>
+    <a href="about.html">About</a>
+    <a href="contact.html">Contact</a>
+    <a href="admin.html" class="btn btn-secondary">Admin Login</a>
+  </div>
+
+  <main>
+    <!-- PAGE HERO -->
+    <section class="page-hero">
+      <div class="container" style="max-width: 900px;">
+        <div style="display: flex; gap: 0.5rem; align-items: center; margin-bottom: 0.75rem;">
+          <a href="training-tracks.html" style="color: var(--text-muted); font-size: 0.9rem;">Training Tracks</a>
+          <span style="color: var(--text-dim);">/</span>
+          <span style="color: var(--accent); font-size: 0.9rem;">Selenium WebDriver with Java</span>
+        </div>
+        <h1>Selenium WebDriver with Java</h1>
+        <p style="font-size: 1.15rem; margin-top: 1.25rem; line-height: 1.6; color: var(--text-muted);">
+          The industry standard test automation curriculum. Learn Core Java OOP principles, Selenium 4 architecture, TestNG framework structure, Page Object Model design, and Maven build pipelines.
+        </p>
+      </div>
+    </section>
+
+    <!-- CONTENT & ENQUIRY SIDEBAR -->
+    <section class="section">
+      <div class="container syllabus-layout">
+        
+        <!-- Modules -->
+        <div>
+          <div class="section-tag" style="margin-bottom: 0.5rem;">Curriculum Outline</div>
+          <h2 style="margin-bottom: 1.5rem;">12-Week Module Plan</h2>
+
+          <div class="module-card">
+            <div class="module-header">
+              <span class="module-num">Module 01</span>
+              <span class="badge badge-yellow">Week 1</span>
+            </div>
+            <h4>Software Testing Fundamentals & Manual Concepts</h4>
+            <p style="color: var(--text-muted); font-size: 0.92rem; margin-top: 0.4rem;">
+              Quality assurance principles, verification vs validation, test scenarios, test execution tracking, and where automation provides enterprise ROI.
+            </p>
+          </div>
+
+          <div class="module-card">
+            <div class="module-header">
+              <span class="module-num">Module 02</span>
+              <span class="badge badge-yellow">Week 2</span>
+            </div>
+            <h4>Core Java Fundamentals for Test Automation</h4>
+            <p style="color: var(--text-muted); font-size: 0.92rem; margin-top: 0.4rem;">
+              JVM, JDK setup, IntelliJ/Eclipse, primitive data types, control flow statements, arrays, and writing clean executable methods.
+            </p>
+          </div>
+
+          <div class="module-card">
+            <div class="module-header">
+              <span class="module-num">Module 03</span>
+              <span class="badge badge-yellow">Week 3</span>
+            </div>
+            <h4>OOP Concepts, Collections & Exception Handling</h4>
+            <p style="color: var(--text-muted); font-size: 0.92rem; margin-top: 0.4rem;">
+              Classes, objects, inheritance, polymorphism, encapsulation, abstraction, List/Set/Map collections, and robust try-catch-finally handling.
+            </p>
+          </div>
+
+          <div class="module-card">
+            <div class="module-header">
+              <span class="module-num">Module 04</span>
+              <span class="badge badge-yellow">Week 4</span>
+            </div>
+            <h4>Selenium WebDriver 4 Setup & Locator Mastery</h4>
+            <p style="color: var(--text-muted); font-size: 0.92rem; margin-top: 0.4rem;">
+              WebDriver architecture, browser drivers, driver initialization, XPath syntax (absolute vs relative, axes), and CSS selectors.
+            </p>
+          </div>
+
+          <div class="module-card">
+            <div class="module-header">
+              <span class="module-num">Module 05</span>
+              <span class="badge badge-yellow">Week 5</span>
+            </div>
+            <h4>Web Elements, Synchronization & Explicit Waits</h4>
+            <p style="color: var(--text-muted); font-size: 0.92rem; margin-top: 0.4rem;">
+              Click, sendKeys, clear, getText, implicit waits, WebDriverWait with ExpectedConditions, and FluentWait for asynchronous elements.
+            </p>
+          </div>
+
+          <div class="module-card">
+            <div class="module-header">
+              <span class="module-num">Module 06</span>
+              <span class="badge badge-yellow">Week 6</span>
+            </div>
+            <h4>Alerts, Frames, Windows & JavaScriptExecutor</h4>
+            <p style="color: var(--text-muted); font-size: 0.92rem; margin-top: 0.4rem;">
+              Switching window handles, handling JavaScript alert popups, nested frames, mouse actions with Actions class, and JavaScriptExecutor scrolling.
+            </p>
+          </div>
+
+          <div class="module-card">
+            <div class="module-header">
+              <span class="module-num">Module 07</span>
+              <span class="badge badge-yellow">Week 7</span>
+            </div>
+            <h4>TestNG Testing Framework & Assertions</h4>
+            <p style="color: var(--text-muted); font-size: 0.92rem; margin-top: 0.4rem;">
+              TestNG annotations (@Test, @BeforeMethod, etc.), assertions (Hard vs Soft), grouping, testng.xml suites, and parallel execution.
+            </p>
+          </div>
+
+          <div class="module-card">
+            <div class="module-header">
+              <span class="module-num">Module 08</span>
+              <span class="badge badge-yellow">Week 8</span>
+            </div>
+            <h4>Page Object Model (POM) & PageFactory Design</h4>
+            <p style="color: var(--text-muted); font-size: 0.92rem; margin-top: 0.4rem;">
+              Designing enterprise POM classes, separating locators from test logic, BaseClass patterns, and creating resilient test methods.
+            </p>
+          </div>
+
+          <div class="module-card">
+            <div class="module-header">
+              <span class="module-num">Module 09</span>
+              <span class="badge badge-yellow">Week 9</span>
+            </div>
+            <h4>Data-Driven Testing with Apache POI</h4>
+            <p style="color: var(--text-muted); font-size: 0.92rem; margin-top: 0.4rem;">
+              Reading test parameters from Excel files, Apache POI integration, @DataProvider annotations in TestNG, and properties file configuration.
+            </p>
+          </div>
+
+          <div class="module-card">
+            <div class="module-header">
+              <span class="module-num">Module 10</span>
+              <span class="badge badge-yellow">Week 10</span>
+            </div>
+            <h4>Maven Build Automation & ExtentReports</h4>
+            <p style="color: var(--text-muted); font-size: 0.92rem; margin-top: 0.4rem;">
+              Maven pom.xml dependency management, surefire plugin configuration, automatic screenshot capture on failure, and rich ExtentReports HTML logs.
+            </p>
+          </div>
+
+          <div class="module-card">
+            <div class="module-header">
+              <span class="module-num">Module 11</span>
+              <span class="badge badge-yellow">Week 11</span>
+            </div>
+            <h4>Git Version Control & CI/CD Fundamentals</h4>
+            <p style="color: var(--text-muted); font-size: 0.92rem; margin-top: 0.4rem;">
+              Git commands (clone, branch, commit, push), resolving merge conflicts, and triggering automated headless test runs on GitHub Actions / Jenkins.
+            </p>
+          </div>
+
+          <div class="module-card">
+            <div class="module-header">
+              <span class="module-num">Module 12</span>
+              <span class="badge badge-yellow">Week 12</span>
+            </div>
+            <h4>Framework Implementation & Interview Preparation</h4>
+            <p style="color: var(--text-muted); font-size: 0.92rem; margin-top: 0.4rem;">
+              End-to-end e-commerce automation project, framework structuring review, live code walkthroughs, frequently asked Java automation interview topics.
+            </p>
+          </div>
+        </div>
+
+        <!-- Sticky Sidebar Action -->
+        <div class="sidebar-card">
+          <div class="badge badge-yellow" style="margin-bottom: 0.5rem;">Confirmed Schedule</div>
+          <h3 style="margin-bottom: 0.5rem;">Schedule & Registration</h3>
+          
+          <div class="schedule-pill">
+            <div style="font-weight: 700; color: var(--accent); margin-bottom: 0.25rem;">Standard 3-Month Format</div>
+            <div style="font-size: 0.88rem; color: var(--text-muted); line-height: 1.5;">
+              • <strong>Duration:</strong> 3 Months (approx. 12 weeks)<br>
+              • <strong>Classes:</strong> Monday to Saturday<br>
+              • <strong>Session Length:</strong> 1 Hour per day<br>
+              • <strong>Total Volume:</strong> ~72 hours of live code
+            </div>
+          </div>
+
+          <div style="margin-bottom: 1.5rem;">
+            <a href="https://wa.me/919884770747?text=Hi%20Codfis%20Technologies,%20I%20would%20like%20to%20enquire%20about%20the%20Selenium%20WebDriver%20with%20Java%20course." target="_blank" rel="noopener" class="btn btn-primary" style="width: 100%; text-align: center; display: block; margin-bottom: 0.75rem;">
+              💬 Enquire via WhatsApp
+            </a>
+            <a href="contact.html?type=training" class="btn btn-secondary" style="width: 100%; text-align: center; display: block;">
+              Submit Web Enquiry Form
+            </a>
+          </div>
+
+          <div style="border-top: 1px solid var(--border); padding-top: 1rem; font-size: 0.85rem; color: var(--text-dim);">
+            Direct questions? Call or message our team in Chennai at <strong>+91 98847 70747</strong> or email <strong>HR@codfis.com</strong>.
+          </div>
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  <!-- Compact Footer -->
+  <footer class="footer">
+    <div class="container footer-compact-grid">
+      <div class="footer-brand-side">
+        <a href="index.html" class="brand-logo">
+          <img src="images/Codfis-logo-latest.png" alt="Codfis Technologies">
+        </a>
+        <p class="footer-tagline">
+          Engineering custom software and training modern technology professionals in Chennai, India.
+        </p>
+      </div>
+
+      <div class="footer-links-side">
+        <div class="footer-link-group">
+          <h5>Services</h5>
+          <ul>
+            <li><a href="software-development.html">Software Development</a></li>
+            <li><a href="training.html">Software Training</a></li>
+            <li><a href="training-tracks.html">Browse Tracks</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-link-group">
+          <h5>Company</h5>
+          <ul>
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="careers.html">Careers</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-link-group">
+          <h5>Direct Contact</h5>
+          <ul>
+            <li><a href="https://wa.me/919884770747" target="_blank" rel="noopener" class="text-accent">WhatsApp: +91 98847 70747</a></li>
+            <li><a href="mailto:HR@codfis.com">HR@codfis.com</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="container footer-bottom">
+      <div>© 2026 Codfis Technologies. All rights reserved.</div>
+      <div>Software Development & Training</div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

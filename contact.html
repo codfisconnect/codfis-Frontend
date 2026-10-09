@@ -3,41 +3,72 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Contact & Project Enquiries — Codfis Technologies</title>
-  <meta name="description" content="Get in touch with Codfis Technologies for software development project proposals, technical training consultations, or general enquiries.">
-  <link rel="icon" type="image/png" href="images/codfis-Tittle-logo .png">
+  <title>Contact & Enquiries — Codfis Technologies</title>
+  <meta name="description" content="Contact Codfis Technologies directly on WhatsApp or submit a software project enquiry. Chennai, India.">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="images/apple-touch-icon.png">
   <link rel="stylesheet" href="css/codfis-v2.css">
   <style>
     .page-hero {
-      padding: 5.5rem 0 3.5rem;
+      padding: 4.5rem 0 2.5rem;
       border-bottom: 1px solid var(--border);
     }
-    .form-tabs {
+    .whatsapp-primary-hero {
+      background: linear-gradient(135deg, rgba(37, 211, 102, 0.12) 0%, rgba(245, 196, 0, 0.05) 100%);
+      border: 1px solid rgba(37, 211, 102, 0.35);
+      border-radius: var(--radius-lg);
+      padding: 2.5rem;
+      margin-bottom: 3rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
+    .whatsapp-btn-large {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+      background: #25D366;
+      color: #000;
+      font-weight: 700;
+      font-size: 1.1rem;
+      padding: 1rem 2rem;
+      border-radius: var(--radius-md);
+      transition: var(--transition);
+      box-shadow: 0 4px 14px rgba(37, 211, 102, 0.3);
+    }
+    .whatsapp-btn-large:hover {
+      background: #20BA5A;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(37, 211, 102, 0.4);
+    }
+    .wa-options-pills {
       display: flex;
       gap: 0.75rem;
-      margin-bottom: 2rem;
-      border-bottom: 1px solid var(--border);
-      padding-bottom: 1rem;
+      flex-wrap: wrap;
+      margin-top: 1rem;
     }
-    .tab-btn {
-      background: transparent;
+    .wa-pill {
+      background: var(--surface);
       border: 1px solid var(--border);
-      color: var(--text-muted);
-      padding: 0.7rem 1.4rem;
-      border-radius: var(--radius-sm);
-      cursor: pointer;
-      font-weight: 600;
-      font-size: 0.92rem;
+      color: var(--text);
+      font-size: 0.85rem;
+      padding: 0.45rem 1rem;
+      border-radius: 9999px;
       transition: var(--transition);
+      cursor: pointer;
+      text-decoration: none;
     }
-    .tab-btn.active {
-      background: var(--accent);
-      color: #090909;
-      border-color: var(--accent);
+    .wa-pill:hover {
+      border-color: #25D366;
+      color: #25D366;
     }
     .contact-layout {
       display: grid;
-      grid-template-columns: 1.4fr 0.8fr;
+      grid-template-columns: 1.35fr 0.85fr;
       gap: 3rem;
     }
     .contact-info-card {
@@ -62,6 +93,9 @@
       .contact-layout {
         grid-template-columns: 1fr;
       }
+      .whatsapp-primary-hero {
+        padding: 1.75rem;
+      }
     }
   </style>
 </head>
@@ -84,8 +118,10 @@
       </nav>
 
       <div class="nav-cta-group">
-        <a href="contact.html?type=project" class="btn btn-primary btn-sm">Start a Project</a>
-        <a href="admin.html" class="btn btn-secondary btn-sm">Admin</a>
+        <button id="themeToggleBtn" class="theme-toggle" aria-label="Toggle color theme" title="Toggle theme">
+          <span class="theme-icon">🌙</span>
+        </button>
+        <a href="https://wa.me/919884770747" target="_blank" rel="noopener" class="btn btn-primary btn-sm">💬 WhatsApp</a>
         <button class="mobile-toggle" aria-label="Toggle navigation">☰</button>
       </div>
     </div>
@@ -98,8 +134,8 @@
     <a href="training.html">Training</a>
     <a href="careers.html">Careers</a>
     <a href="about.html">About</a>
-    <a href="contact.html">Contact</a>
-    <a href="contact.html?type=project" class="btn btn-primary" style="margin-top: 1rem;">Start a Project</a>
+    <a href="contact.html" class="active">Contact</a>
+    <a href="https://wa.me/919884770747" target="_blank" rel="noopener" class="btn btn-primary" style="margin-top: 1rem;">💬 Open WhatsApp</a>
     <a href="admin.html" class="btn btn-secondary">Admin Login</a>
   </div>
 
@@ -108,277 +144,233 @@
     <section class="page-hero">
       <div class="container" style="max-width: 860px;">
         <div class="section-tag">Direct Communication</div>
-        <h1>Let's discuss your next milestone.</h1>
-        <p style="font-size: 1.2rem; margin-top: 1.25rem; line-height: 1.6;">
-          Whether you want to build a custom application, enquire about technical training cohorts, or ask a question, our engineering team is here to assist.
+        <h1>Let's discuss your next software milestone.</h1>
+        <p style="font-size: 1.15rem; margin-top: 1.25rem; line-height: 1.6; color: var(--text-muted);">
+          Whether you want to commission custom software, explore test automation cohorts, or enquire about technology mentoring, WhatsApp is the fastest way to reach our engineering team.
         </p>
       </div>
     </section>
 
-    <!-- FORMS SECTION -->
     <section class="section">
-      <div class="container contact-layout">
-        <div>
-          <!-- Tab Navigation -->
-          <div class="form-tabs">
-            <button class="tab-btn active" id="tabProjectBtn" onclick="switchTab('project')">Project Enquiry</button>
-            <button class="tab-btn" id="tabGeneralBtn" onclick="switchTab('general')">General Contact</button>
+      <div class="container">
+
+        <!-- 1. PRIMARY WHATSAPP CONTACT SECTION AT TOP -->
+        <div class="whatsapp-primary-hero">
+          <div style="max-width: 580px;">
+            <div class="badge" style="background: rgba(37, 211, 102, 0.2); color: #25D366; border: 1px solid rgba(37, 211, 102, 0.3); margin-bottom: 0.75rem;">
+              ⚡ Fastest Response
+            </div>
+            <h2 style="font-size: 1.85rem; margin-bottom: 0.5rem;">Let's Talk Directly on WhatsApp</h2>
+            <p style="color: var(--text-muted); font-size: 1rem; line-height: 1.6;">
+              Skip the long forms. Chat directly with the Codfis team regarding custom development, training syllabi, or business collaborations.
+            </p>
+            
+            <div class="wa-options-pills">
+              <a href="https://wa.me/919884770747?text=Hi%20Codfis%20Technologies,%20I%20would%20like%20to%20discuss%20a%20Software%20Development%20project." target="_blank" rel="noopener" class="wa-pill">
+                💻 Software Project Enquiry
+              </a>
+              <a href="https://wa.me/919884770747?text=Hi%20Codfis%20Technologies,%20I%20would%20like%20to%20enquire%20about%20your%20Software%20Training%20programs." target="_blank" rel="noopener" class="wa-pill">
+                🎓 Training &amp; Syllabus Enquiry
+              </a>
+              <a href="https://wa.me/919884770747?text=Hi%20Codfis%20Technologies,%20I%20have%20a%20general%20enquiry." target="_blank" rel="noopener" class="wa-pill">
+                💬 General Enquiry
+              </a>
+            </div>
           </div>
 
-          <!-- PROJECT ENQUIRY FORM -->
-          <div id="projectFormContainer" class="card">
-            <h3 style="margin-bottom: 0.5rem;">Start a Software Project</h3>
-            <p style="font-size: 0.9rem; margin-bottom: 1.5rem;">Tell us about your business goals, required software capabilities, and desired timeline.</p>
-
-            <form id="projectForm">
-              <div id="projectAlert" class="alert"></div>
-
-              <div class="form-grid-2">
-                <div class="form-group">
-                  <label class="form-label">Your Name <span class="required">*</span></label>
-                  <input type="text" name="name" class="form-control" placeholder="Full Name" required>
-                </div>
-
-                <div class="form-group">
-                  <label class="form-label">Company / Organization</label>
-                  <input type="text" name="company" class="form-control" placeholder="e.g. Acme Health">
-                </div>
-              </div>
-
-              <div class="form-grid-2">
-                <div class="form-group">
-                  <label class="form-label">Email Address <span class="required">*</span></label>
-                  <input type="email" name="email" class="form-control" placeholder="work@company.com" required>
-                </div>
-
-                <div class="form-group">
-                  <label class="form-label">Phone Number</label>
-                  <input type="tel" name="phone" class="form-control" placeholder="+91 9876543210">
-                </div>
-              </div>
-
-              <div class="form-grid-2">
-                <div class="form-group">
-                  <label class="form-label">Project Type <span class="required">*</span></label>
-                  <select name="projectType" class="form-select" required>
-                    <option value="Web Application">Custom Web Application</option>
-                    <option value="Mobile App">Mobile App (iOS/Android)</option>
-                    <option value="Workflow Automation">Workflow Automation / Tool</option>
-                    <option value="API & Integrations">API Engineering & Integrations</option>
-                    <option value="QA & Testing Suite">QA & Automated Test Suite</option>
-                    <option value="Legacy Refactoring">Codebase Refactoring & Maintenance</option>
-                  </select>
-                </div>
-
-                <div class="form-group">
-                  <label class="form-label">Budget Range</label>
-                  <select name="budgetRange" class="form-select">
-                    <option value="Flexible / Under Discussion">Flexible / Need Estimation</option>
-                    <option value="₹1,00,000 - ₹3,00,000">₹1,00,000 - ₹3,00,000</option>
-                    <option value="₹3,00,000 - ₹8,00,000">₹3,00,000 - ₹8,00,000</option>
-                    <option value="₹8,00,000+">₹8,00,000+</option>
-                  </select>
-                </div>
-              </div>
-
-              <div class="form-group">
-                <label class="form-label">Target Timeline</label>
-                <input type="text" name="timeline" class="form-control" placeholder="e.g. Immediate, 1-2 months, Q3 Launch">
-              </div>
-
-              <div class="form-group">
-                <label class="form-label">Project Requirements & Scope <span class="required">*</span></label>
-                <textarea name="requirement" class="form-control" rows="4" placeholder="Briefly describe what you are building, the primary users, and key features required..." required></textarea>
-              </div>
-
-              <button type="submit" id="projectSubmitBtn" class="btn btn-primary btn-lg" style="width: 100%;">
-                Submit Project Enquiry
-              </button>
-            </form>
-          </div>
-
-          <!-- GENERAL CONTACT FORM -->
-          <div id="generalFormContainer" class="card" style="display: none;">
-            <h3 style="margin-bottom: 0.5rem;">Send Us a Message</h3>
-            <p style="font-size: 0.9rem; margin-bottom: 1.5rem;">Enquire about training tracks, partnership opportunities, or general questions.</p>
-
-            <form id="contactForm">
-              <div id="contactAlert" class="alert"></div>
-
-              <div class="form-grid-2">
-                <div class="form-group">
-                  <label class="form-label">Your Name <span class="required">*</span></label>
-                  <input type="text" name="name" class="form-control" placeholder="Full Name" required>
-                </div>
-
-                <div class="form-group">
-                  <label class="form-label">Email Address <span class="required">*</span></label>
-                  <input type="email" name="email" class="form-control" placeholder="you@domain.com" required>
-                </div>
-              </div>
-
-              <div class="form-group">
-                <label class="form-label">Phone Number</label>
-                <input type="tel" name="phone" class="form-control" placeholder="+91 9876543210">
-              </div>
-
-              <div class="form-group">
-                <label class="form-label">Your Message <span class="required">*</span></label>
-                <textarea name="message" class="form-control" rows="5" placeholder="How can we assist you?" required></textarea>
-              </div>
-
-              <button type="submit" id="contactSubmitBtn" class="btn btn-primary btn-lg" style="width: 100%;">
-                Send Message
-              </button>
-            </form>
+          <div>
+            <a href="https://wa.me/919884770747?text=Hi%20Codfis%20Technologies,%20I%20would%20like%20to%20discuss%20a%20software%20development%20or%20training%20enquiry." target="_blank" rel="noopener" class="whatsapp-btn-large">
+              <span>💬</span> Chat on WhatsApp Now
+            </a>
           </div>
         </div>
 
-        <!-- Contact Info & Direct Links -->
-        <div>
-          <div class="contact-info-card">
-            <div>
-              <div class="section-tag" style="margin-bottom: 0.5rem;">Office Location</div>
-              <h3>Codfis Technologies</h3>
-              <p style="margin-top: 0.5rem; font-size: 0.92rem;">
-                Royapettah, Chennai, Tamil Nadu, India.
+        <!-- 2. SECONDARY PROJECT ENQUIRY FORM + CONTACT DETAILS -->
+        <div class="contact-layout">
+          <div>
+            <div class="card" style="padding: 2.25rem;">
+              <div class="section-tag" style="margin-bottom: 0.5rem;">Secondary Option</div>
+              <h3 style="margin-bottom: 0.5rem;">Start a Software Project</h3>
+              <p style="font-size: 0.92rem; margin-bottom: 1.5rem; color: var(--text-muted);">
+                Prefer email or structured scope submission? Provide your requirements below and our team will get in touch within 24 hours.
               </p>
-            </div>
 
-            <div class="info-item">
-              <div class="icon">✉️</div>
+              <form id="projectForm">
+                <div id="projectAlert" class="alert" style="display: none;"></div>
+
+                <div class="form-grid-2">
+                  <div class="form-group">
+                    <label class="form-label">Your Name <span class="required">*</span></label>
+                    <input type="text" name="name" class="form-control" placeholder="Full Name" required>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="form-label">Company / Organization</label>
+                    <input type="text" name="company" class="form-control" placeholder="e.g. Acme Tech">
+                  </div>
+                </div>
+
+                <div class="form-grid-2">
+                  <div class="form-group">
+                    <label class="form-label">Email Address <span class="required">*</span></label>
+                    <input type="email" name="email" class="form-control" placeholder="work@company.com" required>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="form-label">Phone Number</label>
+                    <input type="tel" name="phone" class="form-control" placeholder="+91 98847 70747">
+                  </div>
+                </div>
+
+                <div class="form-grid-2">
+                  <div class="form-group">
+                    <label class="form-label">Project Type <span class="required">*</span></label>
+                    <select name="projectType" class="form-select" required>
+                      <option value="Web Application">Custom Web Application</option>
+                      <option value="Workflow Automation">Workflow Automation / Tool</option>
+                      <option value="E-Commerce">E-Commerce & Billing Solutions</option>
+                      <option value="QA & Testing Suite">QA & Automated Test Suite</option>
+                      <option value="Legacy Modernization">Codebase Refactoring & Maintenance</option>
+                    </select>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="form-label">Budget Range</label>
+                    <select name="budgetRange" class="form-select">
+                      <option value="Flexible / Under Discussion">Flexible / Need Estimation</option>
+                      <option value="₹1,00,000 - ₹3,00,000">₹1,00,000 - ₹3,00,000</option>
+                      <option value="₹3,00,000 - ₹8,00,000">₹3,00,000 - ₹8,00,000</option>
+                      <option value="₹8,00,000+">₹8,00,000+</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label">Project Requirements & Scope <span class="required">*</span></label>
+                  <textarea name="requirement" class="form-control" rows="4" placeholder="Briefly describe what you are building, the primary users, and key features required..." required></textarea>
+                </div>
+
+                <button type="submit" id="projectSubmitBtn" class="btn btn-primary btn-lg" style="width: 100%;">
+                  Submit Project Enquiry
+                </button>
+              </form>
+            </div>
+          </div>
+
+          <!-- Contact Info Card -->
+          <div>
+            <div class="contact-info-card">
               <div>
-                <div style="font-weight: 600; font-size: 0.9rem;">Email Us Directly</div>
-                <a href="mailto:HR@codfis.com" class="text-accent" style="font-size: 0.92rem;">HR@codfis.com</a>
+                <div class="section-tag" style="margin-bottom: 0.5rem;">Office Location</div>
+                <h3>Codfis Technologies</h3>
+                <p style="margin-top: 0.5rem; font-size: 0.92rem; color: var(--text-muted);">
+                  Royapettah, Chennai, Tamil Nadu, India.
+                </p>
               </div>
-            </div>
 
-            <div class="info-item">
-              <div class="icon">📞</div>
-              <div>
-                <div style="font-weight: 600; font-size: 0.9rem;">Phone / Call</div>
-                <a href="tel:+919884770747" style="color: var(--text-muted); font-size: 0.92rem;">+91 98847 70747</a>
+              <div class="info-item">
+                <div class="icon">💬</div>
+                <div>
+                  <div style="font-weight: 600; font-size: 0.9rem;">WhatsApp Business</div>
+                  <a href="https://wa.me/919884770747" target="_blank" rel="noopener" class="text-accent" style="font-size: 0.92rem;">+91 98847 70747 (Direct)</a>
+                </div>
               </div>
-            </div>
 
-            <div class="info-item">
-              <div class="icon">💬</div>
-              <div>
-                <div style="font-weight: 600; font-size: 0.9rem;">WhatsApp Direct</div>
-                <a href="https://wa.me/919884770747" target="_blank" rel="noopener" style="color: var(--text-muted); font-size: 0.92rem;">Chat on WhatsApp</a>
+              <div class="info-item">
+                <div class="icon">✉️</div>
+                <div>
+                  <div style="font-weight: 600; font-size: 0.9rem;">Email Address</div>
+                  <a href="mailto:HR@codfis.com" class="text-accent" style="font-size: 0.92rem;">HR@codfis.com</a>
+                </div>
               </div>
-            </div>
 
-            <div style="border-top: 1px solid var(--border); padding-top: 1.5rem;">
-              <h4 style="font-size: 0.9rem; margin-bottom: 0.75rem;">Business Operating Hours</h4>
-              <p style="font-size: 0.85rem; color: var(--text-dim);">
-                Monday – Friday: 9:30 AM – 6:30 PM IST<br>
-                Weekend: Training & Scheduled Deployments
-              </p>
+              <div class="info-item">
+                <div class="icon">📞</div>
+                <div>
+                  <div style="font-weight: 600; font-size: 0.9rem;">Phone / Voice Call</div>
+                  <a href="tel:+919884770747" style="color: var(--text-muted); font-size: 0.92rem;">+91 98847 70747</a>
+                </div>
+              </div>
+
+              <div style="border-top: 1px solid var(--border); padding-top: 1.5rem;">
+                <h4 style="font-size: 0.9rem; margin-bottom: 0.75rem;">Business Operating Hours</h4>
+                <p style="font-size: 0.85rem; color: var(--text-dim); line-height: 1.6;">
+                  Monday – Friday: 9:30 AM – 6:30 PM IST<br>
+                  Saturday: Training Cohorts & Deployments<br>
+                  Sunday: Closed
+                </p>
+              </div>
             </div>
           </div>
         </div>
+
       </div>
     </section>
   </main>
 
-  <!-- Footer -->
+  <!-- Compact Footer -->
   <footer class="footer">
-    <div class="container footer-grid">
-      <div class="footer-col">
-        <a href="index.html" class="brand-logo" style="margin-bottom: 1rem;">
+    <div class="container footer-compact-grid">
+      <div class="footer-brand-side">
+        <a href="index.html" class="brand-logo">
           <img src="images/Codfis-logo-latest.png" alt="Codfis Technologies">
         </a>
-        <p style="font-size: 0.9rem; line-height: 1.6; margin-bottom: 1.5rem;">
-          Engineering custom software and training modern technology professionals.
+        <p class="footer-tagline">
+          Engineering custom software and training modern technology professionals in Chennai, India.
         </p>
       </div>
 
-      <div class="footer-col">
-        <h4>Software Development</h4>
-        <ul class="footer-links">
-          <li><a href="software-development.html">Custom Applications</a></li>
-          <li><a href="software-development.html">Mobile Development</a></li>
-          <li><a href="software-development.html">Process</a></li>
-          <li><a href="contact.html?type=project">Project Enquiry</a></li>
-        </ul>
-      </div>
+      <div class="footer-links-side">
+        <div class="footer-link-group">
+          <h5>Services</h5>
+          <ul>
+            <li><a href="software-development.html">Software Development</a></li>
+            <li><a href="training.html">Software Training</a></li>
+            <li><a href="training-tracks.html">Browse Tracks</a></li>
+          </ul>
+        </div>
 
-      <div class="footer-col">
-        <h4>Software Training</h4>
-        <ul class="footer-links">
-          <li><a href="training.html">Testing Tracks</a></li>
-          <li><a href="training.html">Full Stack Tracks</a></li>
-          <li><a href="careers.html#trainer-section">Become a Trainer</a></li>
-        </ul>
-      </div>
+        <div class="footer-link-group">
+          <h5>Company</h5>
+          <ul>
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="careers.html">Careers</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </div>
 
-      <div class="footer-col">
-        <h4>Company</h4>
-        <ul class="footer-links">
-          <li><a href="about.html">About Codfis</a></li>
-          <li><a href="careers.html">Careers</a></li>
-          <li><a href="contact.html">Contact Us</a></li>
-          <li><a href="admin.html">Admin</a></li>
-        </ul>
+        <div class="footer-link-group">
+          <h5>Direct Contact</h5>
+          <ul>
+            <li><a href="https://wa.me/919884770747" target="_blank" rel="noopener" class="text-accent">WhatsApp: +91 98847 70747</a></li>
+            <li><a href="mailto:HR@codfis.com">HR@codfis.com</a></li>
+          </ul>
+        </div>
       </div>
     </div>
 
     <div class="container footer-bottom">
       <div>© 2026 Codfis Technologies. All rights reserved.</div>
-      <div>Contact & Enquiries</div>
+      <div>Software Development & Training</div>
     </div>
   </footer>
 
   <script src="js/main.js"></script>
   <script>
-    function switchTab(type) {
-      const tabProject = document.getElementById('tabProjectBtn');
-      const tabGeneral = document.getElementById('tabGeneralBtn');
-      const projectContainer = document.getElementById('projectFormContainer');
-      const generalContainer = document.getElementById('generalFormContainer');
-
-      if (type === 'general') {
-        tabGeneral.classList.add('active');
-        tabProject.classList.remove('active');
-        projectContainer.style.display = 'none';
-        generalContainer.style.display = 'block';
-      } else {
-        tabProject.classList.add('active');
-        tabGeneral.classList.remove('active');
-        projectContainer.style.display = 'block';
-        generalContainer.style.display = 'none';
-      }
-    }
-
-    // Auto switch if URL has ?type=general or ?type=training
-    const urlParams = new URLSearchParams(window.location.search);
-    if (urlParams.get('type') === 'general' || urlParams.get('type') === 'training') {
-      switchTab('general');
-    }
-
-    // Project Form Submission
+    // Project Form Submission with error/success handling
     document.getElementById('projectForm').addEventListener('submit', async (e) => {
       e.preventDefault();
       const form = e.target;
       const alertEl = document.getElementById('projectAlert');
-      const btn = document.getElementById('projectSubmitBtn');
+      const submitBtn = document.getElementById('projectSubmitBtn');
 
       alertEl.className = 'alert';
       alertEl.style.display = 'none';
-      btn.disabled = true;
-      btn.textContent = 'Submitting Enquiry...';
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Submitting Project Details...';
 
-      const payload = {
-        name: form.name.value.trim(),
-        company: form.company.value.trim(),
-        email: form.email.value.trim(),
-        phone: form.phone.value.trim(),
-        projectType: form.projectType.value,
-        budgetRange: form.budgetRange.value,
-        timeline: form.timeline.value.trim(),
-        requirement: form.requirement.value.trim()
-      };
+      const formData = new FormData(form);
+      const payload = Object.fromEntries(formData.entries());
 
       try {
         const res = await fetch('/api/project-enquiries', {
@@ -390,7 +382,7 @@
 
         if (data.success) {
           alertEl.className = 'alert alert-success';
-          alertEl.innerHTML = `<strong>Enquiry Submitted!</strong> ${data.message}`;
+          alertEl.innerHTML = `<strong>Enquiry Received!</strong> Reference ID: <code>${data.data.enquiryId}</code>. Our engineering team will review your scope and get in touch within 24 business hours.`;
           alertEl.style.display = 'block';
           form.reset();
         } else {
@@ -398,56 +390,11 @@
         }
       } catch (err) {
         alertEl.className = 'alert alert-error';
-        alertEl.textContent = err.message || 'Submission error.';
+        alertEl.textContent = err.message || 'Error submitting project enquiry. Please reach out via WhatsApp.';
         alertEl.style.display = 'block';
       } finally {
-        btn.disabled = false;
-        btn.textContent = 'Submit Project Enquiry';
-      }
-    });
-
-    // General Contact Form Submission
-    document.getElementById('contactForm').addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const form = e.target;
-      const alertEl = document.getElementById('contactAlert');
-      const btn = document.getElementById('contactSubmitBtn');
-
-      alertEl.className = 'alert';
-      alertEl.style.display = 'none';
-      btn.disabled = true;
-      btn.textContent = 'Sending Message...';
-
-      const payload = {
-        name: form.name.value.trim(),
-        email: form.email.value.trim(),
-        phone: form.phone.value.trim(),
-        message: form.message.value.trim()
-      };
-
-      try {
-        const res = await fetch('/api/contact', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload)
-        });
-        const data = await res.json();
-
-        if (data.success) {
-          alertEl.className = 'alert alert-success';
-          alertEl.innerHTML = `<strong>Message Sent!</strong> ${data.message}`;
-          alertEl.style.display = 'block';
-          form.reset();
-        } else {
-          throw new Error(data.error || 'Failed to send message');
-        }
-      } catch (err) {
-        alertEl.className = 'alert alert-error';
-        alertEl.textContent = err.message || 'Submission error.';
-        alertEl.style.display = 'block';
-      } finally {
-        btn.disabled = false;
-        btn.textContent = 'Send Message';
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Submit Project Enquiry';
       }
     });
   </script>

@@ -3,19 +3,22 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Software Development — Codfis Technologies</title>
-  <meta name="description" content="Custom software development, web applications, mobile engineering, and workflow automation tailored for startups, SMEs, and modern enterprises.">
-  <link rel="icon" type="image/png" href="images/codfis-Tittle-logo .png">
+  <title>Software Development Services — Codfis Technologies</title>
+  <meta name="description" content="Explore custom software development services by Codfis Technologies: Web applications, automation tools, APIs, and modern cloud architectures.">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="images/apple-touch-icon.png">
   <link rel="stylesheet" href="css/codfis-v2.css">
   <style>
     .page-hero {
-      padding: 5.5rem 0 3.5rem;
+      padding: 4.5rem 0 3rem;
       border-bottom: 1px solid var(--border);
-      background: radial-gradient(circle at 80% 20%, rgba(245, 158, 11, 0.05) 0%, transparent 60%);
+      background: radial-gradient(circle at 80% 20%, rgba(245, 196, 0, 0.05) 0%, transparent 60%);
     }
     .tech-stack-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
       gap: 1.5rem;
     }
     .tech-group {
@@ -74,8 +77,10 @@
       </nav>
 
       <div class="nav-cta-group">
+        <button id="themeToggleBtn" class="theme-toggle" aria-label="Toggle color theme" title="Toggle theme">
+          <span class="theme-icon">🌙</span>
+        </button>
         <a href="contact.html?type=project" class="btn btn-primary btn-sm">Start a Project</a>
-        <a href="admin.html" class="btn btn-secondary btn-sm">Admin</a>
         <button class="mobile-toggle" aria-label="Toggle navigation">☰</button>
       </div>
     </div>
@@ -84,7 +89,7 @@
   <!-- Mobile Drawer -->
   <div class="mobile-drawer">
     <a href="index.html">Home</a>
-    <a href="software-development.html">Software Development</a>
+    <a href="software-development.html" class="active">Software Development</a>
     <a href="training.html">Training</a>
     <a href="careers.html">Careers</a>
     <a href="about.html">About</a>
@@ -99,94 +104,193 @@
       <div class="container" style="max-width: 860px;">
         <div class="section-tag">Software Development</div>
         <h1>Engineered for resilience, performance, and business scale.</h1>
-        <p style="font-size: 1.2rem; margin-top: 1.25rem; line-height: 1.6;">
-          We build custom software systems for startups, growing businesses, and organizations needing robust web applications, internal tools, and reliable automation.
+        <p style="font-size: 1.15rem; margin-top: 1.25rem; line-height: 1.6; color: var(--text-muted);">
+          We engineer custom software systems for startups and businesses needing reliable web applications, internal operational tools, and automated data workflows.
         </p>
         <div style="margin-top: 2rem; display: flex; gap: 1rem; flex-wrap: wrap;">
           <a href="contact.html?type=project" class="btn btn-primary btn-lg">Request Project Consultation</a>
-          <a href="#capabilities" class="btn btn-secondary btn-lg">Explore Capabilities</a>
+          <a href="#service-experience" class="btn btn-secondary btn-lg">Explore Services Below ↓</a>
         </div>
       </div>
     </section>
 
-    <!-- WHAT CODFIS BUILDS -->
-    <section class="section" id="capabilities">
+    <!-- VERTICAL SERVICE SLIDER EXPERIENCE -->
+    <section class="section" id="service-experience" style="padding-top: 3rem;">
       <div class="container">
         <div class="section-head">
-          <div class="section-tag">Capabilities</div>
-          <h2>What Codfis Builds</h2>
-          <p>Practical engineering solutions tailored to real organizational challenges.</p>
+          <div class="section-tag">Interactive Showcase</div>
+          <h2>Our Core Engineering Offerings</h2>
+          <p>Explore our sequence of specialized development solutions.</p>
         </div>
 
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.75rem;">
-          <div class="card">
-            <div class="card-icon">💻</div>
-            <h3>Custom Web Applications</h3>
-            <p style="margin-top: 0.75rem;">
-              Responsive client portals, administrative dashboards, and data-driven SaaS applications engineered with fast response times and clean modular code.
-            </p>
+        <div class="vertical-slider-container" id="devSlider">
+          <div class="v-slider-wrapper">
+            
+            <!-- SLIDE 1: Custom Software -->
+            <div class="v-slide" data-slide-index="0">
+              <div class="v-slide-grid">
+                <div class="v-slide-content">
+                  <div class="v-slide-num">01 / 05</div>
+                  <div class="badge badge-yellow" style="margin-bottom: 0.75rem;">Core Architecture</div>
+                  <h3 class="v-slide-title">Custom Software Engineering</h3>
+                  <p class="v-slide-desc">
+                    Bespoke web portals, internal management platforms, and multi-tenant architectures engineered with high reliability, strict data isolation, and clean modular code.
+                  </p>
+                  <ul class="v-slide-deliverables">
+                    <li>Modular system architecture tailored to business rules</li>
+                    <li>Role-based access control and secure authentication</li>
+                    <li>Optimized SQL database schemas and caching layers</li>
+                    <li>Complete source code ownership and technical handover</li>
+                  </ul>
+                  <div class="v-slide-cta">
+                    <a href="contact.html?type=project" class="btn btn-primary">Discuss a Custom Project →</a>
+                  </div>
+                </div>
+                <div class="v-slide-visual">
+                  <img src="images/development/custom-software.svg" alt="Custom Software Engineering Diagram" loading="lazy">
+                </div>
+              </div>
+            </div>
+
+            <!-- SLIDE 2: Web Applications -->
+            <div class="v-slide" data-slide-index="1">
+              <div class="v-slide-grid">
+                <div class="v-slide-content">
+                  <div class="v-slide-num">02 / 05</div>
+                  <div class="badge badge-yellow" style="margin-bottom: 0.75rem;">Frontend & Full-Stack</div>
+                  <h3 class="v-slide-title">Modern Web Application Development</h3>
+                  <p class="v-slide-desc">
+                    Fast, responsive client-facing web applications designed with modern component architectures, mobile-first layouts, and real-time interactive dashboards.
+                  </p>
+                  <ul class="v-slide-deliverables">
+                    <li>Dynamic Single Page & Server-Rendered interfaces</li>
+                    <li>Sub-second API responses and optimistic UI updates</li>
+                    <li>Cross-browser compatibility & automated test coverage</li>
+                    <li>Accessible controls matching WCAG AA contrast standards</li>
+                  </ul>
+                  <div class="v-slide-cta">
+                    <a href="contact.html?type=project" class="btn btn-primary">Start a Web Application →</a>
+                  </div>
+                </div>
+                <div class="v-slide-visual">
+                  <img src="images/development/web-apps.svg" alt="Web Application Development Diagram" loading="lazy">
+                </div>
+              </div>
+            </div>
+
+            <!-- SLIDE 3: E-Commerce -->
+            <div class="v-slide" data-slide-index="2">
+              <div class="v-slide-grid">
+                <div class="v-slide-content">
+                  <div class="v-slide-num">03 / 05</div>
+                  <div class="badge badge-yellow" style="margin-bottom: 0.75rem;">Commerce & Transactions</div>
+                  <h3 class="v-slide-title">E-Commerce & Billing Solutions</h3>
+                  <p class="v-slide-desc">
+                    Secure transaction engines, inventory synchronization systems, and payment gateway integrations built for seamless order management and compliance.
+                  </p>
+                  <ul class="v-slide-deliverables">
+                    <li>Seamless payment gateway integration (Stripe, Razorpay, UPI)</li>
+                    <li>Automated invoice generation and tax calculation</li>
+                    <li>Real-time cart recovery, stock tracking, and discounts</li>
+                    <li>PCI-DSS compliant payment handshakes and webhooks</li>
+                  </ul>
+                  <div class="v-slide-cta">
+                    <a href="contact.html?type=project" class="btn btn-primary">Build an E-Commerce Platform →</a>
+                  </div>
+                </div>
+                <div class="v-slide-visual">
+                  <img src="images/development/ecommerce.svg" alt="E-Commerce Architecture Diagram" loading="lazy">
+                </div>
+              </div>
+            </div>
+
+            <!-- SLIDE 4: Workflow Automation -->
+            <div class="v-slide" data-slide-index="3">
+              <div class="v-slide-grid">
+                <div class="v-slide-content">
+                  <div class="v-slide-num">04 / 05</div>
+                  <div class="badge badge-yellow" style="margin-bottom: 0.75rem;">Operations & Scale</div>
+                  <h3 class="v-slide-title">Business Workflow Automation</h3>
+                  <p class="v-slide-desc">
+                    Eliminate repetitive manual data entry, streamline multi-step internal approvals, and link fragmented third-party tools into a cohesive automated pipeline.
+                  </p>
+                  <ul class="v-slide-deliverables">
+                    <li>Automated email, SMS, and WhatsApp transaction triggers</li>
+                    <li>Custom API integrations with CRM, ERP, and accounting tools</li>
+                    <li>Scheduled cron workers, queue workers, and audit trails</li>
+                    <li>Drastic reduction in human operational errors and processing time</li>
+                  </ul>
+                  <div class="v-slide-cta">
+                    <a href="contact.html?type=project" class="btn btn-primary">Automate Your Operations →</a>
+                  </div>
+                </div>
+                <div class="v-slide-visual">
+                  <img src="images/development/automation.svg" alt="Workflow Automation Pipeline Diagram" loading="lazy">
+                </div>
+              </div>
+            </div>
+
+            <!-- SLIDE 5: Modernization -->
+            <div class="v-slide" data-slide-index="4">
+              <div class="v-slide-grid">
+                <div class="v-slide-content">
+                  <div class="v-slide-num">05 / 05</div>
+                  <div class="badge badge-yellow" style="margin-bottom: 0.75rem;">Stability & Maintenance</div>
+                  <h3 class="v-slide-title">Application Modernization & Maintenance</h3>
+                  <p class="v-slide-desc">
+                    Upgrade legacy codebases, eliminate security vulnerabilities, optimize slow database queries, and establish automated deployment pipelines.
+                  </p>
+                  <ul class="v-slide-deliverables">
+                    <li>Deep technical debt audit and security vulnerability scan</li>
+                    <li>Incremental refactoring without breaking live operations</li>
+                    <li>Implementation of automated regression test suites</li>
+                    <li>Ongoing monitoring, backups, and critical patching</li>
+                  </ul>
+                  <div class="v-slide-cta">
+                    <a href="contact.html?type=project" class="btn btn-primary">Modernize Your Codebase →</a>
+                  </div>
+                </div>
+                <div class="v-slide-visual">
+                  <img src="images/development/modernization.svg" alt="Codebase Modernization Diagram" loading="lazy">
+                </div>
+              </div>
+            </div>
+
           </div>
 
-          <div class="card">
-            <div class="card-icon">📱</div>
-            <h3>Mobile & Cross-Platform Apps</h3>
-            <p style="margin-top: 0.75rem;">
-              Performant mobile solutions utilizing modern frameworks to deliver native-feel experiences across iOS and Android with unified backend APIs.
-            </p>
-          </div>
-
-          <div class="card">
-            <div class="card-icon">⚡</div>
-            <h3>Business Workflow Automation</h3>
-            <p style="margin-top: 0.75rem;">
-              Eliminate repetitive manual data entry, streamline multi-step internal approvals, and link fragmented third-party tools into a cohesive workflow.
-            </p>
-          </div>
-
-          <div class="card">
-            <div class="card-icon">🔌</div>
-            <h3>API Engineering & Integrations</h3>
-            <p style="margin-top: 0.75rem;">
-              Architecting secure, documented RESTful services and webhooks connecting accounting tools, ERPs, SMS/email gateways, and payment providers.
-            </p>
-          </div>
-
-          <div class="card">
-            <div class="card-icon">🧠</div>
-            <h3>AI & Smart Tooling</h3>
-            <p style="margin-top: 0.75rem;">
-              Pragmatic AI integrations including document parsing, customer query triage, and automated reporting systems built to enhance operational productivity.
-            </p>
-          </div>
-
-          <div class="card">
-            <div class="card-icon">🛠️</div>
-            <h3>Maintenance & Continuous Support</h3>
-            <p style="margin-top: 0.75rem;">
-              Dedicated engineering support, automated test coverage, performance optimizations, database maintenance, and regular security patching.
-            </p>
+          <!-- Slider Navigation Bar -->
+          <div class="v-slider-nav">
+            <button class="v-slider-btn v-btn-prev" aria-label="Previous service slide">↑ Previous</button>
+            <div class="v-slider-indicators">
+              <button class="v-indicator-dot active" data-index="0" aria-label="Slide 1"></button>
+              <button class="v-indicator-dot" data-index="1" aria-label="Slide 2"></button>
+              <button class="v-indicator-dot" data-index="2" aria-label="Slide 3"></button>
+              <button class="v-indicator-dot" data-index="3" aria-label="Slide 4"></button>
+              <button class="v-indicator-dot" data-index="4" aria-label="Slide 5"></button>
+            </div>
+            <button class="v-slider-btn v-btn-next" aria-label="Next service slide">Next ↓</button>
           </div>
         </div>
       </div>
     </section>
 
     <!-- TECHNOLOGY STACK -->
-    <section class="section" style="background: #0d0d0d; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);">
+    <section class="section" style="background: var(--surface); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);">
       <div class="container">
         <div class="section-head">
           <div class="section-tag">Tech Stack</div>
-          <h2>Modern, Proven Technologies</h2>
-          <p>We choose stable, battle-tested technologies with strong ecosystems rather than chasing transient hype.</p>
+          <h2>Stable, Proven Technologies</h2>
+          <p>We choose reliable, battle-tested technologies with mature ecosystems.</p>
         </div>
 
         <div class="tech-stack-grid">
           <div class="tech-group">
             <h4>Frontend</h4>
             <ul>
-              <li>• React & Next.js</li>
-              <li>• Vanilla HTML5 / Modern CSS</li>
-              <li>• TypeScript / JavaScript</li>
-              <li>• Tailwind / Custom Design Systems</li>
+              <li>• Modern JavaScript & TypeScript</li>
+              <li>• Vanilla HTML5 / Responsive CSS</li>
+              <li>• React & Next.js Components</li>
+              <li>• Mobile-First Accessible Design</li>
             </ul>
           </div>
 
@@ -194,9 +298,9 @@
             <h4>Backend & APIs</h4>
             <ul>
               <li>• Node.js & Express</li>
-              <li>• Python / FastAPI</li>
-              <li>• RESTful & GraphQL Architectures</li>
-              <li>• Microservices & Serverless</li>
+              <li>• RESTful API Architecture</li>
+              <li>• Python / FastAPI Services</li>
+              <li>• Webhooks & Background Workers</li>
             </ul>
           </div>
 
@@ -204,99 +308,20 @@
             <h4>Databases & Storage</h4>
             <ul>
               <li>• PostgreSQL & MySQL</li>
-              <li>• SQLite (Lightweight/Embedded)</li>
-              <li>• MongoDB & Redis</li>
-              <li>• Object & S3 Cloud Storage</li>
+              <li>• SQLite (Embedded & Fast)</li>
+              <li>• Redis Caching Layers</li>
+              <li>• Encrypted File Storage</li>
             </ul>
           </div>
 
           <div class="tech-group">
-            <h4>QA & DevOps</h4>
+            <h4>QA & Deployment</h4>
             <ul>
-              <li>• Playwright & Selenium</li>
-              <li>• Docker & Containerization</li>
-              <li>• GitHub Actions & CI/CD</li>
-              <li>• AWS, DigitalOcean & Linux VPS</li>
+              <li>• Playwright & Selenium Testing</li>
+              <li>• Automated CI/CD Pipelines</li>
+              <li>• Linux Server Hardening</li>
+              <li>• Continuous Monitoring & Backups</li>
             </ul>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- DEVELOPMENT PROCESS -->
-    <section class="section" id="process">
-      <div class="container">
-        <div class="section-head">
-          <div class="section-tag">Methodology</div>
-          <h2>Our Development Process</h2>
-          <p>Predictable delivery with transparent communication at every stage.</p>
-        </div>
-
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem;">
-          <div class="card">
-            <div style="font-family: var(--font-heading); font-size: 1.5rem; color: var(--accent); margin-bottom: 0.5rem;">Phase 1</div>
-            <h4>Discovery & Requirements</h4>
-            <p style="font-size: 0.92rem; margin-top: 0.5rem;">We dive deep into your workflow requirements, technical constraints, and define concrete success metrics.</p>
-          </div>
-
-          <div class="card">
-            <div style="font-family: var(--font-heading); font-size: 1.5rem; color: var(--accent); margin-bottom: 0.5rem;">Phase 2</div>
-            <h4>Architecture & Wireframing</h4>
-            <p style="font-size: 0.92rem; margin-top: 0.5rem;">We define database schemas, interface layouts, and security models before writing production code.</p>
-          </div>
-
-          <div class="card">
-            <div style="font-family: var(--font-heading); font-size: 1.5rem; color: var(--accent); margin-bottom: 0.5rem;">Phase 3</div>
-            <h4>Sprint Execution & Demos</h4>
-            <p style="font-size: 0.92rem; margin-top: 0.5rem;">Bi-weekly iterative delivery with accessible staging environments so you see real working software constantly.</p>
-          </div>
-
-          <div class="card">
-            <div style="font-family: var(--font-heading); font-size: 1.5rem; color: var(--accent); margin-bottom: 0.5rem;">Phase 4</div>
-            <h4>Testing & Quality Gate</h4>
-            <p style="font-size: 0.92rem; margin-top: 0.5rem;">Comprehensive automated regression testing, mobile responsiveness audits, and security vulnerability review.</p>
-          </div>
-
-          <div class="card">
-            <div style="font-family: var(--font-heading); font-size: 1.5rem; color: var(--accent); margin-bottom: 0.5rem;">Phase 5</div>
-            <h4>Deployment & Handover</h4>
-            <p style="font-size: 0.92rem; margin-top: 0.5rem;">Smooth production launch, domain configuration, automated backups, and complete source code documentation.</p>
-          </div>
-
-          <div class="card">
-            <div style="font-family: var(--font-heading); font-size: 1.5rem; color: var(--accent); margin-bottom: 0.5rem;">Phase 6</div>
-            <h4>Long-Term Maintenance</h4>
-            <p style="font-size: 0.92rem; margin-top: 0.5rem;">Ongoing feature expansions, dependency updates, uptime monitoring, and engineering on-call support.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- WHY WORK WITH US -->
-    <section class="section" style="background: #0d0d0d; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);">
-      <div class="container">
-        <div class="section-head">
-          <div class="section-tag">Value Proposition</div>
-          <h2>Why Partner With Codfis</h2>
-          <p>Engineering discipline focused entirely on tangible business outcomes.</p>
-        </div>
-
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.5rem;">
-          <div class="card">
-            <h4>No Vendor Lock-In</h4>
-            <p style="margin-top: 0.5rem; font-size: 0.9rem;">You own 100% of the intellectual property, source repositories, documentation, and database schemas.</p>
-          </div>
-          <div class="card">
-            <h4>Direct Engineering Access</h4>
-            <p style="margin-top: 0.5rem; font-size: 0.9rem;">You communicate directly with the developers building your software, not layers of non-technical liaisons.</p>
-          </div>
-          <div class="card">
-            <h4>Quality First Mindset</h4>
-            <p style="margin-top: 0.5rem; font-size: 0.9rem;">Because test automation is a core pillar of our company, rigorous QA is built into every project from day one.</p>
-          </div>
-          <div class="card">
-            <h4>Transparent Pricing</h4>
-            <p style="margin-top: 0.5rem; font-size: 0.9rem;">Clear scope agreements and milestone-based payments with no hidden ongoing charges.</p>
           </div>
         </div>
       </div>
@@ -306,81 +331,73 @@
     <section class="section">
       <div class="container">
         <div class="section-head">
-          <div class="section-tag">Frequently Asked Questions</div>
-          <h2>Common Questions</h2>
-          <p>Everything you need to know about starting an engineering project with Codfis.</p>
+          <div class="section-tag">FAQ</div>
+          <h2>Frequently Asked Questions</h2>
+          <p>Clear answers to common questions about starting a project with Codfis.</p>
         </div>
 
         <div class="faq-list">
           <div class="faq-item">
             <h4>What is the typical timeline for custom software projects?</h4>
-            <p>Timelines depend on scope. Small tools and MVPs typically take 3 to 6 weeks, while larger enterprise management systems usually take between 2 to 4 months with continuous staging deployments.</p>
-          </div>
-
-          <div class="faq-item">
-            <h4>How do you handle project requirements that change mid-way?</h4>
-            <p>We work in agile sprints. If business requirements evolve, we adjust the backlog in subsequent sprints so priorities remain aligned with your business goals.</p>
-          </div>
-
-          <div class="faq-item">
-            <h4>Can you take over and refactor an existing codebase?</h4>
-            <p>Yes. We begin with a code audit to assess architecture, dependencies, security vulnerabilities, and code health, then formulate a pragmatic refactoring or upgrade plan.</p>
+            <p>Timelines depend on scope. Small tools and MVPs typically take 3 to 6 weeks, while larger management systems usually take between 2 to 4 months with continuous staging deployments.</p>
           </div>
 
           <div class="faq-item">
             <h4>Who owns the source code upon project completion?</h4>
-            <p>You own all rights, source code, repositories, and assets upon project completion. We provide a full handover including setup guides and environment documentation.</p>
+            <p>You own 100% of the intellectual property, repositories, database schemas, and documentation upon project handover. We do not lock you in.</p>
+          </div>
+
+          <div class="faq-item">
+            <h4>Can you take over and refactor an existing codebase?</h4>
+            <p>Yes. We begin with a code audit to assess architecture, dependencies, security vulnerabilities, and code health, then formulate a pragmatic refactoring plan.</p>
           </div>
         </div>
 
-        <div style="text-align: center; margin-top: 3.5rem;">
+        <div style="text-align: center; margin-top: 3rem;">
           <a href="contact.html?type=project" class="btn btn-primary btn-lg">Have a Project in Mind? Let's Talk</a>
         </div>
       </div>
     </section>
   </main>
 
-  <!-- Footer -->
+  <!-- Compact Footer -->
   <footer class="footer">
-    <div class="container footer-grid">
-      <div class="footer-col">
-        <a href="index.html" class="brand-logo" style="margin-bottom: 1rem;">
+    <div class="container footer-compact-grid">
+      <div class="footer-brand-side">
+        <a href="index.html" class="brand-logo">
           <img src="images/Codfis-logo-latest.png" alt="Codfis Technologies">
         </a>
-        <p style="font-size: 0.9rem; line-height: 1.6; margin-bottom: 1.5rem;">
-          Codfis Technologies is a modern engineering consultancy delivering custom software solutions and practical technology training.
+        <p class="footer-tagline">
+          Engineering custom software and training modern technology professionals in Chennai, India.
         </p>
       </div>
 
-      <div class="footer-col">
-        <h4>Software Development</h4>
-        <ul class="footer-links">
-          <li><a href="#capabilities">Web Applications</a></li>
-          <li><a href="#capabilities">Mobile Solutions</a></li>
-          <li><a href="#capabilities">Workflow Automation</a></li>
-          <li><a href="#process">Development Process</a></li>
-          <li><a href="contact.html?type=project">Start a Project</a></li>
-        </ul>
-      </div>
+      <div class="footer-links-side">
+        <div class="footer-link-group">
+          <h5>Services</h5>
+          <ul>
+            <li><a href="software-development.html">Software Development</a></li>
+            <li><a href="training.html">Software Training</a></li>
+            <li><a href="training-tracks.html">Browse Tracks</a></li>
+          </ul>
+        </div>
 
-      <div class="footer-col">
-        <h4>Software Training</h4>
-        <ul class="footer-links">
-          <li><a href="training.html">Testing Programs</a></li>
-          <li><a href="training.html">Full Stack Tracks</a></li>
-          <li><a href="training.html">Data Analytics</a></li>
-          <li><a href="careers.html#trainer-section">Trainer Applications</a></li>
-        </ul>
-      </div>
+        <div class="footer-link-group">
+          <h5>Company</h5>
+          <ul>
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="careers.html">Careers</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </div>
 
-      <div class="footer-col">
-        <h4>Quick Links</h4>
-        <ul class="footer-links">
-          <li><a href="about.html">About Codfis</a></li>
-          <li><a href="careers.html">Careers</a></li>
-          <li><a href="contact.html">Contact Us</a></li>
-          <li><a href="admin.html">Admin</a></li>
-        </ul>
+        <div class="footer-link-group">
+          <h5>Direct Contact</h5>
+          <ul>
+            <li><a href="https://wa.me/919884770747" target="_blank" rel="noopener" class="text-accent">WhatsApp: +91 98847 70747</a></li>
+            <li><a href="mailto:HR@codfis.com">HR@codfis.com</a></li>
+          </ul>
+        </div>
       </div>
     </div>
 

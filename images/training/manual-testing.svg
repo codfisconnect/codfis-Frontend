@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 240" fill="none">
+  <rect width="400" height="240" rx="16" fill="#121212"/>
+  <rect x="2" y="2" width="396" height="236" rx="14" stroke="#F5C400" stroke-opacity="0.3" stroke-width="2"/>
+  
+  <!-- QA Matrix Board -->
+  <rect x="24" y="24" width="352" height="192" rx="10" fill="#18181B" stroke="#27272A"/>
+  
+  <!-- Header bar -->
+  <rect x="24" y="24" width="352" height="28" rx="10" fill="#242424"/>
+  <circle cx="44" cy="38" r="4" fill="#EF4444"/>
+  <circle cx="58" cy="38" r="4" fill="#F59E0B"/>
+  <circle cx="72" cy="38" r="4" fill="#10B981"/>
+  <text x="96" y="42" fill="#A1A1AA" font-family="sans-serif" font-weight="600" font-size="9">Test Execution & Bug Lifecycle Board</text>
+
+  <!-- Test Plan / Case columns -->
+  <rect x="36" y="62" width="100" height="140" rx="6" fill="#202024" stroke="#2E2E33"/>
+  <text x="46" y="80" fill="#F5C400" font-family="sans-serif" font-weight="700" font-size="9">TEST DESIGN</text>
+  <rect x="44" y="90" width="84" height="26" rx="4" fill="#121214"/>
+  <text x="50" y="106" fill="#E4E4E7" font-family="sans-serif" font-size="8">TC-101 Login Auth</text>
+  <rect x="44" y="122" width="84" height="26" rx="4" fill="#121214"/>
+  <text x="50" y="138" fill="#E4E4E7" font-family="sans-serif" font-size="8">TC-102 Cart Checkout</text>
+
+  <rect x="146" y="62" width="100" height="140" rx="6" fill="#202024" stroke="#2E2E33"/>
+  <text x="156" y="80" fill="#10B981" font-family="sans-serif" font-weight="700" font-size="9">EXECUTION</text>
+  <rect x="154" y="90" width="84" height="26" rx="4" fill="#0E2E1E" stroke="#10B981" stroke-width="0.5"/>
+  <text x="160" y="106" fill="#6EE7B7" font-family="sans-serif" font-size="8">PASS (Smoke)</text>
+  <rect x="154" y="122" width="84" height="26" rx="4" fill="#0E2E1E" stroke="#10B981" stroke-width="0.5"/>
+  <text x="160" y="138" fill="#6EE7B7" font-family="sans-serif" font-size="8">PASS (Regression)</text>
+
+  <rect x="256" y="62" width="108" height="140" rx="6" fill="#202024" stroke="#2E2E33"/>
+  <text x="266" y="80" fill="#F59E0B" font-family="sans-serif" font-weight="700" font-size="9">JIRA / DEFECTS</text>
+  <rect x="264" y="90" width="92" height="42" rx="4" fill="#2A1A08" stroke="#F59E0B" stroke-width="0.5"/>
+  <text x="270" y="106" fill="#FCD34D" font-family="sans-serif" font-size="8">BUG-402 Priority: High</text>
+  <text x="270" y="122" fill="#D4D4D8" font-family="sans-serif" font-size="7">Boundary condition check</text>
+</svg>

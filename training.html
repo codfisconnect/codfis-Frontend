@@ -3,67 +3,18 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Software Training — Codfis Technologies</title>
-  <meta name="description" content="Intensive software training programs designed by working engineers. Master Playwright, Selenium, Java, Full Stack Development, and Data Analytics.">
-  <link rel="icon" type="image/png" href="images/codfis-Tittle-logo .png">
+  <title>Software Training Programs — Codfis Technologies</title>
+  <meta name="description" content="Intensive software training programs designed by working engineers. Master Playwright, Selenium, Java, and Software Testing fundamentals.">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="images/apple-touch-icon.png">
   <link rel="stylesheet" href="css/codfis-v2.css">
   <style>
     .page-hero {
-      padding: 5.5rem 0 3.5rem;
+      padding: 4.5rem 0 3rem;
       border-bottom: 1px solid var(--border);
-      background: radial-gradient(circle at 20% 20%, rgba(245, 158, 11, 0.05) 0%, transparent 60%);
-    }
-    .track-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-      gap: 2rem;
-    }
-    .track-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
-      padding: 2rem;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      transition: var(--transition);
-    }
-    .track-card:hover {
-      border-color: rgba(245, 158, 11, 0.4);
-      transform: translateY(-2px);
-    }
-    .track-topics {
-      margin: 1.25rem 0;
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-      font-size: 0.9rem;
-      color: var(--text-muted);
-    }
-    .track-meta {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding-top: 1.25rem;
-      border-top: 1px solid var(--border);
-      font-size: 0.85rem;
-      color: var(--text-dim);
-    }
-    .corporate-box {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
-      padding: 3rem;
-      display: grid;
-      grid-template-columns: 1.5fr 1fr;
-      gap: 2.5rem;
-      align-items: center;
-    }
-    @media (max-width: 800px) {
-      .corporate-box {
-        grid-template-columns: 1fr;
-        padding: 2rem;
-      }
+      background: radial-gradient(circle at 20% 20%, rgba(245, 196, 0, 0.05) 0%, transparent 60%);
     }
   </style>
 </head>
@@ -86,8 +37,10 @@
       </nav>
 
       <div class="nav-cta-group">
-        <a href="contact.html?type=training" class="btn btn-primary btn-sm">Enquire Training</a>
-        <a href="admin.html" class="btn btn-secondary btn-sm">Admin</a>
+        <button id="themeToggleBtn" class="theme-toggle" aria-label="Toggle color theme" title="Toggle theme">
+          <span class="theme-icon">🌙</span>
+        </button>
+        <a href="training-tracks.html" class="btn btn-primary btn-sm">Browse Tracks</a>
         <button class="mobile-toggle" aria-label="Toggle navigation">☰</button>
       </div>
     </div>
@@ -97,11 +50,12 @@
   <div class="mobile-drawer">
     <a href="index.html">Home</a>
     <a href="software-development.html">Software Development</a>
-    <a href="training.html">Training</a>
+    <a href="training.html" class="active">Training</a>
+    <a href="training-tracks.html">Browse Tracks</a>
     <a href="careers.html">Careers</a>
     <a href="about.html">About</a>
     <a href="contact.html">Contact</a>
-    <a href="contact.html?type=training" class="btn btn-primary" style="margin-top: 1rem;">Enquire Training</a>
+    <a href="training-tracks.html" class="btn btn-primary" style="margin-top: 1rem;">Browse All Tracks</a>
     <a href="admin.html" class="btn btn-secondary">Admin Login</a>
   </div>
 
@@ -111,250 +65,238 @@
       <div class="container" style="max-width: 860px;">
         <div class="section-tag">Software Training</div>
         <h1>Learn technology from the engineers who build it daily.</h1>
-        <p style="font-size: 1.2rem; margin-top: 1.25rem; line-height: 1.6;">
-          Our technical training curricula are developed and taught by seasoned developers and test architects. No generic slides or memorization — only real code, live debugging, and enterprise-grade workflows.
+        <p style="font-size: 1.15rem; margin-top: 1.25rem; line-height: 1.6; color: var(--text-muted);">
+          Our technical training tracks are designed and taught by working developers and test automation engineers in Chennai. Real code, live debugging, and enterprise-grade testing workflows.
         </p>
         <div style="margin-top: 2rem; display: flex; gap: 1rem; flex-wrap: wrap;">
-          <a href="#tracks" class="btn btn-primary btn-lg">Browse Tracks</a>
-          <a href="careers.html#trainer-section" class="btn btn-secondary btn-lg">Become a Trainer</a>
+          <a href="training-tracks.html" class="btn btn-primary btn-lg">Browse Tracks →</a>
+          <a href="https://wa.me/919884770747?text=Hi%20Codfis,%20I%20would%20like%20to%20enquire%20about%20your%20software%20training%20programs." target="_blank" rel="noopener" class="btn btn-secondary btn-lg">💬 WhatsApp Enquiry</a>
         </div>
       </div>
     </section>
 
-    <!-- CORE LEARNING PHILOSOPHY -->
-    <section class="section">
+    <!-- VERTICAL COURSE SLIDER -->
+    <section class="section" id="course-slider-section">
       <div class="container">
         <div class="section-head">
-          <div class="section-tag">Pedagogy</div>
-          <h2>Our Learning Approach</h2>
-          <p>Structured to take learners from core fundamentals to job-ready engineering proficiency.</p>
-        </div>
-
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.5rem;">
-          <div class="card">
-            <div class="card-icon">💻</div>
-            <h4>Code from Day One</h4>
-            <p style="font-size: 0.92rem; margin-top: 0.5rem;">Every session emphasizes hands-on coding exercises and live troubleshooting rather than passive video lectures.</p>
-          </div>
-          <div class="card">
-            <div class="card-icon">🏗️</div>
-            <h4>Real Enterprise Projects</h4>
-            <p style="font-size: 0.92rem; margin-top: 0.5rem;">Work on modular, real-world applications featuring realistic edge cases, Git collaboration, and automated pipelines.</p>
-          </div>
-          <div class="card">
-            <div class="card-icon">👨‍🏫</div>
-            <h4>Active Industry Mentors</h4>
-            <p style="font-size: 0.92rem; margin-top: 0.5rem;">Get continuous feedback from active engineers who review your pull requests and share architectural best practices.</p>
-          </div>
-          <div class="card">
-            <div class="card-icon">🎯</div>
-            <h4>Interview & Profile Ready</h4>
-            <p style="font-size: 0.92rem; margin-top: 0.5rem;">Sharpen your technical interviewing skills, GitHub portfolio presentation, and problem-solving explanation abilities.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- TRAINING TRACKS -->
-    <section class="section" id="tracks" style="background: #0d0d0d; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);">
-      <div class="container">
-        <div class="section-head">
-          <div class="section-tag">Curriculum</div>
+          <div class="section-tag">Core Specializations</div>
           <h2>Featured Training Tracks</h2>
-          <p>Intensive specialized tracks tailored for freshers, engineers switching domains, and teams.</p>
+          <p>Explore our intensive 3-month courses with dedicated syllabi.</p>
         </div>
 
-        <div class="track-grid">
-          <!-- TRACK 1 -->
-          <div class="track-card">
-            <div>
-              <div class="badge badge-yellow" style="margin-bottom: 0.75rem;">Specialization</div>
-              <h3>Automation Testing with Playwright</h3>
-              <p style="margin-top: 0.75rem; font-size: 0.92rem;">
-                Master modern end-to-end web testing with Microsoft Playwright. Learn how to write lightning-fast, resilient browser tests with auto-waiting and network interception.
-              </p>
-              <div class="track-topics">
-                <div>✔ Playwright Test Runner & Selectors</div>
-                <div>✔ Page Object Model (POM) Design</div>
-                <div>✔ API Mocking & Network Interception</div>
-                <div>✔ Headless Parallel Execution & CI/CD</div>
+        <div class="vertical-slider-container" id="trainingSlider">
+          <div class="v-slider-wrapper">
+
+            <!-- TRACK 1: Playwright -->
+            <div class="v-slide" data-slide-index="0">
+              <div class="v-slide-grid">
+                <div class="v-slide-content">
+                  <div class="v-slide-num">Track 01</div>
+                  <div class="badge badge-yellow" style="margin-bottom: 0.75rem;">Test Automation</div>
+                  <h3 class="v-slide-title">Automation Testing with Playwright</h3>
+                  <p class="v-slide-desc">
+                    Master modern end-to-end browser automation with Microsoft Playwright and JavaScript/TypeScript. Build lightning-fast, flaky-free test suites with auto-waiting and network interception.
+                  </p>
+                  <ul class="v-slide-deliverables">
+                    <li><strong>Duration:</strong> 3 Months (1 Hour/Day, Mon–Sat)</li>
+                    <li><strong>Tech Covered:</strong> Playwright, TypeScript, POM, CI/CD, Git</li>
+                    <li><strong>Target Audience:</strong> QA Engineers, Freshers & Manual Testers</li>
+                    <li><strong>Outcomes:</strong> Production-grade automation framework in your GitHub</li>
+                  </ul>
+                  <div class="v-slide-cta">
+                    <a href="syllabus-playwright.html" class="btn btn-primary">View Complete Syllabus →</a>
+                    <a href="https://wa.me/919884770747?text=Hi%20Codfis,%20I%20am%20interested%20in%20the%20Playwright%20Automation%20Course." target="_blank" rel="noopener" class="btn btn-outline">WhatsApp Enquiry</a>
+                  </div>
+                </div>
+                <div class="v-slide-visual">
+                  <img src="images/training/playwright-course.svg" alt="Playwright Automation Course Diagram" loading="lazy">
+                </div>
               </div>
             </div>
-            <div>
-              <div class="track-meta">
-                <span>Duration: 8 Weeks</span>
-                <span>Mode: Live Online / Weekend</span>
+
+            <!-- TRACK 2: Selenium WebDriver with Java -->
+            <div class="v-slide" data-slide-index="1">
+              <div class="v-slide-grid">
+                <div class="v-slide-content">
+                  <div class="v-slide-num">Track 02</div>
+                  <div class="badge badge-yellow" style="margin-bottom: 0.75rem;">Enterprise Testing</div>
+                  <h3 class="v-slide-title">Selenium WebDriver with Java</h3>
+                  <p class="v-slide-desc">
+                    The enterprise standard test automation track. Master Core Java OOP concepts, Selenium WebDriver 4, TestNG execution, Maven dependency management, and robust Page Object Model frameworks.
+                  </p>
+                  <ul class="v-slide-deliverables">
+                    <li><strong>Duration:</strong> 3 Months (1 Hour/Day, Mon–Sat)</li>
+                    <li><strong>Tech Covered:</strong> Java, Selenium 4, TestNG, Maven, Git</li>
+                    <li><strong>Target Audience:</strong> Software Engineers & Quality Analysts</li>
+                    <li><strong>Outcomes:</strong> Enterprise test framework with ExtentReports and CI integration</li>
+                  </ul>
+                  <div class="v-slide-cta">
+                    <a href="syllabus-selenium.html" class="btn btn-primary">View Complete Syllabus →</a>
+                    <a href="https://wa.me/919884770747?text=Hi%20Codfis,%20I%20am%20interested%20in%20the%20Selenium%20Java%20Course." target="_blank" rel="noopener" class="btn btn-outline">WhatsApp Enquiry</a>
+                  </div>
+                </div>
+                <div class="v-slide-visual">
+                  <img src="images/training/selenium-course.svg" alt="Selenium WebDriver with Java Course Diagram" loading="lazy">
+                </div>
               </div>
-              <a href="contact.html?type=training" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">Enquire for Syllabus</a>
             </div>
+
+            <!-- TRACK 3: Manual Testing -->
+            <div class="v-slide" data-slide-index="2">
+              <div class="v-slide-grid">
+                <div class="v-slide-content">
+                  <div class="v-slide-num">Track 03</div>
+                  <div class="badge badge-yellow" style="margin-bottom: 0.75rem;">Foundational QA</div>
+                  <h3 class="v-slide-title">Manual Software Testing & QA Fundamentals</h3>
+                  <p class="v-slide-desc">
+                    Thorough grounding in SDLC, STLC, test plan documentation, boundary value analysis, Jira bug tracking lifecycle, and API testing using Postman.
+                  </p>
+                  <ul class="v-slide-deliverables">
+                    <li><strong>Duration:</strong> 3 Months (1 Hour/Day, Mon–Sat)</li>
+                    <li><strong>Tech Covered:</strong> Test Design, Jira, Postman, SQL, Agile Scrum</li>
+                    <li><strong>Target Audience:</strong> Career Starters & QA Aspirants</li>
+                    <li><strong>Outcomes:</strong> Real test artifacts, bug reports, and interview readiness</li>
+                  </ul>
+                  <div class="v-slide-cta">
+                    <a href="syllabus-manual-testing.html" class="btn btn-primary">View Complete Syllabus →</a>
+                    <a href="https://wa.me/919884770747?text=Hi%20Codfis,%20I%20am%20interested%20in%20the%20Manual%20Testing%20Course." target="_blank" rel="noopener" class="btn btn-outline">WhatsApp Enquiry</a>
+                  </div>
+                </div>
+                <div class="v-slide-visual">
+                  <img src="images/training/manual-testing.svg" alt="Manual Software Testing Diagram" loading="lazy">
+                </div>
+              </div>
+            </div>
+
           </div>
 
-          <!-- TRACK 2 -->
-          <div class="track-card">
-            <div>
-              <div class="badge badge-yellow" style="margin-bottom: 0.75rem;">Enterprise Standard</div>
-              <h3>Selenium WebDriver with Java</h3>
-              <p style="margin-top: 0.75rem; font-size: 0.92rem;">
-                The industry standard enterprise test automation track. Build robust, maintainable test frameworks using core Java, TestNG, Maven, and Cucumber BDD.
-              </p>
-              <div class="track-topics">
-                <div>✔ Core Java for Automation Engineers</div>
-                <div>✔ Selenium WebDriver 4 Architecture</div>
-                <div>✔ TestNG, Data Providers & Reporting</div>
-                <div>✔ Cucumber BDD & Jenkins Integration</div>
-              </div>
+          <!-- Slider Navigation Bar -->
+          <div class="v-slider-nav">
+            <button class="v-slider-btn v-btn-prev" aria-label="Previous course slide">↑ Previous Track</button>
+            <div class="v-slider-indicators">
+              <button class="v-indicator-dot active" data-index="0" aria-label="Track 1"></button>
+              <button class="v-indicator-dot" data-index="1" aria-label="Track 2"></button>
+              <button class="v-indicator-dot" data-index="2" aria-label="Track 3"></button>
             </div>
-            <div>
-              <div class="track-meta">
-                <span>Duration: 10 Weeks</span>
-                <span>Mode: Live Online / Classroom</span>
-              </div>
-              <a href="contact.html?type=training" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">Enquire for Syllabus</a>
-            </div>
-          </div>
-
-          <!-- TRACK 3 -->
-          <div class="track-card">
-            <div>
-              <div class="badge badge-yellow" style="margin-bottom: 0.75rem;">Software Engineering</div>
-              <h3>Full Stack Web Engineering</h3>
-              <p style="margin-top: 0.75rem; font-size: 0.92rem;">
-                Learn how modern software is built and shipped. Master client-side interfaces, server-side APIs, database modeling, and cloud deployments.
-              </p>
-              <div class="track-topics">
-                <div>✔ Modern JavaScript & TypeScript</div>
-                <div>✔ Frontend Component Engineering (React)</div>
-                <div>✔ Backend REST Services (Node.js/Express)</div>
-                <div>✔ SQL & Relational Database Design</div>
-              </div>
-            </div>
-            <div>
-              <div class="track-meta">
-                <span>Duration: 12 Weeks</span>
-                <span>Mode: Live Online</span>
-              </div>
-              <a href="contact.html?type=training" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">Enquire for Syllabus</a>
-            </div>
-          </div>
-
-          <!-- TRACK 4 -->
-          <div class="track-card">
-            <div>
-              <div class="badge badge-yellow" style="margin-bottom: 0.75rem;">Data & Analytics</div>
-              <h3>Data Analytics & Business Intelligence</h3>
-              <p style="margin-top: 0.75rem; font-size: 0.92rem;">
-                Translate complex raw datasets into actionable executive insights. Master advanced SQL queries, data warehousing concepts, and Power BI dashboards.
-              </p>
-              <div class="track-topics">
-                <div>✔ Advanced SQL Querying & Joins</div>
-                <div>✔ Data Cleaning & Aggregations</div>
-                <div>✔ Interactive Dashboards with Power BI</div>
-                <div>✔ Business Reporting & Presentation</div>
-              </div>
-            </div>
-            <div>
-              <div class="track-meta">
-                <span>Duration: 8 Weeks</span>
-                <span>Mode: Live Online</span>
-              </div>
-              <a href="contact.html?type=training" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">Enquire for Syllabus</a>
-            </div>
+            <button class="v-slider-btn v-btn-next" aria-label="Next course slide">Next Track ↓</button>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- CORPORATE TRAINING -->
-    <section class="section">
+    <!-- VISUAL LEARNING JOURNEY ROADMAP (Replacing generic cards) -->
+    <section class="section" style="background: var(--surface); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);">
       <div class="container">
-        <div class="corporate-box">
-          <div>
-            <div class="section-tag">Corporate Enablement</div>
-            <h2>Upskilling for Engineering Teams</h2>
-            <p style="margin-top: 1rem; line-height: 1.6;">
-              Need to transition your QA team from manual testing to automation? Or level up your backend developers on modern cloud patterns? We create custom training programs aligned with your team's existing technology stack and project deadlines.
-            </p>
+        <div class="section-head">
+          <div class="section-tag">Learning Journey</div>
+          <h2>From Fundamentals to Industry Confidence</h2>
+          <p>Our practical progression pathway designed to build true problem-solving abilities.</p>
+        </div>
+
+        <div class="learning-roadmap">
+          <div class="roadmap-step">
+            <div class="step-marker">1</div>
+            <div class="step-card">
+              <h4>Foundations First</h4>
+              <p>Core programming, browser architecture, and clean testing principles without jargon.</p>
+            </div>
           </div>
-          <div style="text-align: center;">
-            <a href="contact.html?type=corporate" class="btn btn-primary btn-lg" style="width: 100%;">Discuss Team Training</a>
-            <div style="margin-top: 1rem; font-size: 0.85rem; color: var(--text-dim);">Customized cohorts • On-site or remote</div>
+
+          <div class="roadmap-step">
+            <div class="step-marker">2</div>
+            <div class="step-card">
+              <h4>Guided Practice</h4>
+              <p>Daily live coding with the mentor walking through realistic edge cases and common traps.</p>
+            </div>
+          </div>
+
+          <div class="roadmap-step">
+            <div class="step-marker">3</div>
+            <div class="step-card">
+              <h4>Hands-on Exercises</h4>
+              <p>Daily assignments with instant code reviews and pull-request best practices.</p>
+            </div>
+          </div>
+
+          <div class="roadmap-step">
+            <div class="step-marker">4</div>
+            <div class="step-card">
+              <h4>Framework Project</h4>
+              <p>Engineer a complete test automation framework from scratch with reporting and CI/CD.</p>
+            </div>
+          </div>
+
+          <div class="roadmap-step">
+            <div class="step-marker">5</div>
+            <div class="step-card">
+              <h4>Review & Portfolio</h4>
+              <p>GitHub repository polishing, mock technical interviews, and resume structuring.</p>
+            </div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- FAQ -->
-    <section class="section" style="background: #0d0d0d; border-top: 1px solid var(--border);">
-      <div class="container" style="max-width: 800px;">
-        <div class="section-head">
-          <div class="section-tag">FAQ</div>
-          <h2>Training Questions</h2>
-        </div>
-
-        <div style="display: flex; flex-direction: column; gap: 1.25rem;">
-          <div class="card">
-            <h4>Are the sessions recorded if I miss a class?</h4>
-            <p style="margin-top: 0.5rem; font-size: 0.92rem;">Yes. All live interactive sessions are recorded and made available to enrolled participants alongside GitHub code repositories and session notes.</p>
-          </div>
-          <div class="card">
-            <h4>Do I receive a certificate upon completion?</h4>
-            <p style="margin-top: 0.5rem; font-size: 0.92rem;">Yes. Codfis issues a course completion certificate after you successfully submit the capstone practical project and framework implementation.</p>
-          </div>
-          <div class="card">
-            <h4>Can working professionals balance the schedule?</h4>
-            <p style="margin-top: 0.5rem; font-size: 0.92rem;">Our cohorts feature flexible weekend and evening batches specifically organized for working engineers.</p>
-          </div>
+    <!-- BROWSE TRACKS CTA BANNER -->
+    <section class="section" style="text-align: center;">
+      <div class="container" style="max-width: 720px;">
+        <div class="section-tag">Dedicated Catalog</div>
+        <h2>Explore Every Available Program</h2>
+        <p style="margin-top: 0.75rem; color: var(--text-muted); font-size: 1.05rem;">
+          View our complete catalog of specialized software testing and engineering tracks with detailed module breakdowns.
+        </p>
+        <div style="margin-top: 2rem; display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap;">
+          <a href="training-tracks.html" class="btn btn-primary btn-lg">Browse Tracks Catalog →</a>
+          <a href="contact.html?type=training" class="btn btn-secondary btn-lg">Enquire for Next Batch</a>
         </div>
       </div>
     </section>
   </main>
 
-  <!-- Footer -->
+  <!-- Compact Footer -->
   <footer class="footer">
-    <div class="container footer-grid">
-      <div class="footer-col">
-        <a href="index.html" class="brand-logo" style="margin-bottom: 1rem;">
+    <div class="container footer-compact-grid">
+      <div class="footer-brand-side">
+        <a href="index.html" class="brand-logo">
           <img src="images/Codfis-logo-latest.png" alt="Codfis Technologies">
         </a>
-        <p style="font-size: 0.9rem; line-height: 1.6; margin-bottom: 1.5rem;">
-          Practical, engineering-led technology training designed to give developers genuine real-world confidence.
+        <p class="footer-tagline">
+          Engineering custom software and training modern technology professionals in Chennai, India.
         </p>
       </div>
 
-      <div class="footer-col">
-        <h4>Software Development</h4>
-        <ul class="footer-links">
-          <li><a href="software-development.html">Custom Applications</a></li>
-          <li><a href="software-development.html">Mobile Development</a></li>
-          <li><a href="software-development.html">Workflow Automation</a></li>
-          <li><a href="contact.html?type=project">Start a Project</a></li>
-        </ul>
-      </div>
+      <div class="footer-links-side">
+        <div class="footer-link-group">
+          <h5>Services</h5>
+          <ul>
+            <li><a href="software-development.html">Software Development</a></li>
+            <li><a href="training.html">Software Training</a></li>
+            <li><a href="training-tracks.html">Browse Tracks</a></li>
+          </ul>
+        </div>
 
-      <div class="footer-col">
-        <h4>Software Training</h4>
-        <ul class="footer-links">
-          <li><a href="#tracks">Playwright Automation</a></li>
-          <li><a href="#tracks">Selenium with Java</a></li>
-          <li><a href="#tracks">Full Stack Track</a></li>
-          <li><a href="careers.html#trainer-section">Become a Trainer</a></li>
-        </ul>
-      </div>
+        <div class="footer-link-group">
+          <h5>Company</h5>
+          <ul>
+            <li><a href="about.html">About Us</a></li>
+            <li><a href="careers.html">Careers</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </div>
 
-      <div class="footer-col">
-        <h4>Company</h4>
-        <ul class="footer-links">
-          <li><a href="about.html">About Codfis</a></li>
-          <li><a href="careers.html">Careers</a></li>
-          <li><a href="contact.html">Contact Us</a></li>
-          <li><a href="admin.html">Admin</a></li>
-        </ul>
+        <div class="footer-link-group">
+          <h5>Direct Contact</h5>
+          <ul>
+            <li><a href="https://wa.me/919884770747" target="_blank" rel="noopener" class="text-accent">WhatsApp: +91 98847 70747</a></li>
+            <li><a href="mailto:HR@codfis.com">HR@codfis.com</a></li>
+          </ul>
+        </div>
       </div>
     </div>
 
     <div class="container footer-bottom">
       <div>© 2026 Codfis Technologies. All rights reserved.</div>
-      <div>Technology Training Academy</div>
+      <div>Software Development & Training</div>
     </div>
   </footer>
 
