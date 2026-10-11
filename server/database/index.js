@@ -323,6 +323,17 @@ async function initPgSchema() {
     await run('ALTER TABLE job_applications ADD COLUMN IF NOT EXISTS resumeoriginalname TEXT');
     await run('ALTER TABLE job_applications ADD COLUMN IF NOT EXISTS coverletter TEXT');
     await run('ALTER TABLE job_applications ADD COLUMN IF NOT EXISTS answersjson TEXT');
+    // Cloudinary & Storage metadata columns
+    await run('ALTER TABLE job_applications ADD COLUMN IF NOT EXISTS "resumePublicId" TEXT');
+    await run('ALTER TABLE job_applications ADD COLUMN IF NOT EXISTS "resumeResourceType" VARCHAR(50)');
+    await run('ALTER TABLE job_applications ADD COLUMN IF NOT EXISTS "resumeFileSize" INTEGER');
+    await run('ALTER TABLE job_applications ADD COLUMN IF NOT EXISTS "resumeStorageProvider" VARCHAR(50)');
+    await run('ALTER TABLE job_applications ADD COLUMN IF NOT EXISTS "resumeSecureUrl" TEXT');
+    await run('ALTER TABLE trainer_applications ADD COLUMN IF NOT EXISTS "resumePublicId" TEXT');
+    await run('ALTER TABLE trainer_applications ADD COLUMN IF NOT EXISTS "resumeResourceType" VARCHAR(50)');
+    await run('ALTER TABLE trainer_applications ADD COLUMN IF NOT EXISTS "resumeFileSize" INTEGER');
+    await run('ALTER TABLE trainer_applications ADD COLUMN IF NOT EXISTS "resumeStorageProvider" VARCHAR(50)');
+    await run('ALTER TABLE trainer_applications ADD COLUMN IF NOT EXISTS "resumeSecureUrl" TEXT');
   } catch (e) {
     // ignore if columns already exist or not supported
   }
@@ -553,6 +564,21 @@ async function initSqliteSchema() {
       await run("PRAGMA foreign_keys=on");
       console.log('[Database] Migrated job_applications.resumePath to be nullable.');
     }
+
+    // Ensure Cloudinary metadata columns exist in SQLite
+    const cols = (await query("PRAGMA table_info(job_applications)")).map(c => c.name);
+    if (!cols.includes('resumePublicId')) await run('ALTER TABLE job_applications ADD COLUMN resumePublicId TEXT');
+    if (!cols.includes('resumeResourceType')) await run('ALTER TABLE job_applications ADD COLUMN resumeResourceType TEXT');
+    if (!cols.includes('resumeFileSize')) await run('ALTER TABLE job_applications ADD COLUMN resumeFileSize INTEGER');
+    if (!cols.includes('resumeStorageProvider')) await run('ALTER TABLE job_applications ADD COLUMN resumeStorageProvider TEXT');
+    if (!cols.includes('resumeSecureUrl')) await run('ALTER TABLE job_applications ADD COLUMN resumeSecureUrl TEXT');
+
+    const trnCols = (await query("PRAGMA table_info(trainer_applications)")).map(c => c.name);
+    if (!trnCols.includes('resumePublicId')) await run('ALTER TABLE trainer_applications ADD COLUMN resumePublicId TEXT');
+    if (!trnCols.includes('resumeResourceType')) await run('ALTER TABLE trainer_applications ADD COLUMN resumeResourceType TEXT');
+    if (!trnCols.includes('resumeFileSize')) await run('ALTER TABLE trainer_applications ADD COLUMN resumeFileSize INTEGER');
+    if (!trnCols.includes('resumeStorageProvider')) await run('ALTER TABLE trainer_applications ADD COLUMN resumeStorageProvider TEXT');
+    if (!trnCols.includes('resumeSecureUrl')) await run('ALTER TABLE trainer_applications ADD COLUMN resumeSecureUrl TEXT');
   } catch (err) {
     console.warn('[Database] Resume migration note:', err.message);
   }

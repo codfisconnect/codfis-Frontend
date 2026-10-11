@@ -387,6 +387,28 @@ Once your Render backend is live, configure Vercel to route all dynamic API call
 
 ---
 
+## Cloudinary Resume Storage Configuration ($0/month Plan)
+
+Codfis utilizes Cloudinary's Free Plan (25 monthly credits, including up to 25 GB of storage / 25,000 monthly transformations) to store and manage recruitment resumes securely without requiring a payment card, Cloudflare R2, or a Render persistent disk.
+
+### Required Cloudinary Environment Variables on Render:
+
+| Variable | Description | Example / Note |
+|---|---|---|
+| `CLOUDINARY_CLOUD_NAME` | Cloudinary account Cloud Name | Found in Cloudinary Dashboard Settings |
+| `CLOUDINARY_API_KEY` | Account API Key | Found in Cloudinary Dashboard Access Keys |
+| `CLOUDINARY_API_SECRET` | Account API Secret (Never expose in frontend) | Found in Cloudinary Dashboard Access Keys |
+| `CLOUDINARY_FOLDER` | Designated folder for Codfis resumes | Defaults to `codfis/resumes` |
+
+### Architecture & Security Workflow:
+1. **Candidate Upload**: Candidates select a PDF, DOC, or DOCX resume up to 2 MB (2,097,152 bytes).
+2. **Server-Side Validation**: Multer processes files strictly in-memory (`memoryStorage`). Upload middleware verifies the exact file size boundary and inspects binary magic bytes (`%PDF-`, OLE Compound File header for `.doc`, and ZIP signature `PK\x03\x04` for `.docx`).
+3. **Cloudinary Upload**: Stored as `resource_type: 'raw'` under `codfis/resumes` using upload streams. The returned Cloudinary metadata (`publicId`, `resourceType`, `bytes`, `storageProvider`) is saved to Neon PostgreSQL in `job_applications` or `trainer_applications`.
+4. **Orphan Cleanup**: If a database error occurs after a file is uploaded to Cloudinary, the backend automatically triggers `storageService.deleteFile(publicId)` to clean up the orphaned asset.
+5. **Private Admin Download**: Resumes are never exposed via permanent public URLs. Authorized administrators with a valid JWT call `GET /api/admin/resumes/:id/download`, which validates their admin role and streams the file securely from Cloudinary.
+
+---
+
 ## Troubleshooting
 
 ### Port Already in Use
@@ -436,12 +458,13 @@ npm start
 
 ## Version History
 
-**Current Version**: 1.0.0  
-**Last Updated**: August 25, 2026  
-**Framework**: Vanilla HTML/CSS/JavaScript + Express.js + SQLite
+**Current Version**: 2.1.0  
+**Last Updated**: October 2026  
+**Stack**: Render Free Web Service (Node.js/Express) + Neon PostgreSQL Free + Cloudinary Free + Vercel Free Frontend
 
 ---
 
 ## License
 
 © 2026 Codfis Technologies. All rights reserved.
+

@@ -330,43 +330,45 @@ exports.downloadResume = async (req, res) => {
     }
 
     let record = null;
-    let targetDir = path.join(config.uploadDir, 'resumes');
-    let filename = null;
+    let identifier = null;
+    let resourceType = 'raw';
     let originalName = null;
+    let folder = 'resumes';
 
     if (type === 'trainer') {
-      record = await get('SELECT "resumePath", "resumeOriginalName" FROM trainer_applications WHERE id = ?', [id]);
+      record = await get('SELECT "resumePath", "resumeOriginalName", "resumePublicId", "resumeResourceType", "resumeStorageProvider" FROM trainer_applications WHERE id = ?', [id]);
       if (record) {
-        filename = record.resumePath || record['resumePath'];
+        identifier = record.resumePublicId || record['resumePublicId'] || record.resumePath || record['resumePath'];
+        resourceType = record.resumeResourceType || record['resumeResourceType'] || 'raw';
         originalName = record.resumeOriginalName || record['resumeOriginalName'];
       }
     } else if (type === 'file') {
       record = await get('SELECT file_name, original_name, mime_type FROM application_files WHERE id = ?', [id]);
       if (record) {
-        filename = record.file_name;
+        identifier = record.file_name;
         originalName = record.original_name;
         if (record.mime_type && record.mime_type.startsWith('video/')) {
-          targetDir = path.join(config.uploadDir, 'videos');
+          folder = 'videos';
+          resourceType = 'video';
         }
       }
     } else {
-      record = await get('SELECT "resumePath", "resumeOriginalName" FROM job_applications WHERE id = ? OR "applicationId" = ?', [id, id]);
+      record = await get('SELECT "resumePath", "resumeOriginalName", "resumePublicId", "resumeResourceType", "resumeStorageProvider" FROM job_applications WHERE id = ? OR "applicationId" = ?', [id, id]);
       if (record) {
-        filename = record.resumePath || record['resumePath'];
+        identifier = record.resumePublicId || record['resumePublicId'] || record.resumePath || record['resumePath'];
+        resourceType = record.resumeResourceType || record['resumeResourceType'] || 'raw';
         originalName = record.resumeOriginalName || record['resumeOriginalName'];
       }
     }
 
-    if (!record || !filename) {
+    if (!record || !identifier) {
       return res.status(404).json({ success: false, error: 'Requested file record not found or no resume was attached to this application.' });
     }
 
-    const folder = (record.mime_type && record.mime_type.startsWith('video/')) ? 'videos' : 'resumes';
-    const safeFilename = path.basename(filename);
+    const safeFilename = originalName || 'resume.pdf';
+    const fileData = await storageService.getFileStream(identifier, resourceType, folder);
 
-    const fileData = await storageService.getFileStream(safeFilename, folder);
-
-    res.setHeader('Content-Disposition', `attachment; filename="${encodeURIComponent(originalName || safeFilename)}"`);
+    res.setHeader('Content-Disposition', `attachment; filename="${encodeURIComponent(safeFilename)}"`);
     if (fileData.contentType) {
       res.setHeader('Content-Type', fileData.contentType);
     }
@@ -374,7 +376,7 @@ exports.downloadResume = async (req, res) => {
       res.setHeader('Content-Length', fileData.contentLength);
     }
 
-    if (fileData.stream.pipe) {
+    if (fileData.stream && fileData.stream.pipe) {
       fileData.stream.pipe(res);
     } else {
       res.send(fileData.stream);

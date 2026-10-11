@@ -176,10 +176,16 @@ exports.applyForJob = async (req, res) => {
     // Disqualification logic for knockout questions
     const isDisqualified = Number(disqualified) === 1 || Boolean(disqualified === 'true' || disqualified === true);
 
-    // Identify files from req.files or req.file
+    // Identify files from req.file or req.files
     let resumePath = null;
     let resumeOriginalName = null;
+    let resumePublicId = null;
+    let resumeResourceType = null;
+    let resumeFileSize = null;
+    let resumeStorageProvider = null;
+    let resumeSecureUrl = null;
     const uploadedFiles = [];
+    const filesToCleanupOnFailure = [];
 
     const hasIncomingFile = Boolean(req.file || (req.files && (Array.isArray(req.files) ? req.files.length > 0 : Object.keys(req.files).length > 0)));
 
@@ -192,31 +198,48 @@ exports.applyForJob = async (req, res) => {
       }
 
       if (req.file) {
-        const savedFilename = await storageService.saveFile(req.file, 'resumes');
-        resumePath = savedFilename;
+        const fileMeta = await storageService.saveFile(req.file, 'resumes');
+        filesToCleanupOnFailure.push({ publicId: fileMeta.publicId, resourceType: fileMeta.resourceType });
+        resumePath = fileMeta.filename;
         resumeOriginalName = req.file.originalname;
+        resumePublicId = fileMeta.publicId;
+        resumeResourceType = fileMeta.resourceType;
+        resumeFileSize = fileMeta.bytes;
+        resumeStorageProvider = fileMeta.storageProvider;
+        resumeSecureUrl = fileMeta.secureUrl;
+
         uploadedFiles.push({
           type: 'resume',
-          filename: savedFilename,
+          filename: fileMeta.filename,
           originalName: req.file.originalname,
-          size: req.file.size,
-          mimetype: req.file.mimetype
+          size: fileMeta.bytes,
+          mimetype: req.file.mimetype,
+          publicId: fileMeta.publicId,
+          resourceType: fileMeta.resourceType
         });
       } else if (req.files) {
         if (Array.isArray(req.files)) {
           for (const f of req.files) {
             const folder = (f.fieldname === 'video') ? 'videos' : 'resumes';
-            const savedFilename = await storageService.saveFile(f, folder);
+            const fileMeta = await storageService.saveFile(f, folder);
+            filesToCleanupOnFailure.push({ publicId: fileMeta.publicId, resourceType: fileMeta.resourceType, folder });
             if (!resumePath && (f.fieldname === 'resume' || f.fieldname === 'file')) {
-              resumePath = savedFilename;
+              resumePath = fileMeta.filename;
               resumeOriginalName = f.originalname;
+              resumePublicId = fileMeta.publicId;
+              resumeResourceType = fileMeta.resourceType;
+              resumeFileSize = fileMeta.bytes;
+              resumeStorageProvider = fileMeta.storageProvider;
+              resumeSecureUrl = fileMeta.secureUrl;
             }
             uploadedFiles.push({
               type: f.fieldname,
-              filename: savedFilename,
+              filename: fileMeta.filename,
               originalName: f.originalname,
-              size: f.size,
-              mimetype: f.mimetype
+              size: fileMeta.bytes,
+              mimetype: f.mimetype,
+              publicId: fileMeta.publicId,
+              resourceType: fileMeta.resourceType
             });
           }
         } else {
@@ -224,17 +247,25 @@ exports.applyForJob = async (req, res) => {
           for (const [fieldname, filesArr] of Object.entries(req.files)) {
             for (const f of filesArr) {
               const folder = (fieldname === 'video') ? 'videos' : 'resumes';
-              const savedFilename = await storageService.saveFile(f, folder);
+              const fileMeta = await storageService.saveFile(f, folder);
+              filesToCleanupOnFailure.push({ publicId: fileMeta.publicId, resourceType: fileMeta.resourceType, folder });
               if (!resumePath && fieldname === 'resume') {
-                resumePath = savedFilename;
+                resumePath = fileMeta.filename;
                 resumeOriginalName = f.originalname;
+                resumePublicId = fileMeta.publicId;
+                resumeResourceType = fileMeta.resourceType;
+                resumeFileSize = fileMeta.bytes;
+                resumeStorageProvider = fileMeta.storageProvider;
+                resumeSecureUrl = fileMeta.secureUrl;
               }
               uploadedFiles.push({
                 type: fieldname,
-                filename: savedFilename,
+                filename: fileMeta.filename,
                 originalName: f.originalname,
-                size: f.size,
-                mimetype: f.mimetype
+                size: fileMeta.bytes,
+                mimetype: f.mimetype,
+                publicId: fileMeta.publicId,
+                resourceType: fileMeta.resourceType
               });
             }
           }
@@ -266,14 +297,16 @@ exports.applyForJob = async (req, res) => {
         "applicationId", "jobId", "jobTitle", "fullName", email, phone, location,
         experience, "currentCompany", "noticePeriod", "expectedSalary",
         "linkedIn", github, portfolio, "resumePath", "resumeOriginalName",
+        "resumePublicId", "resumeResourceType", "resumeFileSize", "resumeStorageProvider", "resumeSecureUrl",
         "coverLetter", "answersJson", status, workflow_type, current_step,
         submitted_at, disqualified, disqualification_reason, score,
         code_submission, code_language, interview_slot_id, candidate_account_id
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP, ?, ?, ?, ?, ?, ?, ?)
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP, ?, ?, ?, ?, ?, ?, ?)
     `, [
       applicationId, job.id, job.title, fullName, email, phone, location || '',
       experience || '', currentCompany || '', noticePeriod || '', expectedSalary || '',
       linkedIn || '', github || '', portfolio || '', resumePath, resumeOriginalName,
+      resumePublicId, resumeResourceType, resumeFileSize, resumeStorageProvider, resumeSecureUrl,
       coverLetter || '', answersJson || '{}', appStatus, appWorkflow, currentStep || 'submitted',
       isDisqualified ? 1 : 0, isDisqualified ? (disqualificationReason || 'Did not meet minimum requirements') : null,
       score !== undefined && score !== null && score !== '' ? Number(score) : null,
@@ -353,6 +386,16 @@ exports.applyForJob = async (req, res) => {
       }
     });
   } catch (err) {
+    // Orphan asset cleanup if DB save failed
+    if (filesToCleanupOnFailure && filesToCleanupOnFailure.length > 0) {
+      for (const item of filesToCleanupOnFailure) {
+        try {
+          await storageService.deleteFile(item.publicId, item.resourceType, item.folder || 'resumes');
+        } catch (cleanupErr) {
+          console.warn('[Storage] Failed to cleanup orphaned upload asset:', cleanupErr.message);
+        }
+      }
+    }
     console.error('Error processing job application:', err);
     res.status(500).json({ success: false, error: 'Failed to submit application. Please try again.' });
   }
@@ -499,6 +542,12 @@ exports.applyTrainer = async (req, res) => {
     const applicationId = 'TRN-' + Date.now().toString(36).toUpperCase() + '-' + Math.floor(1000 + Math.random() * 9000);
     let resumePath = null;
     let resumeOriginalName = null;
+    let resumePublicId = null;
+    let resumeResourceType = null;
+    let resumeFileSize = null;
+    let resumeStorageProvider = null;
+    let resumeSecureUrl = null;
+    let fileToCleanup = null;
 
     if (req.file) {
       if (!storageService.isEnabled()) {
@@ -507,22 +556,43 @@ exports.applyTrainer = async (req, res) => {
           error: 'Resume / CV file uploads are temporarily unavailable on this deployment. Please provide your LinkedIn profile URL instead.'
         });
       }
-      resumePath = await storageService.saveFile(req.file, 'resumes');
+      const fileMeta = await storageService.saveFile(req.file, 'resumes');
+      fileToCleanup = { publicId: fileMeta.publicId, resourceType: fileMeta.resourceType };
+      resumePath = fileMeta.filename;
       resumeOriginalName = req.file.originalname;
+      resumePublicId = fileMeta.publicId;
+      resumeResourceType = fileMeta.resourceType;
+      resumeFileSize = fileMeta.bytes;
+      resumeStorageProvider = fileMeta.storageProvider;
+      resumeSecureUrl = fileMeta.secureUrl;
     }
 
-    await run(`
-      INSERT INTO trainer_applications (
-        "applicationId", name, email, phone, location, "primaryTech", experience,
-        "currentRole", "linkedIn", portfolio, "preferredTopics", availability,
-        "expectedCompensation", "resumePath", "resumeOriginalName", "additionalInfo", status
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'New')
-    `, [
-      applicationId, name, email, phone, location || '', primaryTech, experience,
-      currentRole || '', linkedIn || '', portfolio || '', preferredTopics || '',
-      availability || '', expectedCompensation || '', resumePath, resumeOriginalName,
-      additionalInfo || ''
-    ]);
+    try {
+      await run(`
+        INSERT INTO trainer_applications (
+          "applicationId", name, email, phone, location, "primaryTech", experience,
+          "currentRole", "linkedIn", portfolio, "preferredTopics", availability,
+          "expectedCompensation", "resumePath", "resumeOriginalName",
+          "resumePublicId", "resumeResourceType", "resumeFileSize", "resumeStorageProvider", "resumeSecureUrl",
+          "additionalInfo", status
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'New')
+      `, [
+        applicationId, name, email, phone, location || '', primaryTech, experience,
+        currentRole || '', linkedIn || '', portfolio || '', preferredTopics || '',
+        availability || '', expectedCompensation || '', resumePath, resumeOriginalName,
+        resumePublicId, resumeResourceType, resumeFileSize, resumeStorageProvider, resumeSecureUrl,
+        additionalInfo || ''
+      ]);
+    } catch (dbErr) {
+      if (fileToCleanup) {
+        try {
+          await storageService.deleteFile(fileToCleanup.publicId, fileToCleanup.resourceType, 'resumes');
+        } catch (cleanupErr) {
+          console.warn('[Storage] Failed to cleanup orphaned trainer resume asset:', cleanupErr.message);
+        }
+      }
+      throw dbErr;
+    }
 
     res.status(201).json({
       success: true,

@@ -1,34 +1,32 @@
 const fs = require('fs');
 const path = require('path');
-const { S3Client, PutObjectCommand, GetObjectCommand, DeleteObjectCommand } = require('@aws-sdk/client-s3');
+const https = require('https');
+const http = require('http');
+const cloudinary = require('cloudinary').v2;
 const config = require('../config');
 
 class StorageService {
   constructor() {
-    this.isR2Configured = Boolean(
-      config.r2.accountId &&
-      config.r2.accessKeyId &&
-      config.r2.secretAccessKey &&
-      config.r2.bucketName
+    this.isCloudinaryConfigured = Boolean(
+      config.cloudinary.cloudName &&
+      config.cloudinary.apiKey &&
+      config.cloudinary.apiSecret
     );
 
     this.isProduction = config.nodeEnv === 'production';
 
-    if (this.isR2Configured) {
-      this.client = new S3Client({
-        region: 'auto',
-        endpoint: `https://${config.r2.accountId}.r2.cloudflarestorage.com`,
-        credentials: {
-          accessKeyId: config.r2.accessKeyId,
-          secretAccessKey: config.r2.secretAccessKey
-        }
+    if (this.isCloudinaryConfigured) {
+      cloudinary.config({
+        cloud_name: config.cloudinary.cloudName,
+        api_key: config.cloudinary.apiKey,
+        api_secret: config.cloudinary.apiSecret,
+        secure: true
       });
-      this.bucket = config.r2.bucketName;
-      console.log(`[Storage] Cloudflare R2 configured (bucket: ${this.bucket})`);
+      this.folder = config.cloudinary.folder || 'codfis/resumes';
+      console.log(`[Storage] Cloudinary configured (cloud: ${config.cloudinary.cloudName}, folder: ${this.folder})`);
     } else if (this.isProduction) {
-      // In production without R2: resume file uploads and downloads are temporarily disabled
-      // Never save to Render's ephemeral filesystem!
-      console.log('[Storage] Production Free mode: Resume file uploads and downloads are temporarily disabled (no R2 / ephemeral disk).');
+      // In production without Cloudinary: fail or disable gracefully without ephemeral disk write
+      console.log('[Storage] Production mode: Cloudinary credentials not detected.');
     } else {
       console.log('[Storage] Local filesystem storage active for development.');
       this.ensureLocalDirs();
@@ -39,13 +37,13 @@ class StorageService {
    * Whether resume/file storage is currently active
    */
   isEnabled() {
-    if (this.isR2Configured) return true;
+    if (this.isCloudinaryConfigured) return true;
     if (this.isProduction) return false;
     return true; // Local development with local filesystem
   }
 
   ensureLocalDirs() {
-    if (this.isProduction && !this.isR2Configured) return;
+    if (this.isProduction && !this.isCloudinaryConfigured) return;
     try {
       const resumes = path.join(config.uploadDir, 'resumes');
       const videos = path.join(config.uploadDir, 'videos');
@@ -57,10 +55,10 @@ class StorageService {
   }
 
   /**
-   * Save a file buffer or local file path
+   * Save a file buffer or local file
    * @param {Object} file - Multer file object
    * @param {string} folder - 'resumes' or 'videos'
-   * @returns {Promise<string|null>} filename, or null if storage disabled
+   * @returns {Promise<Object>} file metadata { filename, publicId, resourceType, bytes, format, storageProvider, secureUrl }
    */
   async saveFile(file, folder = 'resumes') {
     if (!file) return null;
@@ -76,28 +74,50 @@ class StorageService {
     const safeBase = path.basename(file.originalname, ext).replace(/[^a-zA-Z0-9_-]/g, '_');
     const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
     const filename = `${safeBase}-${uniqueSuffix}${ext}`;
-    const key = `${folder}/${filename}`;
 
-    if (this.isR2Configured) {
+    if (this.isCloudinaryConfigured) {
       const buffer = file.buffer || (file.path ? fs.readFileSync(file.path) : null);
       if (!buffer) {
         throw new Error('No file buffer or path provided for upload');
       }
 
-      await this.client.send(new PutObjectCommand({
-        Bucket: this.bucket,
-        Key: key,
-        Body: buffer,
-        ContentType: file.mimetype
-      }));
+      // Upload to Cloudinary using raw resource_type for exact document byte preservation
+      // folder: 'codfis/resumes' or custom
+      const targetFolder = folder === 'videos' ? 'codfis/videos' : (this.folder || 'codfis/resumes');
+      const resourceType = folder === 'videos' ? 'video' : 'raw';
+
+      const uploadResult = await new Promise((resolve, reject) => {
+        const stream = cloudinary.uploader.upload_stream(
+          {
+            folder: targetFolder,
+            resource_type: resourceType,
+            type: 'upload', // Standard secure upload
+            public_id: `${safeBase}-${uniqueSuffix}`,
+            format: ext.replace('.', '')
+          },
+          (error, result) => {
+            if (error) return reject(error);
+            resolve(result);
+          }
+        );
+        stream.end(buffer);
+      });
 
       if (file.path && fs.existsSync(file.path)) {
         try { fs.unlinkSync(file.path); } catch (e) {}
       }
 
-      return filename;
+      return {
+        filename: filename,
+        publicId: uploadResult.public_id,
+        resourceType: uploadResult.resource_type || resourceType,
+        format: uploadResult.format || ext.replace('.', ''),
+        bytes: uploadResult.bytes || buffer.length,
+        storageProvider: 'cloudinary',
+        secureUrl: uploadResult.secure_url
+      };
     } else {
-      // Local storage for development
+      // Local development storage
       this.ensureLocalDirs();
       const targetDir = path.join(config.uploadDir, folder);
       const targetPath = path.join(targetDir, filename);
@@ -108,16 +128,26 @@ class StorageService {
       } else if (file.buffer) {
         fs.writeFileSync(targetPath, file.buffer);
       }
-      return filename;
+
+      return {
+        filename: filename,
+        publicId: filename,
+        resourceType: 'raw',
+        format: ext.replace('.', ''),
+        bytes: file.size || (file.buffer ? file.buffer.length : 0),
+        storageProvider: 'local',
+        secureUrl: null
+      };
     }
   }
 
   /**
-   * Get file stream or buffer for download
-   * @param {string} filename
+   * Get file stream or buffer for authorized admin download
+   * @param {string} publicIdOrFilename - Cloudinary publicId or local filename
+   * @param {string} resourceType - 'raw', 'image', 'video'
    * @param {string} folder - 'resumes' or 'videos'
    */
-  async getFileStream(filename, folder = 'resumes') {
+  async getFileStream(publicIdOrFilename, resourceType = 'raw', folder = 'resumes') {
     if (!this.isEnabled()) {
       const err = new Error('Resume file downloads are temporarily unavailable.');
       err.code = 'STORAGE_DISABLED';
@@ -125,34 +155,39 @@ class StorageService {
       throw err;
     }
 
-    const key = `${folder}/${path.basename(filename)}`;
-
-    if (this.isR2Configured) {
-      try {
-        const response = await this.client.send(new GetObjectCommand({
-          Bucket: this.bucket,
-          Key: key
-        }));
-        return {
-          stream: response.Body,
-          contentType: response.ContentType,
-          contentLength: response.ContentLength
-        };
-      } catch (err) {
-        const localPath = path.join(config.uploadDir, folder, path.basename(filename));
-        if (fs.existsSync(localPath)) {
-          return {
-            stream: fs.createReadStream(localPath),
-            contentType: 'application/octet-stream',
-            contentLength: fs.statSync(localPath).size
-          };
+    if (this.isCloudinaryConfigured) {
+      // Generate private signed download URL via Cloudinary SDK
+      const signedUrl = cloudinary.utils.private_download_url(
+        publicIdOrFilename,
+        '',
+        {
+          resource_type: resourceType || 'raw',
+          type: 'upload',
+          expires_at: Math.floor(Date.now() / 1000) + 300 // 5 minutes validity
         }
-        throw new Error('File not found in storage: ' + key);
-      }
+      );
+
+      // Stream the file data from Cloudinary through backend
+      const downloadStream = await new Promise((resolve, reject) => {
+        const client = signedUrl.startsWith('https') ? https : http;
+        client.get(signedUrl, (res) => {
+          if (res.statusCode >= 400) {
+            return reject(new Error(`Cloudinary download returned HTTP ${res.statusCode}`));
+          }
+          resolve({
+            stream: res,
+            contentType: res.headers['content-type'] || 'application/octet-stream',
+            contentLength: res.headers['content-length']
+          });
+        }).on('error', reject);
+      });
+
+      return downloadStream;
     } else {
-      const localPath = path.join(config.uploadDir, folder, path.basename(filename));
+      // Local storage fallback for development
+      const localPath = path.join(config.uploadDir, folder, path.basename(publicIdOrFilename));
       if (!fs.existsSync(localPath)) {
-        throw new Error('File not found locally: ' + filename);
+        throw new Error('File not found locally: ' + publicIdOrFilename);
       }
       return {
         stream: fs.createReadStream(localPath),
@@ -163,29 +198,34 @@ class StorageService {
   }
 
   /**
-   * Delete file
+   * Delete asset from Cloudinary or local storage (used for orphan cleanup)
+   * @param {string} publicIdOrFilename
+   * @param {string} resourceType
+   * @param {string} folder
    */
-  async deleteFile(filename, folder = 'resumes') {
-    if (!this.isEnabled() || !filename) return;
+  async deleteFile(publicIdOrFilename, resourceType = 'raw', folder = 'resumes') {
+    if (!this.isEnabled() || !publicIdOrFilename) return;
 
-    const key = `${folder}/${path.basename(filename)}`;
-    if (this.isR2Configured) {
+    if (this.isCloudinaryConfigured) {
       try {
-        await this.client.send(new DeleteObjectCommand({
-          Bucket: this.bucket,
-          Key: key
-        }));
+        await cloudinary.uploader.destroy(publicIdOrFilename, {
+          resource_type: resourceType || 'raw',
+          type: 'upload',
+          invalidate: true
+        });
       } catch (err) {
-        console.warn('[Storage] Failed to delete file in R2:', err.message);
+        console.warn('[Storage] Failed to delete asset in Cloudinary:', err.message);
       }
-    }
-    const localPath = path.join(config.uploadDir, folder, path.basename(filename));
-    if (fs.existsSync(localPath)) {
-      try { fs.unlinkSync(localPath); } catch (e) {}
+    } else {
+      const localPath = path.join(config.uploadDir, folder, path.basename(publicIdOrFilename));
+      if (fs.existsSync(localPath)) {
+        try { fs.unlinkSync(localPath); } catch (e) {}
+      }
     }
   }
 }
 
 module.exports = new StorageService();
+
 
 

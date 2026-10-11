@@ -372,9 +372,11 @@
             </div>
 
             <div class="form-group">
-              <label class="form-label">Attach Resume / CV (PDF, DOC, DOCX up to 5MB)</label>
-              <input type="file" name="resume" class="form-control" accept=".pdf,.doc,.docx">
-              <div class="form-help">Optional for trainers with complete LinkedIn profile links.</div>
+              <label class="form-label">Attach Resume / CV <span class="form-optional-tag">(PDF, DOC, DOCX up to 2 MB)</span></label>
+              <input type="file" id="trainer_resume" name="resume" class="form-control" accept=".pdf,.doc,.docx">
+              <div id="trainerResumeFileInfo" style="display: none; margin-top: 0.5rem; font-size: 0.85rem; padding: 0.4rem 0.75rem; border-radius: var(--radius-sm); background: rgba(59, 130, 246, 0.1); border: 1px solid rgba(59, 130, 246, 0.2); color: var(--accent);"></div>
+              <div id="trainerResumeFileError" style="display: none; margin-top: 0.5rem; font-size: 0.85rem; padding: 0.4rem 0.75rem; border-radius: var(--radius-sm); background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.2); color: #f87171;"></div>
+              <div class="form-help">Optional for trainers with complete LinkedIn profile links. Maximum size: 2 MB (2,097,152 bytes).</div>
             </div>
 
             <div class="form-group">
@@ -437,15 +439,6 @@
         <form id="jobApplicationForm" enctype="multipart/form-data">
           <div id="applicationAlert" class="alert"></div>
 
-          <div class="info-banner" role="status">
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/>
-            </svg>
-            <div class="info-banner-text">
-              Resume uploads are temporarily unavailable. You can apply using your LinkedIn profile or portfolio URL.
-            </div>
-          </div>
-
           <div class="form-grid-2">
             <div class="form-group">
               <label class="form-label" for="app_fullName">Full Name <span class="required">*</span></label>
@@ -507,8 +500,11 @@
           </div>
 
           <div class="form-group">
-            <label class="form-label" for="app_resume">Resume / CV <span class="form-optional-tag">(Optional &mdash; direct uploads paused)</span></label>
-            <input type="file" id="app_resume" name="resume" class="form-control" accept=".pdf,.doc,.docx">
+            <label class="form-label" for="app_resume">Resume / CV <span class="form-optional-tag">(Optional &mdash; PDF, DOC, DOCX up to 2 MB)</span></label>
+            <input type="file" id="app_resume" name="resume" class="form-control" accept=".pdf,.doc,.docx" style="padding: 0.5rem 0.75rem;">
+            <div id="resumeFileInfo" style="display: none; margin-top: 0.5rem; font-size: 0.85rem; padding: 0.4rem 0.75rem; border-radius: var(--radius-sm); background: rgba(59, 130, 246, 0.1); border: 1px solid rgba(59, 130, 246, 0.2); color: var(--accent);"></div>
+            <div id="resumeFileError" style="display: none; margin-top: 0.5rem; font-size: 0.85rem; padding: 0.4rem 0.75rem; border-radius: var(--radius-sm); background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.2); color: #f87171;"></div>
+            <div class="form-help" style="margin-top: 0.35rem; font-size: 0.8rem; color: var(--text-dim);">Supported formats: PDF (.pdf), Word (.doc, .docx). Maximum size: exactly 2 MB (2,097,152 bytes).</div>
           </div>
 
           <div class="form-group">
@@ -778,12 +774,72 @@
       }
     }
 
+    // Format bytes for human-friendly display
+    function formatBytes(bytes, decimals = 2) {
+      if (!bytes || bytes === 0) return '0 Bytes';
+      const k = 1024;
+      const dm = decimals < 0 ? 0 : decimals;
+      const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+      const i = Math.floor(Math.log(bytes) / Math.log(k));
+      return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
+    }
+
+    const MAX_RESUME_BYTES = 2 * 1024 * 1024; // Exactly 2 MB = 2,097,152 bytes
+    const ALLOWED_RESUME_EXTS = ['.pdf', '.doc', '.docx'];
+
+    // Instant Resume Selection & Validation Listener
+    const appResumeInput = document.getElementById('app_resume');
+    if (appResumeInput) {
+      appResumeInput.addEventListener('change', function () {
+        const fileInfoEl = document.getElementById('resumeFileInfo');
+        const fileErrorEl = document.getElementById('resumeFileError');
+        fileInfoEl.style.display = 'none';
+        fileErrorEl.style.display = 'none';
+
+        if (!this.files || this.files.length === 0) {
+          return;
+        }
+
+        const file = this.files[0];
+        const fileName = file.name;
+        const fileSize = file.size;
+        const ext = '.' + fileName.split('.').pop().toLowerCase();
+
+        if (!ALLOWED_RESUME_EXTS.includes(ext)) {
+          fileErrorEl.textContent = `Unsupported file type (${ext}). Please upload a valid PDF, DOC, or DOCX resume smaller than or equal to 2 MB.`;
+          fileErrorEl.style.display = 'block';
+          this.value = ''; // Clear invalid selection
+          return;
+        }
+
+        if (fileSize > MAX_RESUME_BYTES) {
+          fileErrorEl.textContent = `File size (${formatBytes(fileSize)}) exceeds the 2 MB limit (2,097,152 bytes). Please choose a smaller file.`;
+          fileErrorEl.style.display = 'block';
+          this.value = ''; // Clear invalid selection
+          return;
+        }
+
+        if (fileSize === 0) {
+          fileErrorEl.textContent = 'The selected file is empty (0 bytes). Please upload a valid resume.';
+          fileErrorEl.style.display = 'block';
+          this.value = '';
+          return;
+        }
+
+        // Valid selection
+        fileInfoEl.innerHTML = `<strong>Selected file:</strong> ${escapeHtml(fileName)} <span>(${formatBytes(fileSize)})</span>`;
+        fileInfoEl.style.display = 'block';
+      });
+    }
+
     // Submit Job Application
     document.getElementById('jobApplicationForm').addEventListener('submit', async (e) => {
       e.preventDefault();
       const form = e.target;
       const alertEl = document.getElementById('applicationAlert');
       const submitBtn = document.getElementById('jobSubmitBtn');
+      const fileInfoEl = document.getElementById('resumeFileInfo');
+      const fileErrorEl = document.getElementById('resumeFileError');
 
       alertEl.className = 'alert';
       alertEl.style.display = 'none';
@@ -805,6 +861,17 @@
         alertEl.textContent = 'Please enter a valid URL for your GitHub / Portfolio (e.g. https://github.com/yourname).';
         alertEl.style.display = 'block';
         return;
+      }
+
+      if (resumeInput && resumeInput.files && resumeInput.files.length > 0) {
+        const file = resumeInput.files[0];
+        const ext = '.' + file.name.split('.').pop().toLowerCase();
+        if (!ALLOWED_RESUME_EXTS.includes(ext) || file.size > MAX_RESUME_BYTES) {
+          alertEl.className = 'alert alert-error';
+          alertEl.textContent = 'Please upload a valid PDF, DOC, or DOCX resume smaller than or equal to 2 MB.';
+          alertEl.style.display = 'block';
+          return;
+        }
       }
 
       submitBtn.disabled = true;
@@ -829,6 +896,8 @@
           alertEl.innerHTML = `<strong>Application Submitted!</strong> Your application ID is <code>${data.data.applicationId}</code>. Our hiring team will review your profile shortly.`;
           alertEl.style.display = 'block';
           form.reset();
+          if (fileInfoEl) fileInfoEl.style.display = 'none';
+          if (fileErrorEl) fileErrorEl.style.display = 'none';
         } else {
           throw new Error(data.error || 'Failed to submit application');
         }
@@ -842,19 +911,76 @@
       }
     });
 
+    const trainerResumeInput = document.getElementById('trainer_resume');
+    if (trainerResumeInput) {
+      trainerResumeInput.addEventListener('change', function () {
+        const fileInfoEl = document.getElementById('trainerResumeFileInfo');
+        const fileErrorEl = document.getElementById('trainerResumeFileError');
+        fileInfoEl.style.display = 'none';
+        fileErrorEl.style.display = 'none';
+
+        if (!this.files || this.files.length === 0) return;
+
+        const file = this.files[0];
+        const ext = '.' + file.name.split('.').pop().toLowerCase();
+
+        if (!ALLOWED_RESUME_EXTS.includes(ext)) {
+          fileErrorEl.textContent = `Unsupported file type (${ext}). Please upload a valid PDF, DOC, or DOCX resume smaller than or equal to 2 MB.`;
+          fileErrorEl.style.display = 'block';
+          this.value = '';
+          return;
+        }
+
+        if (file.size > MAX_RESUME_BYTES) {
+          fileErrorEl.textContent = `File size (${formatBytes(file.size)}) exceeds the 2 MB limit (2,097,152 bytes). Please choose a smaller file.`;
+          fileErrorEl.style.display = 'block';
+          this.value = '';
+          return;
+        }
+
+        if (file.size === 0) {
+          fileErrorEl.textContent = 'The selected file is empty (0 bytes).';
+          fileErrorEl.style.display = 'block';
+          this.value = '';
+          return;
+        }
+
+        fileInfoEl.innerHTML = `<strong>Selected file:</strong> ${escapeHtml(file.name)} <span>(${formatBytes(file.size)})</span>`;
+        fileInfoEl.style.display = 'block';
+      });
+    }
+
     // Submit Trainer Application
     document.getElementById('trainerForm').addEventListener('submit', async (e) => {
       e.preventDefault();
       const form = e.target;
       const alertEl = document.getElementById('trainerAlert');
       const submitBtn = document.getElementById('trainerSubmitBtn');
+      const fileInfoEl = document.getElementById('trainerResumeFileInfo');
+      const fileErrorEl = document.getElementById('trainerResumeFileError');
 
       alertEl.className = 'alert';
       alertEl.style.display = 'none';
+
+      const resumeInput = form.elements['resume'];
+      if (resumeInput && resumeInput.files && resumeInput.files.length > 0) {
+        const file = resumeInput.files[0];
+        const ext = '.' + file.name.split('.').pop().toLowerCase();
+        if (!ALLOWED_RESUME_EXTS.includes(ext) || file.size > MAX_RESUME_BYTES) {
+          alertEl.className = 'alert alert-error';
+          alertEl.textContent = 'Please upload a valid PDF, DOC, or DOCX resume smaller than or equal to 2 MB.';
+          alertEl.style.display = 'block';
+          return;
+        }
+      }
+
       submitBtn.disabled = true;
       submitBtn.textContent = 'Submitting Trainer Application...';
 
       const formData = new FormData(form);
+      if (resumeInput && (!resumeInput.files || resumeInput.files.length === 0 || resumeInput.files[0].size === 0)) {
+        formData.delete('resume');
+      }
 
       try {
         const res = await fetch('/api/trainer-applications', {
@@ -868,6 +994,8 @@
           alertEl.innerHTML = `<strong>Application Received!</strong> Reference ID: <code>${data.data.applicationId}</code>. Thank you for your interest in mentoring at Codfis. We will reach out soon.`;
           alertEl.style.display = 'block';
           form.reset();
+          if (fileInfoEl) fileInfoEl.style.display = 'none';
+          if (fileErrorEl) fileErrorEl.style.display = 'none';
         } else {
           throw new Error(data.error || 'Failed to submit trainer application');
         }

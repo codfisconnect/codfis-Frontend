@@ -721,10 +721,13 @@
               <td>${escapeHtml(a.noticePeriod || '')}<br><small style="color: var(--text-dim);">${escapeHtml(a.expectedSalary || '')}</small></td>
               <td>
                 ${a.resumePath ? `
-                  <a href="/api/admin/resumes/${a.id}/download?type=job" target="_blank" class="btn btn-outline btn-sm" onclick="downloadResumeDirect(event, ${a.id}, 'job')">
-                    📥 Resume
-                  </a>
-                ` : '<span style="color: var(--text-dim); font-size: 0.8rem;" title="Candidate applied without resume or resume storage is disabled">No file</span>'}
+                  <div style="display: flex; flex-direction: column; gap: 0.25rem;">
+                    <a href="/api/admin/resumes/${a.id}/download?type=job" target="_blank" class="btn btn-outline btn-sm" onclick="downloadResumeDirect(event, ${a.id}, 'job', '${escapeHtml(a.resumeOriginalName || 'resume.pdf')}')">
+                      📥 Download Resume
+                    </a>
+                    <span style="color: var(--text-dim); font-size: 0.75rem; word-break: break-all;" title="Original file name">${escapeHtml(a.resumeOriginalName || a.resumePath)}</span>
+                  </div>
+                ` : '<span style="color: var(--text-dim); font-size: 0.8rem;" title="Candidate applied without resume">No resume attached</span>'}
               </td>
               <td>
                 <select onchange="updateApplicationStatus(${a.id}, this.value)" class="form-select" style="font-size: 0.8rem; padding: 0.25rem 0.5rem;">
@@ -772,10 +775,13 @@
               <td>${escapeHtml(t.availability || 'Weekends')}</td>
               <td>
                 ${t.resumePath ? `
-                  <a href="/api/admin/resumes/${t.id}/download?type=trainer" class="btn btn-outline btn-sm" onclick="downloadResumeDirect(event, ${t.id}, 'trainer')">
-                    📥 CV
-                  </a>
-                ` : '<span style="color: var(--text-dim); font-size: 0.8rem;" title="Trainer applied without resume or resume storage is disabled">No file</span>'}
+                  <div style="display: flex; flex-direction: column; gap: 0.25rem;">
+                    <a href="/api/admin/resumes/${t.id}/download?type=trainer" class="btn btn-outline btn-sm" onclick="downloadResumeDirect(event, ${t.id}, 'trainer', '${escapeHtml(t.resumeOriginalName || 'cv.pdf')}')">
+                      📥 Download CV
+                    </a>
+                    <span style="color: var(--text-dim); font-size: 0.75rem; word-break: break-all;" title="Original file name">${escapeHtml(t.resumeOriginalName || t.resumePath)}</span>
+                  </div>
+                ` : '<span style="color: var(--text-dim); font-size: 0.8rem;" title="Trainer applied without resume">No CV attached</span>'}
               </td>
               <td>
                 <select onchange="updateTrainerStatus(${t.id}, this.value)" class="form-select" style="font-size: 0.8rem; padding: 0.25rem 0.5rem;">
@@ -802,7 +808,7 @@
     }
 
     // Secure resume downloader passing JWT bearer
-    async function downloadResumeDirect(event, id, type) {
+    async function downloadResumeDirect(event, id, type, originalFilename) {
       event.preventDefault();
       try {
         const res = await fetch(`/api/admin/resumes/${id}/download?type=${type}`, {
@@ -816,7 +822,7 @@
         const url = window.URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
-        a.download = `resume-${id}-${type}.pdf`;
+        a.download = originalFilename || `resume-${id}-${type}.pdf`;
         document.body.appendChild(a);
         a.click();
         a.remove();

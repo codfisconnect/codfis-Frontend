@@ -48,21 +48,29 @@ function request(options, postData = null, isFormData = false) {
 }
 
 function buildMultipartBody(fields, files, boundary) {
-  let body = '';
+  const parts = [];
   for (const [key, value] of Object.entries(fields)) {
-    body += `--${boundary}\r\n`;
-    body += `Content-Disposition: form-data; name="${key}"\r\n\r\n`;
-    body += `${value}\r\n`;
+    let header = `--${boundary}\r\n`;
+    header += `Content-Disposition: form-data; name="${key}"\r\n\r\n`;
+    header += `${value}\r\n`;
+    parts.push(Buffer.from(header, 'utf8'));
   }
 
   for (const [key, file] of Object.entries(files)) {
-    body += `--${boundary}\r\n`;
-    body += `Content-Disposition: form-data; name="${key}"; filename="${file.name}"\r\n`;
-    body += `Content-Type: ${file.type}\r\n\r\n`;
-    body += `${file.content}\r\n`;
+    let header = `--${boundary}\r\n`;
+    header += `Content-Disposition: form-data; name="${key}"; filename="${file.name}"\r\n`;
+    header += `Content-Type: ${file.type}\r\n\r\n`;
+    parts.push(Buffer.from(header, 'utf8'));
+    
+    if (Buffer.isBuffer(file.content)) {
+      parts.push(file.content);
+    } else {
+      parts.push(Buffer.from(file.content, 'utf8'));
+    }
+    parts.push(Buffer.from('\r\n', 'utf8'));
   }
-  body += `--${boundary}--\r\n`;
-  return body;
+  parts.push(Buffer.from(`--${boundary}--\r\n`, 'utf8'));
+  return Buffer.concat(parts);
 }
 
 async function runTests() {
@@ -341,39 +349,99 @@ async function runTests() {
     }, noResumeBody);
     assert(noResumeRes.status === 201 && noResumeRes.body.success === true, 'Candidate application accepted without requiring a resume file');
 
-    // TEST 13: Oversized File Upload Rejection (Strict 2 MB Limit)
-    console.log('\n[Test 13] 2 MB File Upload Boundary Enforcement');
-    const oversizedBoundary = '----OversizedBoundary' + Date.now();
-    const oversizedContent = 'X'.repeat(2.5 * 1024 * 1024); // 2.5 MB exceeds 2 MB limit
-    const oversizedBody = buildMultipartBody(
-      {
-        fullName: 'Heavy Uploader',
-        email: 'heavy@example.com',
-        phone: '+91 9999999999'
-      },
-      {
-        resume: {
-          name: 'large_resume.pdf',
-          type: 'application/pdf',
-          content: oversizedContent
-        }
-      },
-      oversizedBoundary
+    // TEST 13: Exact 2 MB Boundary (2,097,152 bytes) - MUST BE ACCEPTED
+    console.log('\n[Test 13] Exact 2 MB Boundary Acceptance');
+    const exactBoundary = '----ExactBoundary' + Date.now();
+    const exactHeader = Buffer.from('%PDF-1.4\n');
+    const exactPadding = Buffer.alloc(2097152 - exactHeader.length, 0x20); // Exactly 2,097,152 bytes with valid PDF magic bytes
+    const exactPdfBuffer = Buffer.concat([exactHeader, exactPadding]);
+    const exactBody = buildMultipartBody(
+      { fullName: 'Boundary Candidate', email: 'boundary@example.com', phone: '+91 9111111111' },
+      { resume: { name: 'exact_2mb.pdf', type: 'application/pdf', content: exactPdfBuffer } },
+      exactBoundary
     );
-    const oversizedRes = await request({
+    const exactRes = await request({
       hostname: 'localhost',
       port: PORT,
       path: `/api/jobs/${sampleJob.id}/apply`,
       method: 'POST',
-      headers: {
-        'Content-Type': `multipart/form-data; boundary=${oversizedBoundary}`,
-        'Content-Length': Buffer.byteLength(oversizedBody)
-      }
-    }, oversizedBody);
-    assert(oversizedRes.status === 413, 'Upload exceeding 2 MB is rejected with HTTP 413');
+      headers: { 'Content-Type': `multipart/form-data; boundary=${exactBoundary}`, 'Content-Length': exactBody.length }
+    }, exactBody);
+    assert(exactRes.status === 201 && exactRes.body.success === true, 'Valid file exactly 2,097,152 bytes is ACCEPTED');
 
-    // TEST 14: Security - Reject Unauthorized Resume Download
-    console.log('\n[Test 14] Security - Unauthorized Resume Download');
+    // TEST 14: One Byte Above 2 MB Limit (2,097,153 bytes) - MUST BE REJECTED WITH 413
+    console.log('\n[Test 14] 2 MB + 1 Byte Rejection');
+    const overBoundary = '----OverBoundary' + Date.now();
+    const overPdfBuffer = Buffer.alloc(2097153, 0x20); // 2 MB + 1 byte
+    overPdfBuffer[0] = 0x25; overPdfBuffer[1] = 0x50; overPdfBuffer[2] = 0x44; overPdfBuffer[3] = 0x46; // %PDF
+    const overBody = buildMultipartBody(
+      { fullName: 'Over Candidate', email: 'over@example.com', phone: '+91 9222222222' },
+      { resume: { name: 'over_2mb.pdf', type: 'application/pdf', content: overPdfBuffer } },
+      overBoundary
+    );
+    const overRes = await request({
+      hostname: 'localhost',
+      port: PORT,
+      path: `/api/jobs/${sampleJob.id}/apply`,
+      method: 'POST',
+      headers: { 'Content-Type': `multipart/form-data; boundary=${overBoundary}`, 'Content-Length': overBody.length }
+    }, overBody);
+    assert(overRes.status === 413, 'File 1 byte above limit (2,097,153 bytes) is rejected with HTTP 413');
+
+    // TEST 15: Valid DOCX with ZIP signature
+    console.log('\n[Test 15] Valid DOCX Document Upload');
+    const docxBoundary = '----DocxBoundary' + Date.now();
+    const docxBuffer = Buffer.from([0x50, 0x4B, 0x03, 0x04, 0x00, 0x00, 0x00, 0x00]); // PK\x03\x04
+    const docxBody = buildMultipartBody(
+      { fullName: 'Docx Candidate', email: 'docx@example.com', phone: '+91 9333333333' },
+      { resume: { name: 'resume.docx', type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', content: docxBuffer } },
+      docxBoundary
+    );
+    const docxRes = await request({
+      hostname: 'localhost',
+      port: PORT,
+      path: `/api/jobs/${sampleJob.id}/apply`,
+      method: 'POST',
+      headers: { 'Content-Type': `multipart/form-data; boundary=${docxBoundary}`, 'Content-Length': docxBody.length }
+    }, docxBody);
+    assert(docxRes.status === 201 && docxRes.body.success === true, 'Valid DOCX upload is accepted');
+
+    // TEST 16: Invalid file format (.exe / .sh / .zip)
+    console.log('\n[Test 16] Disallowed File Extension Rejection');
+    const badExtBoundary = '----BadExtBoundary' + Date.now();
+    const badExtBody = buildMultipartBody(
+      { fullName: 'Hacker Candidate', email: 'hacker@example.com', phone: '+91 9444444444' },
+      { resume: { name: 'malware.exe', type: 'application/x-msdownload', content: 'MZ executable' } },
+      badExtBoundary
+    );
+    const badExtRes = await request({
+      hostname: 'localhost',
+      port: PORT,
+      path: `/api/jobs/${sampleJob.id}/apply`,
+      method: 'POST',
+      headers: { 'Content-Type': `multipart/form-data; boundary=${badExtBoundary}`, 'Content-Length': badExtBody.length }
+    }, badExtBody);
+    assert(badExtRes.status === 400, 'Unsupported file extension is rejected with HTTP 400');
+
+    // TEST 17: Spoofed MIME Type / Corrupted Content (PDF extension but text file content)
+    console.log('\n[Test 17] Spoofed MIME Type / Malformed File Content Rejection');
+    const spoofBoundary = '----SpoofBoundary' + Date.now();
+    const spoofBody = buildMultipartBody(
+      { fullName: 'Spoofer Candidate', email: 'spoofer@example.com', phone: '+91 9555555555' },
+      { resume: { name: 'fake.pdf', type: 'application/pdf', content: '<html><body>Malicious HTML disguised as PDF</body></html>' } },
+      spoofBoundary
+    );
+    const spoofRes = await request({
+      hostname: 'localhost',
+      port: PORT,
+      path: `/api/jobs/${sampleJob.id}/apply`,
+      method: 'POST',
+      headers: { 'Content-Type': `multipart/form-data; boundary=${spoofBoundary}`, 'Content-Length': spoofBody.length }
+    }, spoofBody);
+    assert(spoofRes.status === 415, 'Spoofed or corrupted magic bytes rejected with HTTP 415');
+
+    // TEST 18: Security - Reject Unauthorized Resume Download
+    console.log('\n[Test 18] Security - Unauthorized Resume Download');
     const unauthResumeRes = await request({
       hostname: 'localhost',
       port: PORT,
@@ -382,8 +450,8 @@ async function runTests() {
     });
     assert(unauthResumeRes.status === 401, 'Unauthorized resume download without token is rejected with 401');
 
-    // TEST 15: Security - Reject Unauthorized Access to Admin Dashboard
-    console.log('\n[Test 15] Security Checks - Dashboard');
+    // TEST 19: Security - Reject Unauthorized Access to Admin Dashboard
+    console.log('\n[Test 19] Security Checks - Dashboard');
     const unauthRes = await request({
       hostname: 'localhost',
       port: PORT,
@@ -392,8 +460,8 @@ async function runTests() {
     });
     assert(unauthRes.status === 401, 'Unauthorized request without token is rejected with 401');
 
-    // TEST 16: Clean Homepage URL & Redirect Verification
-    console.log('\n[Test 16] Homepage Clean URL & /index.html 301 Redirect');
+    // TEST 20: Clean Homepage URL & Redirect Verification
+    console.log('\n[Test 20] Homepage Clean URL & /index.html 301 Redirect');
     const redirectRes = await request({
       hostname: 'localhost',
       port: PORT,
