@@ -323,6 +323,24 @@ async function runTests() {
     });
     assert(unauthRes.status === 401, 'Unauthorized request without token is rejected with 401');
 
+    // TEST 13: Clean Homepage URL & Redirect Verification
+    console.log('\n[Test 13] Homepage Clean URL & /index.html 301 Redirect');
+    const redirectRes = await request({
+      hostname: 'localhost',
+      port: PORT,
+      path: '/index.html',
+      method: 'GET'
+    });
+    assert(redirectRes.status === 301 && redirectRes.headers.location === '/', '/index.html returns 301 redirecting to /');
+
+    const rootRes = await request({
+      hostname: 'localhost',
+      port: PORT,
+      path: '/',
+      method: 'GET'
+    });
+    assert(rootRes.status === 200 && (rootRes.raw && rootRes.raw.includes('Build software that')), '/ serves the homepage content with status 200');
+
     console.log('\n==================================================');
     console.log(`🏁 TEST RESULTS: ${passed} PASSED, ${failed} FAILED`);
     console.log('==================================================');

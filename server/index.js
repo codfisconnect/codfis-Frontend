@@ -62,8 +62,14 @@ app.use((err, req, res, next) => {
   });
 });
 
-// Serve frontend static assets from root repository directory
 const rootDir = path.resolve(__dirname, '..');
+
+// Redirect /index.html to / for clean canonical URL
+app.get('/index.html', (req, res) => {
+  res.redirect(301, '/');
+});
+
+// Serve frontend static assets from root repository directory
 app.use(express.static(rootDir));
 
 // SPA / Clean URL fallbacks
