@@ -69,6 +69,12 @@ exports.getDashboardStats = async (req, res) => {
         activeJobs: activeJobsCount.count,
         totalJobs: totalJobsCount.count
       },
+      system: {
+        storageConfigured: storageService.isEnabled(),
+        storageProvider: storageService.isCloudinaryConfigured ? 'cloudinary' : (storageService.isProduction ? 'none' : 'local'),
+        databaseType: config.databaseUrl ? 'postgresql' : 'sqlite',
+        nodeEnv: config.nodeEnv
+      },
       recentProjects,
       recentApplications
     });

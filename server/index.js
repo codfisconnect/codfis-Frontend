@@ -52,6 +52,20 @@ app.use('/api', apiLimiter);
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
+// 25-second request timeout guard to prevent hanging connections
+app.use('/api', (req, res, next) => {
+  res.setTimeout(25000, () => {
+    if (!res.headersSent) {
+      console.warn(`[Timeout] Request ${req.method} ${req.originalUrl} timed out after 25s`);
+      res.status(504).json({
+        success: false,
+        error: 'The server took too long to process your request. Please try again in a moment.'
+      });
+    }
+  });
+  next();
+});
+
 // Health check endpoint
 app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', service: 'Codfis Technologies V2 Backend', timestamp: new Date().toISOString() });
