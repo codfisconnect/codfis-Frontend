@@ -57,7 +57,7 @@ exports.getDashboardStats = async (req, res) => {
     const totalJobsCount = await get('SELECT COUNT(*) as count FROM jobs');
 
     const recentProjects = await query('SELECT * FROM project_enquiries ORDER BY id DESC LIMIT 5');
-    const recentApplications = await query('SELECT id, applicationId, jobTitle, fullName, email, status, createdAt FROM job_applications ORDER BY id DESC LIMIT 5');
+    const recentApplications = await query('SELECT id, "applicationId", "jobTitle", "fullName", email, status, "createdAt" FROM job_applications ORDER BY id DESC LIMIT 5');
 
     res.json({
       success: true,
@@ -244,19 +244,19 @@ exports.getAllApplications = async (req, res) => {
 exports.getApplicationById = async (req, res) => {
   try {
     const id = req.params.id;
-    const application = await get('SELECT * FROM job_applications WHERE id = ? OR applicationId = ?', [id, id]);
+    const application = await get('SELECT * FROM job_applications WHERE id = ? OR "applicationId" = ?', [id, id]);
     if (!application) {
       return res.status(404).json({ success: false, error: 'Application not found' });
     }
 
     // Associated job details
-    const job = await get('SELECT * FROM jobs WHERE id = ?', [application.jobId]);
+    const job = await get('SELECT * FROM jobs WHERE id = ?', [application.jobId || application['jobId']]);
 
     // Associated files
-    const files = await query('SELECT * FROM application_files WHERE application_id = ? ORDER BY id ASC', [application.applicationId]);
+    const files = await query('SELECT * FROM application_files WHERE application_id = ? ORDER BY id ASC', [application.applicationId || application['applicationId']]);
 
     // Associated events
-    const events = await query('SELECT * FROM application_events WHERE application_id = ? ORDER BY id ASC', [application.applicationId]);
+    const events = await query('SELECT * FROM application_events WHERE application_id = ? ORDER BY id ASC', [application.applicationId || application['applicationId']]);
 
     // Associated interview slot if any
     let interviewSlot = null;
@@ -294,17 +294,17 @@ exports.updateApplicationStatus = async (req, res) => {
       return res.status(400).json({ success: false, error: 'Invalid application status value' });
     }
 
-    await run('UPDATE job_applications SET status = ?, updatedAt = CURRENT_TIMESTAMP WHERE id = ? OR applicationId = ?', [
+    await run('UPDATE job_applications SET status = ?, "updatedAt" = CURRENT_TIMESTAMP WHERE id = ? OR "applicationId" = ?', [
       status,
       req.params.id,
       req.params.id
     ]);
 
     // Log status change event
-    const appRecord = await get('SELECT applicationId FROM job_applications WHERE id = ? OR applicationId = ?', [req.params.id, req.params.id]);
+    const appRecord = await get('SELECT "applicationId" FROM job_applications WHERE id = ? OR "applicationId" = ?', [req.params.id, req.params.id]);
     if (appRecord) {
       await run('INSERT INTO application_events (application_id, event_type, metadata) VALUES (?, ?, ?)', [
-        appRecord.applicationId,
+        appRecord.applicationId || appRecord['applicationId'],
         'STATUS_UPDATED',
         JSON.stringify({ newStatus: status })
       ]);
@@ -335,10 +335,10 @@ exports.downloadResume = async (req, res) => {
     let originalName = null;
 
     if (type === 'trainer') {
-      record = await get('SELECT resumePath, resumeOriginalName FROM trainer_applications WHERE id = ?', [id]);
+      record = await get('SELECT "resumePath", "resumeOriginalName" FROM trainer_applications WHERE id = ?', [id]);
       if (record) {
-        filename = record.resumePath;
-        originalName = record.resumeOriginalName;
+        filename = record.resumePath || record['resumePath'];
+        originalName = record.resumeOriginalName || record['resumeOriginalName'];
       }
     } else if (type === 'file') {
       record = await get('SELECT file_name, original_name, mime_type FROM application_files WHERE id = ?', [id]);
@@ -350,10 +350,10 @@ exports.downloadResume = async (req, res) => {
         }
       }
     } else {
-      record = await get('SELECT resumePath, resumeOriginalName FROM job_applications WHERE id = ? OR applicationId = ?', [id, id]);
+      record = await get('SELECT "resumePath", "resumeOriginalName" FROM job_applications WHERE id = ? OR "applicationId" = ?', [id, id]);
       if (record) {
-        filename = record.resumePath;
-        originalName = record.resumeOriginalName;
+        filename = record.resumePath || record['resumePath'];
+        originalName = record.resumeOriginalName || record['resumeOriginalName'];
       }
     }
 

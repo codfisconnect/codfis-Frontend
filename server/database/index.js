@@ -311,6 +311,18 @@ async function initPgSchema() {
   try {
     await run('ALTER TABLE project_enquiries ADD COLUMN IF NOT EXISTS projecttype VARCHAR(255)');
     await run('ALTER TABLE project_enquiries ADD COLUMN IF NOT EXISTS budgetrange VARCHAR(100)');
+    await run('ALTER TABLE job_applications ADD COLUMN IF NOT EXISTS applicationid VARCHAR(100)');
+    await run('ALTER TABLE job_applications ADD COLUMN IF NOT EXISTS jobid INTEGER');
+    await run('ALTER TABLE job_applications ADD COLUMN IF NOT EXISTS jobtitle VARCHAR(255)');
+    await run('ALTER TABLE job_applications ADD COLUMN IF NOT EXISTS fullname VARCHAR(255)');
+    await run('ALTER TABLE job_applications ADD COLUMN IF NOT EXISTS currentcompany VARCHAR(255)');
+    await run('ALTER TABLE job_applications ADD COLUMN IF NOT EXISTS noticeperiod VARCHAR(100)');
+    await run('ALTER TABLE job_applications ADD COLUMN IF NOT EXISTS expectedsalary VARCHAR(100)');
+    await run('ALTER TABLE job_applications ADD COLUMN IF NOT EXISTS linkedin TEXT');
+    await run('ALTER TABLE job_applications ADD COLUMN IF NOT EXISTS resumepath TEXT');
+    await run('ALTER TABLE job_applications ADD COLUMN IF NOT EXISTS resumeoriginalname TEXT');
+    await run('ALTER TABLE job_applications ADD COLUMN IF NOT EXISTS coverletter TEXT');
+    await run('ALTER TABLE job_applications ADD COLUMN IF NOT EXISTS answersjson TEXT');
   } catch (e) {
     // ignore if columns already exist or not supported
   }

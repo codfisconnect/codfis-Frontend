@@ -13,7 +13,7 @@ async function generateApplicationReference() {
   const dd = String(today.getDate()).padStart(2, '0');
   const dateStr = `${yyyy}${mm}${dd}`;
 
-  const row = await get("SELECT COUNT(*) as count FROM job_applications WHERE applicationId LIKE ?", [`COD-APP-${dateStr}-%`]);
+  const row = await get('SELECT COUNT(*) as count FROM job_applications WHERE "applicationId" LIKE ?', [`COD-APP-${dateStr}-%`]);
   const nextNum = String((row ? row.count : 0) + 1).padStart(4, '0');
   return `COD-APP-${dateStr}-${nextNum}`;
 }
@@ -263,10 +263,10 @@ exports.applyForJob = async (req, res) => {
     // Insert into job_applications
     const result = await run(`
       INSERT INTO job_applications (
-        applicationId, jobId, jobTitle, fullName, email, phone, location,
-        experience, currentCompany, noticePeriod, expectedSalary,
-        linkedIn, github, portfolio, resumePath, resumeOriginalName,
-        coverLetter, answersJson, status, workflow_type, current_step,
+        "applicationId", "jobId", "jobTitle", "fullName", email, phone, location,
+        experience, "currentCompany", "noticePeriod", "expectedSalary",
+        "linkedIn", github, portfolio, "resumePath", "resumeOriginalName",
+        "coverLetter", "answersJson", status, workflow_type, current_step,
         submitted_at, disqualified, disqualification_reason, score,
         code_submission, code_language, interview_slot_id, candidate_account_id
       ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP, ?, ?, ?, ?, ?, ?, ?)
@@ -513,9 +513,9 @@ exports.applyTrainer = async (req, res) => {
 
     await run(`
       INSERT INTO trainer_applications (
-        applicationId, name, email, phone, location, primaryTech, experience,
-        currentRole, linkedIn, portfolio, preferredTopics, availability,
-        expectedCompensation, resumePath, resumeOriginalName, additionalInfo, status
+        "applicationId", name, email, phone, location, "primaryTech", experience,
+        "currentRole", "linkedIn", portfolio, "preferredTopics", availability,
+        "expectedCompensation", "resumePath", "resumeOriginalName", "additionalInfo", status
       ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'New')
     `, [
       applicationId, name, email, phone, location || '', primaryTech, experience,
