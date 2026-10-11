@@ -68,7 +68,12 @@ app.use('/api', (req, res, next) => {
 
 // Health check endpoint
 app.get('/api/health', (req, res) => {
-  res.json({ status: 'ok', service: 'Codfis Technologies V2 Backend', timestamp: new Date().toISOString() });
+  res.json({
+    status: 'ok',
+    service: 'Codfis Technologies V2 Backend',
+    version: '2.1.0',
+    timestamp: new Date().toISOString()
+  });
 });
 
 // API Routes
