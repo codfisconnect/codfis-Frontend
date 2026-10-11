@@ -88,18 +88,25 @@ class StorageService {
 
       const uploadResult = await new Promise((resolve, reject) => {
         let isDone = false;
+        const uploadOptions = {
+          folder: targetFolder,
+          resource_type: resourceType,
+          type: 'upload', // Standard secure upload
+          public_id: `${safeBase}-${uniqueSuffix}${ext}`,
+          use_filename: false,
+          unique_filename: false,
+          overwrite: true
+        };
+
         const stream = cloudinary.uploader.upload_stream(
-          {
-            folder: targetFolder,
-            resource_type: resourceType,
-            type: 'upload', // Standard secure upload
-            public_id: `${safeBase}-${uniqueSuffix}`,
-            format: ext.replace('.', '')
-          },
+          uploadOptions,
           (error, result) => {
             if (isDone) return;
             isDone = true;
-            if (error) return reject(error);
+            if (error) {
+              console.error('[Storage] Cloudinary upload error:', error.message || error);
+              return reject(new Error('Cloudinary upload failed: ' + (error.message || 'Remote storage error')));
+            }
             resolve(result);
           }
         );
@@ -107,16 +114,21 @@ class StorageService {
         stream.on('error', (err) => {
           if (isDone) return;
           isDone = true;
-          reject(err);
+          console.error('[Storage] Cloudinary stream error event:', err.message || err);
+          reject(new Error('Cloudinary upload stream error: ' + (err.message || 'Stream failed')));
         });
 
-        // Fail fast if Cloudinary does not respond within 15 seconds
+        // Fail fast if Cloudinary does not respond within 8 seconds
         setTimeout(() => {
           if (!isDone) {
             isDone = true;
-            reject(new Error('Cloudinary upload timed out after 15 seconds'));
+            try { stream.destroy(); } catch (e) {}
+            console.error('[Storage] Cloudinary upload timed out after 8s');
+            const err = new Error('Resume storage provider timed out. Please try again or apply with your LinkedIn profile.');
+            err.status = 504;
+            reject(err);
           }
-        }, 15000);
+        }, 8000);
 
         stream.end(buffer);
       });

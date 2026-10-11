@@ -397,7 +397,9 @@ exports.applyForJob = async (req, res) => {
       }
     }
     console.error('Error processing job application:', err);
-    res.status(500).json({ success: false, error: 'Failed to submit application. Please try again.' });
+    const status = err.status || (err.message && err.message.includes('timeout') ? 504 : 500);
+    const userError = (err.status && err.message) ? err.message : (err.message || 'Failed to submit application. Please try again.');
+    res.status(status).json({ success: false, error: userError });
   }
 };
 
