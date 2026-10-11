@@ -313,8 +313,77 @@ async function runTests() {
     });
     assert(resumeRes.status === 200, 'Authenticated admin securely downloaded candidate resume');
 
-    // TEST 12: Security - Reject Unauthorized Access
-    console.log('\n[Test 12] Security Checks');
+    // TEST 12: Job Application Without Resume (Allowed workflow)
+    console.log('\n[Test 12] Job Application Without Resume');
+    const noResumeBoundary = '----NoResumeBoundary' + Date.now();
+    const noResumeBody = buildMultipartBody(
+      {
+        fullName: 'Resume-Free Candidate',
+        email: 'noresume@example.com',
+        phone: '+91 9876599999',
+        location: 'Remote',
+        linkedIn: 'https://linkedin.com/in/noresume-candidate',
+        github: 'https://github.com/noresume-candidate',
+        coverLetter: 'Portfolio and profile links provided directly.'
+      },
+      {},
+      noResumeBoundary
+    );
+    const noResumeRes = await request({
+      hostname: 'localhost',
+      port: PORT,
+      path: `/api/jobs/${sampleJob.id}/apply`,
+      method: 'POST',
+      headers: {
+        'Content-Type': `multipart/form-data; boundary=${noResumeBoundary}`,
+        'Content-Length': Buffer.byteLength(noResumeBody)
+      }
+    }, noResumeBody);
+    assert(noResumeRes.status === 201 && noResumeRes.body.success === true, 'Candidate application accepted without requiring a resume file');
+
+    // TEST 13: Oversized File Upload Rejection (Strict 2 MB Limit)
+    console.log('\n[Test 13] 2 MB File Upload Boundary Enforcement');
+    const oversizedBoundary = '----OversizedBoundary' + Date.now();
+    const oversizedContent = 'X'.repeat(2.5 * 1024 * 1024); // 2.5 MB exceeds 2 MB limit
+    const oversizedBody = buildMultipartBody(
+      {
+        fullName: 'Heavy Uploader',
+        email: 'heavy@example.com',
+        phone: '+91 9999999999'
+      },
+      {
+        resume: {
+          name: 'large_resume.pdf',
+          type: 'application/pdf',
+          content: oversizedContent
+        }
+      },
+      oversizedBoundary
+    );
+    const oversizedRes = await request({
+      hostname: 'localhost',
+      port: PORT,
+      path: `/api/jobs/${sampleJob.id}/apply`,
+      method: 'POST',
+      headers: {
+        'Content-Type': `multipart/form-data; boundary=${oversizedBoundary}`,
+        'Content-Length': Buffer.byteLength(oversizedBody)
+      }
+    }, oversizedBody);
+    assert(oversizedRes.status === 413, 'Upload exceeding 2 MB is rejected with HTTP 413');
+
+    // TEST 14: Security - Reject Unauthorized Resume Download
+    console.log('\n[Test 14] Security - Unauthorized Resume Download');
+    const unauthResumeRes = await request({
+      hostname: 'localhost',
+      port: PORT,
+      path: `/api/admin/resumes/${latestApp.id}/download?type=job`,
+      method: 'GET'
+    });
+    assert(unauthResumeRes.status === 401, 'Unauthorized resume download without token is rejected with 401');
+
+    // TEST 15: Security - Reject Unauthorized Access to Admin Dashboard
+    console.log('\n[Test 15] Security Checks - Dashboard');
     const unauthRes = await request({
       hostname: 'localhost',
       port: PORT,
@@ -323,8 +392,8 @@ async function runTests() {
     });
     assert(unauthRes.status === 401, 'Unauthorized request without token is rejected with 401');
 
-    // TEST 13: Clean Homepage URL & Redirect Verification
-    console.log('\n[Test 13] Homepage Clean URL & /index.html 301 Redirect');
+    // TEST 16: Clean Homepage URL & Redirect Verification
+    console.log('\n[Test 16] Homepage Clean URL & /index.html 301 Redirect');
     const redirectRes = await request({
       hostname: 'localhost',
       port: PORT,

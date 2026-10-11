@@ -64,10 +64,24 @@ app.use('/api/admin', adminRoutes);
 
 // Error Handling Middleware
 app.use((err, req, res, next) => {
-  console.error('[Server Error]', err.message);
   if (err.name === 'MulterError') {
+    if (err.code === 'LIMIT_FILE_SIZE') {
+      return res.status(413).json({
+        success: false,
+        error: 'File size exceeds the 2 MB limit. Please upload a file smaller than 2 MB.'
+      });
+    }
     return res.status(400).json({ success: false, error: `Upload error: ${err.message}` });
   }
+
+  if (err.code === 'STORAGE_DISABLED') {
+    return res.status(503).json({
+      success: false,
+      error: err.message
+    });
+  }
+
+  console.error('[Server Error]', err.message);
   res.status(err.status || 500).json({
     success: false,
     error: err.message || 'Internal Server Error'

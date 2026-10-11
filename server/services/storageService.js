@@ -12,6 +12,8 @@ class StorageService {
       config.r2.bucketName
     );
 
+    this.isProduction = config.nodeEnv === 'production';
+
     if (this.isR2Configured) {
       this.client = new S3Client({
         region: 'auto',
@@ -23,17 +25,27 @@ class StorageService {
       });
       this.bucket = config.r2.bucketName;
       console.log(`[Storage] Cloudflare R2 configured (bucket: ${this.bucket})`);
+    } else if (this.isProduction) {
+      // In production without R2: resume file uploads and downloads are temporarily disabled
+      // Never save to Render's ephemeral filesystem!
+      console.log('[Storage] Production Free mode: Resume file uploads and downloads are temporarily disabled (no R2 / ephemeral disk).');
     } else {
-      if (config.nodeEnv === 'production') {
-        throw new Error('[Storage] FATAL: Cloudflare R2 credentials (R2_ACCOUNT_ID, R2_ACCESS_KEY_ID, R2_SECRET_ACCESS_KEY, R2_BUCKET_NAME) are required in production. Ephemeral filesystem fallback is disallowed.');
-      } else {
-        console.log('[Storage] Local filesystem storage active.');
-      }
+      console.log('[Storage] Local filesystem storage active for development.');
       this.ensureLocalDirs();
     }
   }
 
+  /**
+   * Whether resume/file storage is currently active
+   */
+  isEnabled() {
+    if (this.isR2Configured) return true;
+    if (this.isProduction) return false;
+    return true; // Local development with local filesystem
+  }
+
   ensureLocalDirs() {
+    if (this.isProduction && !this.isR2Configured) return;
     try {
       const resumes = path.join(config.uploadDir, 'resumes');
       const videos = path.join(config.uploadDir, 'videos');
@@ -48,9 +60,18 @@ class StorageService {
    * Save a file buffer or local file path
    * @param {Object} file - Multer file object
    * @param {string} folder - 'resumes' or 'videos'
-   * @returns {Promise<string>} filename
+   * @returns {Promise<string|null>} filename, or null if storage disabled
    */
   async saveFile(file, folder = 'resumes') {
+    if (!file) return null;
+
+    if (!this.isEnabled()) {
+      const err = new Error('Resume file uploads are temporarily unavailable on this deployment.');
+      err.code = 'STORAGE_DISABLED';
+      err.status = 503;
+      throw err;
+    }
+
     const ext = path.extname(file.originalname).toLowerCase();
     const safeBase = path.basename(file.originalname, ext).replace(/[^a-zA-Z0-9_-]/g, '_');
     const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
@@ -70,14 +91,13 @@ class StorageService {
         ContentType: file.mimetype
       }));
 
-      // If multer wrote a temp file, clean it up
       if (file.path && fs.existsSync(file.path)) {
         try { fs.unlinkSync(file.path); } catch (e) {}
       }
 
       return filename;
     } else {
-      // Local storage fallback
+      // Local storage for development
       this.ensureLocalDirs();
       const targetDir = path.join(config.uploadDir, folder);
       const targetPath = path.join(targetDir, filename);
@@ -98,6 +118,13 @@ class StorageService {
    * @param {string} folder - 'resumes' or 'videos'
    */
   async getFileStream(filename, folder = 'resumes') {
+    if (!this.isEnabled()) {
+      const err = new Error('Resume file downloads are temporarily unavailable.');
+      err.code = 'STORAGE_DISABLED';
+      err.status = 503;
+      throw err;
+    }
+
     const key = `${folder}/${path.basename(filename)}`;
 
     if (this.isR2Configured) {
@@ -112,7 +139,6 @@ class StorageService {
           contentLength: response.ContentLength
         };
       } catch (err) {
-        // Fallback check if it was stored locally before migration
         const localPath = path.join(config.uploadDir, folder, path.basename(filename));
         if (fs.existsSync(localPath)) {
           return {
@@ -140,6 +166,8 @@ class StorageService {
    * Delete file
    */
   async deleteFile(filename, folder = 'resumes') {
+    if (!this.isEnabled() || !filename) return;
+
     const key = `${folder}/${path.basename(filename)}`;
     if (this.isR2Configured) {
       try {
@@ -159,3 +187,5 @@ class StorageService {
 }
 
 module.exports = new StorageService();
+
+

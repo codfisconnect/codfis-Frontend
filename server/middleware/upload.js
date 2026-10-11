@@ -1,10 +1,11 @@
 const multer = require('multer');
 const path = require('path');
-const fs = require('fs');
 const config = require('../config');
 
-// Use memoryStorage so uploads work seamlessly in serverless / ephemeral containers and stream directly to Cloudflare R2
+// Use memoryStorage so uploads stream in-memory without touching Render's ephemeral filesystem
 const memoryStorage = multer.memoryStorage();
+
+const RESUME_MAX_SIZE = 2 * 1024 * 1024; // Exactly 2 MB (2,097,152 bytes)
 
 const fileFilter = (req, file, cb) => {
   const allowedExtensions = ['.pdf', '.doc', '.docx'];
@@ -19,7 +20,9 @@ const fileFilter = (req, file, cb) => {
   if (allowedExtensions.includes(ext) && allowedMimeTypes.includes(file.mimetype)) {
     cb(null, true);
   } else {
-    cb(new Error('Invalid file type. Only PDF, DOC, and DOCX files are allowed.'));
+    const err = new Error('Invalid file type. Only PDF, DOC, and DOCX files are allowed.');
+    err.status = 400;
+    cb(err);
   }
 };
 
@@ -27,7 +30,7 @@ const uploadResume = multer({
   storage: memoryStorage,
   fileFilter: fileFilter,
   limits: {
-    fileSize: 10 * 1024 * 1024 // 10 MB max limit for resumes
+    fileSize: RESUME_MAX_SIZE
   }
 });
 
@@ -39,7 +42,9 @@ const videoFilter = (req, file, cb) => {
   if (allowedExtensions.includes(ext) && allowedMimeTypes.includes(file.mimetype)) {
     cb(null, true);
   } else {
-    cb(new Error('Invalid video type. Only MP4, MOV, and WebM videos are allowed.'));
+    const err = new Error('Invalid video type. Only MP4, MOV, and WebM videos are allowed.');
+    err.status = 400;
+    cb(err);
   }
 };
 
@@ -51,7 +56,7 @@ const uploadVideo = multer({
   }
 });
 
-// Multi-file upload for applications (resume, projectDoc, workSample, portfolioFile)
+// Multi-file upload for applications
 const applicationFilesUpload = multer({
   storage: memoryStorage,
   fileFilter: (req, file, cb) => {
@@ -62,33 +67,35 @@ const applicationFilesUpload = multer({
       if (allowedExts.includes(ext) && allowedMimes.includes(file.mimetype)) {
         return cb(null, true);
       }
-      return cb(new Error('Invalid video type. Only MP4, MOV, and WebM files are allowed.'));
+      const err = new Error('Invalid video type. Only MP4, MOV, and WebM files are allowed.');
+      err.status = 400;
+      return cb(err);
     }
 
-    // Resumes, project documents, portfolio PDFs, work samples
-    const allowedDocExts = ['.pdf', '.doc', '.docx', '.zip', '.png', '.jpg', '.jpeg'];
+    // Resumes, documents
+    const allowedDocExts = ['.pdf', '.doc', '.docx'];
     const allowedDocMimes = [
       'application/pdf',
       'application/msword',
-      'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-      'application/zip',
-      'application/x-zip-compressed',
-      'image/png',
-      'image/jpeg'
+      'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
     ];
     if (allowedDocExts.includes(ext) && allowedDocMimes.includes(file.mimetype)) {
       return cb(null, true);
     }
-    return cb(new Error('Invalid document type. Allowed types: PDF, DOC, DOCX, ZIP, PNG, JPG.'));
+    const err = new Error('Invalid document type. Allowed types: PDF, DOC, DOCX.');
+    err.status = 400;
+    return cb(err);
   },
   limits: {
-    fileSize: 50 * 1024 * 1024 // 50 MB
+    fileSize: RESUME_MAX_SIZE
   }
 });
 
 module.exports = {
   uploadResume,
   uploadVideo,
-  applicationFilesUpload
+  applicationFilesUpload,
+  RESUME_MAX_SIZE
 };
+
 

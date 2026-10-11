@@ -321,6 +321,13 @@ exports.downloadResume = async (req, res) => {
     const id = req.params.id;
     const type = req.query.type || 'job'; // 'job', 'trainer', 'file'
 
+    if (!storageService.isEnabled()) {
+      return res.status(503).json({
+        success: false,
+        error: 'Resume storage and file downloads are temporarily unavailable on this deployment.'
+      });
+    }
+
     let record = null;
     let targetDir = path.join(config.uploadDir, 'resumes');
     let filename = null;
@@ -350,7 +357,7 @@ exports.downloadResume = async (req, res) => {
     }
 
     if (!record || !filename) {
-      return res.status(404).json({ success: false, error: 'Requested file record not found' });
+      return res.status(404).json({ success: false, error: 'Requested file record not found or no resume was attached to this application.' });
     }
 
     const folder = (record.mime_type && record.mime_type.startsWith('video/')) ? 'videos' : 'resumes';
@@ -372,6 +379,9 @@ exports.downloadResume = async (req, res) => {
       res.send(fileData.stream);
     }
   } catch (err) {
+    if (err.code === 'STORAGE_DISABLED' || err.status === 503) {
+      return res.status(503).json({ success: false, error: err.message });
+    }
     console.error('Download resume error:', err);
     res.status(500).json({ success: false, error: 'Error downloading file: ' + err.message });
   }

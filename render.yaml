@@ -13,16 +13,6 @@ services:
         value: 10000
       - key: DATABASE_URL
         sync: false
-      - key: R2_ACCOUNT_ID
-        sync: false
-      - key: R2_ACCESS_KEY_ID
-        sync: false
-      - key: R2_SECRET_ACCESS_KEY
-        sync: false
-      - key: R2_BUCKET_NAME
-        sync: false
-      - key: R2_PUBLIC_URL
-        sync: false
       - key: CORS_ORIGIN
         value: https://www.codfis.com,https://codfis.com
       - key: JWT_SECRET

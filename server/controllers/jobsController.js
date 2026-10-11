@@ -181,58 +181,67 @@ exports.applyForJob = async (req, res) => {
     let resumeOriginalName = null;
     const uploadedFiles = [];
 
-    if (req.file) {
-      const savedFilename = await storageService.saveFile(req.file, 'resumes');
-      resumePath = savedFilename;
-      resumeOriginalName = req.file.originalname;
-      uploadedFiles.push({
-        type: 'resume',
-        filename: savedFilename,
-        originalName: req.file.originalname,
-        size: req.file.size,
-        mimetype: req.file.mimetype
-      });
-    } else if (req.files) {
-      if (Array.isArray(req.files)) {
-        for (const f of req.files) {
-          const folder = (f.fieldname === 'video') ? 'videos' : 'resumes';
-          const savedFilename = await storageService.saveFile(f, folder);
-          if (!resumePath && (f.fieldname === 'resume' || f.fieldname === 'file')) {
-            resumePath = savedFilename;
-            resumeOriginalName = f.originalname;
-          }
-          uploadedFiles.push({
-            type: f.fieldname,
-            filename: savedFilename,
-            originalName: f.originalname,
-            size: f.size,
-            mimetype: f.mimetype
-          });
-        }
-      } else {
-        // req.files is object of field arrays
-        for (const [fieldname, filesArr] of Object.entries(req.files)) {
-          for (const f of filesArr) {
-            const folder = (fieldname === 'video') ? 'videos' : 'resumes';
+    const hasIncomingFile = Boolean(req.file || (req.files && (Array.isArray(req.files) ? req.files.length > 0 : Object.keys(req.files).length > 0)));
+
+    if (hasIncomingFile) {
+      if (!storageService.isEnabled()) {
+        return res.status(503).json({
+          success: false,
+          error: 'Resume file uploads are temporarily unavailable on this deployment. Please submit your application with your LinkedIn or portfolio URL instead.'
+        });
+      }
+
+      if (req.file) {
+        const savedFilename = await storageService.saveFile(req.file, 'resumes');
+        resumePath = savedFilename;
+        resumeOriginalName = req.file.originalname;
+        uploadedFiles.push({
+          type: 'resume',
+          filename: savedFilename,
+          originalName: req.file.originalname,
+          size: req.file.size,
+          mimetype: req.file.mimetype
+        });
+      } else if (req.files) {
+        if (Array.isArray(req.files)) {
+          for (const f of req.files) {
+            const folder = (f.fieldname === 'video') ? 'videos' : 'resumes';
             const savedFilename = await storageService.saveFile(f, folder);
-            if (!resumePath && fieldname === 'resume') {
+            if (!resumePath && (f.fieldname === 'resume' || f.fieldname === 'file')) {
               resumePath = savedFilename;
               resumeOriginalName = f.originalname;
             }
             uploadedFiles.push({
-              type: fieldname,
+              type: f.fieldname,
               filename: savedFilename,
               originalName: f.originalname,
               size: f.size,
               mimetype: f.mimetype
             });
           }
+        } else {
+          // req.files is object of field arrays
+          for (const [fieldname, filesArr] of Object.entries(req.files)) {
+            for (const f of filesArr) {
+              const folder = (fieldname === 'video') ? 'videos' : 'resumes';
+              const savedFilename = await storageService.saveFile(f, folder);
+              if (!resumePath && fieldname === 'resume') {
+                resumePath = savedFilename;
+                resumeOriginalName = f.originalname;
+              }
+              uploadedFiles.push({
+                type: fieldname,
+                filename: savedFilename,
+                originalName: f.originalname,
+                size: f.size,
+                mimetype: f.mimetype
+              });
+            }
+          }
         }
       }
     }
 
-    // Some workflows might submit without file initially or external/registration
-    // But if simple/mcq/etc require resume unless specified
     const appWorkflow = workflowType || job.workflow_type || 'simple';
 
     // Generate readable application reference number
@@ -492,6 +501,12 @@ exports.applyTrainer = async (req, res) => {
     let resumeOriginalName = null;
 
     if (req.file) {
+      if (!storageService.isEnabled()) {
+        return res.status(503).json({
+          success: false,
+          error: 'Resume / CV file uploads are temporarily unavailable on this deployment. Please provide your LinkedIn profile URL instead.'
+        });
+      }
       resumePath = await storageService.saveFile(req.file, 'resumes');
       resumeOriginalName = req.file.originalname;
     }

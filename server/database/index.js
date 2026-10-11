@@ -482,6 +482,58 @@ async function initSqliteSchema() {
       createdAt DATETIME DEFAULT CURRENT_TIMESTAMP
     )
   `);
+
+  // Safe migration: Check if legacy job_applications has NOT NULL on resumePath and make it nullable
+  try {
+    const tableInfo = await query("PRAGMA table_info(job_applications)");
+    const resumeCol = tableInfo.find(c => c.name === 'resumePath');
+    if (resumeCol && resumeCol.notnull === 1) {
+      await run("PRAGMA foreign_keys=off");
+      await run(`
+        CREATE TABLE IF NOT EXISTS job_applications_new (
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          applicationId TEXT UNIQUE NOT NULL,
+          jobId INTEGER NOT NULL,
+          jobTitle TEXT NOT NULL,
+          fullName TEXT NOT NULL,
+          email TEXT NOT NULL,
+          phone TEXT NOT NULL,
+          location TEXT,
+          experience TEXT,
+          currentCompany TEXT,
+          noticePeriod TEXT,
+          expectedSalary TEXT,
+          linkedIn TEXT,
+          github TEXT,
+          portfolio TEXT,
+          resumePath TEXT,
+          resumeOriginalName TEXT,
+          coverLetter TEXT,
+          answersJson TEXT,
+          status TEXT DEFAULT 'Applied',
+          workflow_type TEXT DEFAULT 'simple',
+          current_step TEXT DEFAULT 'submitted',
+          submitted_at DATETIME,
+          disqualified INTEGER DEFAULT 0,
+          disqualification_reason TEXT,
+          score REAL,
+          code_submission TEXT,
+          code_language TEXT,
+          interview_slot_id INTEGER,
+          candidate_account_id INTEGER,
+          createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
+          updatedAt DATETIME DEFAULT CURRENT_TIMESTAMP
+        )
+      `);
+      await run(`INSERT INTO job_applications_new SELECT * FROM job_applications`);
+      await run(`DROP TABLE job_applications`);
+      await run(`ALTER TABLE job_applications_new RENAME TO job_applications`);
+      await run("PRAGMA foreign_keys=on");
+      console.log('[Database] Migrated job_applications.resumePath to be nullable.');
+    }
+  } catch (err) {
+    console.warn('[Database] Resume migration note:', err.message);
+  }
 }
 
 async function seedAdmin() {
