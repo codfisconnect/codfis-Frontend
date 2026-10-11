@@ -99,7 +99,24 @@
           })
         });
 
-        const data = await res.json();
+        const contentType = res.headers.get('content-type') || '';
+        let data = null;
+
+        if (contentType.includes('application/json')) {
+          try {
+            data = await res.json();
+          } catch (jsonErr) {
+            console.error('Failed to parse JSON response:', jsonErr);
+          }
+        }
+
+        if (!data) {
+          // Response is HTML, text, or malformed
+          if (res.status === 404 || res.status === 502 || res.status === 503 || res.status === 504) {
+            throw new Error('Unable to reach the authentication service. Please try again later.');
+          }
+          throw new Error('Unable to reach the authentication service. Please try again later.');
+        }
 
         if (data.success && data.token) {
           localStorage.setItem('codfis_admin_token', data.token);
@@ -110,7 +127,7 @@
         }
       } catch (err) {
         alertEl.className = 'alert alert-error';
-        alertEl.textContent = err.message || 'Invalid username or password';
+        alertEl.textContent = err.message || 'Unable to reach the authentication service. Please try again later.';
         alertEl.style.display = 'block';
       } finally {
         loginBtn.disabled = false;

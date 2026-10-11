@@ -33,16 +33,26 @@ function login() {
     })
   })
     .then(async (response) => {
-      const text = await response.text();
+      const contentType = response.headers.get("content-type") || "";
+      let data = null;
 
-      if (!response.ok) {
-        throw new Error(text || `Login failed. Status: ${response.status}`);
+      if (contentType.includes("application/json")) {
+        try {
+          data = await response.json();
+        } catch (e) {
+          console.error("Failed to parse JSON response:", e);
+        }
       }
 
-      const data = JSON.parse(text);
+      if (!response.ok) {
+        const errorMsgText = (data && (data.error || data.message))
+          ? (data.error || data.message)
+          : "Unable to reach the authentication service. Please try again later.";
+        throw new Error(errorMsgText);
+      }
 
-      if (!data.token) {
-        throw new Error("Token not received from server");
+      if (!data || !data.token) {
+        throw new Error("Unable to reach the authentication service. Please try again later.");
       }
 
       localStorage.setItem("token", data.token);
@@ -53,7 +63,7 @@ function login() {
     })
     .catch((error) => {
       console.error("Login error:", error);
-      errorMsg.innerText = error.message || "Unable to login";
+      errorMsg.innerText = error.message || "Unable to reach the authentication service. Please try again later.";
     })
     .finally(() => {
       loginBtn.disabled = false;
