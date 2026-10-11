@@ -889,9 +889,19 @@
           method: 'POST',
           body: formData
         });
-        const data = await res.json();
 
-        if (data.success) {
+        // Safely parse JSON response with fallback for non-JSON or empty bodies
+        let data = null;
+        const text = await res.text();
+        if (text && text.trim()) {
+          try {
+            data = JSON.parse(text);
+          } catch (_) {
+            data = null;
+          }
+        }
+
+        if (res.ok && data && data.success) {
           alertEl.className = 'alert alert-success';
           alertEl.innerHTML = `<strong>Application Submitted!</strong> Your application ID is <code>${data.data.applicationId}</code>. Our hiring team will review your profile shortly.`;
           alertEl.style.display = 'block';
@@ -899,11 +909,22 @@
           if (fileInfoEl) fileInfoEl.style.display = 'none';
           if (fileErrorEl) fileErrorEl.style.display = 'none';
         } else {
-          throw new Error(data.error || 'Failed to submit application');
+          // Meaningful error message extracting server explanation or friendly fallback
+          let errMsg = 'Failed to submit application. Please try again.';
+          if (data && data.error) {
+            errMsg = data.error;
+          } else if (res.status === 413) {
+            errMsg = 'File size exceeds the 2 MB limit. Please choose a file smaller than or equal to 2 MB.';
+          } else if (res.status === 415) {
+            errMsg = 'Invalid or unsupported resume format. Please upload a valid PDF, DOC, or DOCX document.';
+          } else if (res.status === 502 || res.status === 503) {
+            errMsg = 'The recruitment service is momentarily busy or updating. Please try submitting again in a moment.';
+          }
+          throw new Error(errMsg);
         }
       } catch (err) {
         alertEl.className = 'alert alert-error';
-        alertEl.textContent = err.message || 'Error submitting application.';
+        alertEl.textContent = err.message || 'Error submitting application. Please try again.';
         alertEl.style.display = 'block';
       } finally {
         submitBtn.disabled = false;
@@ -987,9 +1008,15 @@
           method: 'POST',
           body: formData
         });
-        const data = await res.json();
+        const rawText = await res.text();
+        let data = null;
+        try {
+          data = rawText ? JSON.parse(rawText) : null;
+        } catch (parseErr) {
+          console.warn('Non-JSON response from trainer application endpoint:', rawText);
+        }
 
-        if (data.success) {
+        if (res.ok && data && data.success) {
           alertEl.className = 'alert alert-success';
           alertEl.innerHTML = `<strong>Application Received!</strong> Reference ID: <code>${data.data.applicationId}</code>. Thank you for your interest in mentoring at Codfis. We will reach out soon.`;
           alertEl.style.display = 'block';
@@ -997,7 +1024,19 @@
           if (fileInfoEl) fileInfoEl.style.display = 'none';
           if (fileErrorEl) fileErrorEl.style.display = 'none';
         } else {
-          throw new Error(data.error || 'Failed to submit trainer application');
+          let userMsg = (data && data.error) ? data.error : null;
+          if (!userMsg) {
+            if (res.status === 413) {
+              userMsg = 'Resume file exceeds the 2 MB limit. Please upload a smaller file.';
+            } else if (res.status === 415) {
+              userMsg = 'Invalid resume format. Only PDF, DOC, and DOCX files are accepted.';
+            } else if (res.status >= 500) {
+              userMsg = 'Our application service is momentarily unavailable. Please retry in a few moments.';
+            } else {
+              userMsg = 'Failed to submit trainer application. Please try again.';
+            }
+          }
+          throw new Error(userMsg);
         }
       } catch (err) {
         alertEl.className = 'alert alert-error';

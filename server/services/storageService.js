@@ -87,6 +87,7 @@ class StorageService {
       const resourceType = folder === 'videos' ? 'video' : 'raw';
 
       const uploadResult = await new Promise((resolve, reject) => {
+        let isDone = false;
         const stream = cloudinary.uploader.upload_stream(
           {
             folder: targetFolder,
@@ -96,10 +97,27 @@ class StorageService {
             format: ext.replace('.', '')
           },
           (error, result) => {
+            if (isDone) return;
+            isDone = true;
             if (error) return reject(error);
             resolve(result);
           }
         );
+
+        stream.on('error', (err) => {
+          if (isDone) return;
+          isDone = true;
+          reject(err);
+        });
+
+        // Fail fast if Cloudinary does not respond within 15 seconds
+        setTimeout(() => {
+          if (!isDone) {
+            isDone = true;
+            reject(new Error('Cloudinary upload timed out after 15 seconds'));
+          }
+        }, 15000);
+
         stream.end(buffer);
       });
 

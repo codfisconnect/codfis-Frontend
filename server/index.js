@@ -136,6 +136,15 @@ app.get('*', (req, res) => {
   res.sendFile(path.join(rootDir, 'index.html'));
 });
 
+// Process Safety Guards to prevent crashes on transient network / SDK errors
+process.on('uncaughtException', (err) => {
+  console.error('[Process Uncaught Exception]:', err.message, err.stack);
+});
+
+process.on('unhandledRejection', (reason, promise) => {
+  console.error('[Process Unhandled Rejection]:', reason);
+});
+
 // Start Server
 async function startServer(portOverride) {
   try {
