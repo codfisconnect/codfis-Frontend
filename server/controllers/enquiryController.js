@@ -47,7 +47,7 @@ exports.submitProjectEnquiry = async (req, res) => {
     }
 
     const result = await run(`
-      INSERT INTO project_enquiries (name, company, email, phone, projectType, budgetRange, timeline, requirement, status)
+      INSERT INTO project_enquiries (name, company, email, phone, "projectType", "budgetRange", timeline, requirement, status)
       VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'New')
     `, [
       name,

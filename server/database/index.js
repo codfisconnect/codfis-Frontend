@@ -137,9 +137,9 @@ async function initPgSchema() {
       title VARCHAR(255) NOT NULL,
       department VARCHAR(255) NOT NULL,
       location VARCHAR(255) NOT NULL,
-      "workMode" VARCHAR(100) NOT NULL,
-      "employmentType" VARCHAR(100) NOT NULL,
-      experience VARCHAR(100) NOT NULL,
+      "workMode" VARCHAR(100),
+      "employmentType" VARCHAR(100),
+      experience VARCHAR(100),
       salary VARCHAR(100) DEFAULT 'Competitive',
       description TEXT NOT NULL,
       requirements TEXT,
@@ -258,7 +258,7 @@ async function initPgSchema() {
       email VARCHAR(255) NOT NULL,
       phone VARCHAR(100) NOT NULL,
       location VARCHAR(255),
-      "primaryTech" VARCHAR(255) NOT NULL,
+      "primaryTech" VARCHAR(255),
       experience VARCHAR(100) NOT NULL,
       "currentRole" VARCHAR(255),
       "linkedIn" TEXT,
@@ -296,14 +296,24 @@ async function initPgSchema() {
       company VARCHAR(255),
       email VARCHAR(255) NOT NULL,
       phone VARCHAR(100),
-      "projectType" VARCHAR(255) NOT NULL,
+      "projectType" VARCHAR(255),
+      projecttype VARCHAR(255),
       "budgetRange" VARCHAR(100),
+      budgetrange VARCHAR(100),
       timeline VARCHAR(100),
       requirement TEXT NOT NULL,
       status VARCHAR(100) DEFAULT 'New',
       "createdAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     )
   `);
+
+  // Safe PostgreSQL migrations for case-sensitivity tolerance
+  try {
+    await run('ALTER TABLE project_enquiries ADD COLUMN IF NOT EXISTS projecttype VARCHAR(255)');
+    await run('ALTER TABLE project_enquiries ADD COLUMN IF NOT EXISTS budgetrange VARCHAR(100)');
+  } catch (e) {
+    // ignore if columns already exist or not supported
+  }
 }
 
 async function initSqliteSchema() {
