@@ -35,6 +35,11 @@ const uploadResume = multer({
   }
 });
 
+const jobApplicationUpload = uploadResume.fields([
+  { name: 'resume', maxCount: 1 },
+  { name: 'file', maxCount: 1 }
+]);
+
 const videoFilter = (req, file, cb) => {
   const allowedExtensions = ['.mp4', '.mov', '.webm'];
   const ext = path.extname(file.originalname).toLowerCase();
@@ -151,6 +156,7 @@ function validateUploadedResumeContent(req, res, next) {
 
 module.exports = {
   uploadResume,
+  jobApplicationUpload,
   uploadVideo,
   applicationFilesUpload,
   validateUploadedResumeContent,

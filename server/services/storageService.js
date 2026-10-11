@@ -105,6 +105,12 @@ class StorageService {
             isDone = true;
             if (error) {
               console.error('[Storage] Cloudinary upload error:', error.message || error);
+              const errMsg = String(error.message || error);
+              if (errMsg.toLowerCase().includes('invalid signature') || errMsg.toLowerCase().includes('unknown api key') || errMsg.toLowerCase().includes('must supply api_secret')) {
+                const err = new Error('Resume storage authentication is currently invalid or undergoing maintenance. Please apply using your LinkedIn profile or portfolio URL.');
+                err.status = 503;
+                return reject(err);
+              }
               return reject(new Error('Cloudinary upload failed: ' + (error.message || 'Remote storage error')));
             }
             resolve(result);
