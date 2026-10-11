@@ -9,12 +9,13 @@ const storageService = require('../services/storageService');
 // POST /api/admin/login
 exports.login = async (req, res) => {
   try {
-    const { username, password } = req.body;
-    if (!username || !password) {
+    const user = req.body.username || req.body.userId;
+    const password = req.body.password;
+    if (!user || !password) {
       return res.status(400).json({ success: false, error: 'Username and password are required' });
     }
 
-    const admin = await get('SELECT * FROM admins WHERE username = ?', [username]);
+    const admin = await get('SELECT * FROM admins WHERE username = ?', [user]);
     if (!admin) {
       return res.status(401).json({ success: false, error: 'Invalid username or password' });
     }

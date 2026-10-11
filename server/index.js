@@ -62,6 +62,10 @@ app.use('/api', jobRoutes);
 app.use('/api', enquiryRoutes);
 app.use('/api/admin', adminRoutes);
 
+// Compatibility alias for legacy /api/auth/login
+const adminController = require('./controllers/adminController');
+app.post('/api/auth/login', adminController.login);
+
 // Error Handling Middleware
 app.use((err, req, res, next) => {
   if (err.name === 'MulterError') {

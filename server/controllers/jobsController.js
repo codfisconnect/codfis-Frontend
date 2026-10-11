@@ -98,11 +98,11 @@ exports.getActiveJobs = async (req, res) => {
       params.push(q, q, q, q, q, q);
     }
 
-    // Sorting by posted_at (Newest / Oldest) - Requirement: Sort strictly based on posted_at, not id
+    // Sorting by posted_at (Newest / Oldest) - Cross-engine compatibility for PostgreSQL & SQLite
     if (sort === 'oldest') {
-      sql += ' ORDER BY datetime(posted_at) ASC, id ASC';
+      sql += ' ORDER BY posted_at ASC, id ASC';
     } else {
-      sql += ' ORDER BY datetime(posted_at) DESC, id DESC';
+      sql += ' ORDER BY posted_at DESC, id DESC';
     }
 
     const jobs = await query(sql, params);

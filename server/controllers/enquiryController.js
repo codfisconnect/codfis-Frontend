@@ -63,7 +63,11 @@ exports.submitProjectEnquiry = async (req, res) => {
     res.status(201).json({
       success: true,
       message: 'Project enquiry submitted successfully. Our engineering team will review and contact you with an initial discovery plan.',
-      id: result.lastID
+      id: result.lastID,
+      data: {
+        id: result.lastID,
+        enquiryId: `ENQ-${result.lastID}`
+      }
     });
   } catch (err) {
     console.error('Error submitting project enquiry:', err);

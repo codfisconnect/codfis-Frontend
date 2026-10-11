@@ -9,8 +9,8 @@
   ],
   "rewrites": [
     {
-      "source": "/api/jobs",
-      "destination": "/api/jobs.json"
+      "source": "/api/:path*",
+      "destination": "https://codfis-backend-wef4.onrender.com/api/:path*"
     }
   ]
 }
