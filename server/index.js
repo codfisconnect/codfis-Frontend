@@ -71,7 +71,7 @@ app.get('/api/health', (req, res) => {
   res.json({
     status: 'ok',
     service: 'Codfis Technologies V2 Backend',
-    version: '2.1.0',
+    version: '2.1.1',
     timestamp: new Date().toISOString()
   });
 });

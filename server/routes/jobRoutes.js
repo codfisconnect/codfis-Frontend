@@ -8,7 +8,7 @@ router.get('/jobs', jobsController.getActiveJobs);
 router.get('/jobs/:id', jobsController.getJobById);
 
 // Public application endpoint supporting resume uploads
-router.post('/jobs/:id/apply', jobApplicationUpload, validateUploadedResumeContent, jobsController.applyForJob);
+router.post('/jobs/:id/apply', uploadResume.single('resume'), validateUploadedResumeContent, jobsController.applyForJob);
 
 // Candidate Registration & Login (Workflow 16: QA Lead)
 router.post('/candidate/register', jobsController.registerCandidate);
