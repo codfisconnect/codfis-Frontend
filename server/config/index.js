@@ -12,10 +12,10 @@ module.exports = {
   dbPath: process.env.DB_PATH ? path.resolve(process.env.DB_PATH) : path.resolve(__dirname, '../../data.db'),
   databaseUrl: process.env.DATABASE_URL || '',
   cloudinary: {
-    cloudName: process.env.CLOUDINARY_CLOUD_NAME || '',
-    apiKey: process.env.CLOUDINARY_API_KEY || '',
-    apiSecret: process.env.CLOUDINARY_API_SECRET || '',
-    folder: process.env.CLOUDINARY_FOLDER || 'codfis/resumes'
+    cloudName: (process.env.CLOUDINARY_CLOUD_NAME || '').trim(),
+    apiKey: (process.env.CLOUDINARY_API_KEY || '').trim(),
+    apiSecret: (process.env.CLOUDINARY_API_SECRET || '').trim(),
+    folder: (process.env.CLOUDINARY_FOLDER || 'codfis/resumes').trim()
   },
   r2: {
     accountId: process.env.R2_ACCOUNT_ID || '',

@@ -72,6 +72,9 @@ exports.getDashboardStats = async (req, res) => {
       system: {
         storageConfigured: storageService.isEnabled(),
         storageProvider: storageService.isCloudinaryConfigured ? 'cloudinary' : (storageService.isProduction ? 'none' : 'local'),
+        cloudinaryCloud: config.cloudinary.cloudName,
+        cloudinaryKeyLength: config.cloudinary.apiKey ? config.cloudinary.apiKey.length : 0,
+        cloudinarySecretLength: config.cloudinary.apiSecret ? config.cloudinary.apiSecret.length : 0,
         databaseType: config.databaseUrl ? 'postgresql' : 'sqlite',
         nodeEnv: config.nodeEnv
       },
