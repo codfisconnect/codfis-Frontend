@@ -4,6 +4,7 @@ const path = require('path');
 const fs = require('fs');
 const { query, get, run } = require('../database');
 const config = require('../config');
+const storageService = require('../services/storageService');
 
 // POST /api/admin/login
 exports.login = async (req, res) => {
@@ -352,24 +353,27 @@ exports.downloadResume = async (req, res) => {
       return res.status(404).json({ success: false, error: 'Requested file record not found' });
     }
 
-    // Path traversal check
+    const folder = (record.mime_type && record.mime_type.startsWith('video/')) ? 'videos' : 'resumes';
     const safeFilename = path.basename(filename);
-    let fullPath = path.join(targetDir, safeFilename);
 
-    if (!fs.existsSync(fullPath)) {
-      // Check in videos directory as fallback
-      const videoPath = path.join(config.uploadDir, 'videos', safeFilename);
-      if (fs.existsSync(videoPath)) {
-        fullPath = videoPath;
-      } else {
-        return res.status(404).json({ success: false, error: 'File does not exist on disk' });
-      }
+    const fileData = await storageService.getFileStream(safeFilename, folder);
+
+    res.setHeader('Content-Disposition', `attachment; filename="${encodeURIComponent(originalName || safeFilename)}"`);
+    if (fileData.contentType) {
+      res.setHeader('Content-Type', fileData.contentType);
+    }
+    if (fileData.contentLength) {
+      res.setHeader('Content-Length', fileData.contentLength);
     }
 
-    res.download(fullPath, originalName || safeFilename);
+    if (fileData.stream.pipe) {
+      fileData.stream.pipe(res);
+    } else {
+      res.send(fileData.stream);
+    }
   } catch (err) {
     console.error('Download resume error:', err);
-    res.status(500).json({ success: false, error: 'Error downloading file' });
+    res.status(500).json({ success: false, error: 'Error downloading file: ' + err.message });
   }
 };
 

@@ -3,6 +3,7 @@ const { db, query, get, run } = require('../database');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const config = require('../config');
+const storageService = require('../services/storageService');
 
 // Helper to generate human-readable Application Reference Number (e.g. COD-APP-20261008-0001)
 async function generateApplicationReference() {
@@ -181,47 +182,49 @@ exports.applyForJob = async (req, res) => {
     const uploadedFiles = [];
 
     if (req.file) {
-      resumePath = req.file.filename;
+      const savedFilename = await storageService.saveFile(req.file, 'resumes');
+      resumePath = savedFilename;
       resumeOriginalName = req.file.originalname;
       uploadedFiles.push({
         type: 'resume',
-        filename: req.file.filename,
+        filename: savedFilename,
         originalName: req.file.originalname,
         size: req.file.size,
-        mimetype: req.file.mimetype,
-        path: req.file.path
+        mimetype: req.file.mimetype
       });
     } else if (req.files) {
       if (Array.isArray(req.files)) {
         for (const f of req.files) {
+          const folder = (f.fieldname === 'video') ? 'videos' : 'resumes';
+          const savedFilename = await storageService.saveFile(f, folder);
           if (!resumePath && (f.fieldname === 'resume' || f.fieldname === 'file')) {
-            resumePath = f.filename;
+            resumePath = savedFilename;
             resumeOriginalName = f.originalname;
           }
           uploadedFiles.push({
             type: f.fieldname,
-            filename: f.filename,
+            filename: savedFilename,
             originalName: f.originalname,
             size: f.size,
-            mimetype: f.mimetype,
-            path: f.path
+            mimetype: f.mimetype
           });
         }
       } else {
         // req.files is object of field arrays
         for (const [fieldname, filesArr] of Object.entries(req.files)) {
           for (const f of filesArr) {
+            const folder = (fieldname === 'video') ? 'videos' : 'resumes';
+            const savedFilename = await storageService.saveFile(f, folder);
             if (!resumePath && fieldname === 'resume') {
-              resumePath = f.filename;
+              resumePath = savedFilename;
               resumeOriginalName = f.originalname;
             }
             uploadedFiles.push({
               type: fieldname,
-              filename: f.filename,
+              filename: savedFilename,
               originalName: f.originalname,
               size: f.size,
-              mimetype: f.mimetype,
-              path: f.path
+              mimetype: f.mimetype
             });
           }
         }
@@ -485,8 +488,13 @@ exports.applyTrainer = async (req, res) => {
     }
 
     const applicationId = 'TRN-' + Date.now().toString(36).toUpperCase() + '-' + Math.floor(1000 + Math.random() * 9000);
-    const resumePath = req.file ? req.file.filename : null;
-    const resumeOriginalName = req.file ? req.file.originalname : null;
+    let resumePath = null;
+    let resumeOriginalName = null;
+
+    if (req.file) {
+      resumePath = await storageService.saveFile(req.file, 'resumes');
+      resumeOriginalName = req.file.originalname;
+    }
 
     await run(`
       INSERT INTO trainer_applications (

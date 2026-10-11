@@ -2,23 +2,27 @@ services:
   - type: web
     name: codfis-backend
     env: node
-    plan: starter
+    plan: free
     buildCommand: npm install
     startCommand: node server/index.js
     healthCheckPath: /api/health
-    disk:
-      name: codfis-data
-      mountPath: /var/data
-      sizeGB: 1
     envVars:
       - key: NODE_ENV
         value: production
       - key: PORT
         value: 10000
-      - key: DB_PATH
-        value: /var/data/data.db
-      - key: UPLOAD_DIR
-        value: /var/data/uploads
+      - key: DATABASE_URL
+        sync: false
+      - key: R2_ACCOUNT_ID
+        sync: false
+      - key: R2_ACCESS_KEY_ID
+        sync: false
+      - key: R2_SECRET_ACCESS_KEY
+        sync: false
+      - key: R2_BUCKET_NAME
+        sync: false
+      - key: R2_PUBLIC_URL
+        sync: false
       - key: CORS_ORIGIN
         value: https://www.codfis.com,https://codfis.com
       - key: JWT_SECRET

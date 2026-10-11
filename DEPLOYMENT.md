@@ -251,44 +251,84 @@ Codfis V2 is architected to operate with:
 
 ---
 
-### Step-by-Step Render Deployment (Backend)
+---
 
-1. **Create Web Service on Render:**
-   - Go to [dashboard.render.com](https://dashboard.render.com/) and click **New → Web Service**.
-   - Connect the repository: `https://github.com/codfisconnect/codfis-Frontend`.
+### Step-by-Step $0/Month Production Deployment (Render Free + Neon + Cloudflare R2)
+
+The Codfis backend is optimized to run **completely free ($0/month)** using:
+1. **Render Free Web Service** (0 cost): Node.js runtime with health checks.
+2. **Neon PostgreSQL Free Tier** (0 cost): Serverless PostgreSQL with 1 GB persistent storage.
+3. **Cloudflare R2 Free Tier** (0 cost): 10 GB S3-compatible cloud object storage with zero egress fees.
+
+#### 1. Setup Neon PostgreSQL Database (Free Tier)
+1. Sign up / log in to [neon.tech](https://neon.tech/) (no credit card required).
+2. Create a new project named `codfis-db`.
+3. Copy the PostgreSQL connection string with SSL mode:
+   ```text
+   postgresql://<username>:<password>@<endpoint-id>.neon.tech/neondb?sslmode=require
+   ```
+
+#### 2. Setup Cloudflare R2 Storage for Resumes (Free Tier)
+1. Sign up / log in to [cloudflare.com](https://dash.cloudflare.com/) and navigate to **R2**.
+2. Click **Create Bucket** and name it `codfis-resumes`.
+3. In **R2 Account Details**, click **Manage R2 API Tokens** → **Create API Token**:
+   - Permission: **Object Read & Write**
+   - Bucket: Apply to `codfis-resumes`
+4. Note the generated credentials:
+   - **Account ID** (found on R2 overview page)
+   - **Access Key ID**
+   - **Secret Access Key**
+   - **Bucket Name**: `codfis-resumes`
+
+#### 3. Deploy Web Service on Render (Free Tier)
+1. Go to [dashboard.render.com](https://dashboard.render.com/) and click **New → Web Service**.
+2. Connect the repository: `https://github.com/codfisconnect/codfis-Frontend`.
+3. Configure settings:
+   - **Plan**: `Free` ($0/month)
    - **Environment**: `Node`
    - **Build Command**: `npm install`
    - **Start Command**: `node server/index.js`
    - **Health Check Path**: `/api/health`
-
-2. **Database Persistence via Render Disk:**
-   Because the unified V2 application uses SQLite (`data.db`) and saves uploaded resumes/documents, attach a persistent volume:
-   - In your Render Web Service settings, go to **Disks → Add Disk**.
-   - **Name**: `codfis-data`
-   - **Mount Path**: `/var/data`
-   - **Size**: `1 GB` (or more as needed)
-
-3. **Configure Production Environment Variables:**
-   Under **Environment Variables** in Render, set the following:
+4. **Environment Variables**: Add the following under **Environment**:
    ```ini
    NODE_ENV=production
    PORT=10000
-   DB_PATH=/var/data/data.db
-   UPLOAD_DIR=/var/data/uploads
+   DATABASE_URL=postgresql://<user>:<password>@<host>/<database>?sslmode=require
+   R2_ACCOUNT_ID=<your_cloudflare_account_id>
+   R2_ACCESS_KEY_ID=<your_r2_access_key_id>
+   R2_SECRET_ACCESS_KEY=<your_r2_secret_access_key>
+   R2_BUCKET_NAME=codfis-resumes
    CORS_ORIGIN=https://www.codfis.com,https://codfis.com
    JWT_SECRET=<generate_a_secure_random_64_character_key>
    ADMIN_USER=<your_desired_production_admin_username>
    ADMIN_PASS=<your_desired_production_admin_password>
    ```
 
-   > **Note on Initial Setup:** Upon first start, `server/database/index.js` automatically creates all required tables (admins, jobs, job_applications, contacts, project_enquiries, interview_slots, trainer_applications) and provisions the initial admin account with bcrypt password hashing using the configured `ADMIN_USER` and `ADMIN_PASS`.
+   > **Note on Free Service Disks**: Do NOT attach a persistent disk (`/var/data`). Render free web services run in ephemeral containers where disks are unsupported. All database persistence is handled by Neon and file persistence by Cloudflare R2.
 
-4. **Verify Backend Health:**
-   Once deployed, test your Render service URL (e.g., `https://<your-render-subdomain>.onrender.com/api/health`):
+#### 4. Automatic Schema Initialization & Seed Safety
+When the service launches for the first time on PostgreSQL:
+- `server/database/index.js` automatically provisions all 10 tables (`admins`, `jobs`, `job_applications`, `contacts`, `project_enquiries`, `interview_slots`, `trainer_applications`, `application_events`, `application_files`, `candidate_accounts`).
+- Seeds the initial admin account using `ADMIN_USER` and `ADMIN_PASS` with bcrypt encryption if no admin exists.
+- Synchronizes the 20 official job openings without overwriting existing data.
+- If `DATABASE_URL` or R2 credentials are missing in production, the server immediately halts with an explicit error to prevent accidental ephemeral storage.
+
+#### 5. Data Migration Procedure (SQLite to PostgreSQL)
+If you have existing local SQLite data that you wish to migrate to Neon:
+1. Export existing SQLite records as JSON or SQL:
    ```bash
-   curl https://<your-render-subdomain>.onrender.com/api/health
-   # Expected response: {"status":"ok","service":"Codfis Technologies V2 Backend",...}
+   node -e "const { query } = require('./server/database'); (async () => { console.log(JSON.stringify(await query('SELECT * FROM job_applications'))); })()" > applications_backup.json
    ```
+2. Set `DATABASE_URL` locally in `.env` temporarily to connect to Neon.
+3. Run the import script to insert existing records into Neon.
+4. Upload any local PDF files from `uploads/resumes/` to your Cloudflare R2 bucket using AWS CLI or Cloudflare dashboard.
+
+#### 6. Verify Backend Health
+Once Render completes building, verify the health check endpoint:
+```bash
+curl https://<your-render-service>.onrender.com/api/health
+# Expected response: {"status":"ok","service":"Codfis Technologies V2 Backend",...}
+```
 
 ---
 

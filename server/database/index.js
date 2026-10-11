@@ -1,46 +1,312 @@
+const { Pool } = require('pg');
 const sqlite3 = require('sqlite3').verbose();
 const bcrypt = require('bcryptjs');
 const config = require('../config');
 const { JOBS_DATA, getIsoDate, getFutureDeadline } = require('./jobsSeedData');
 
-const db = new sqlite3.Database(config.dbPath, (err) => {
-  if (err) {
-    console.error('Failed to connect to SQLite database:', err.message);
-  } else {
-    console.log('Connected to SQLite database at', config.dbPath);
+let isPg = false;
+let pgPool = null;
+let sqliteDb = null;
+
+// Determine database type
+if (config.databaseUrl && (config.databaseUrl.startsWith('postgres://') || config.databaseUrl.startsWith('postgresql://'))) {
+  isPg = true;
+  pgPool = new Pool({
+    connectionString: config.databaseUrl,
+    ssl: { rejectUnauthorized: false }
+  });
+  console.log('[Database] PostgreSQL provider active (Neon/Cloud).');
+} else {
+  // If in production without DATABASE_URL, fail explicitly
+  if (config.nodeEnv === 'production') {
+    throw new Error('[Database] FATAL: DATABASE_URL is required in production (e.g. Neon PostgreSQL). Silent fallback to ephemeral SQLite is disallowed.');
   }
-});
-
-// Helper for db promises
-const query = (sql, params = []) => {
-  return new Promise((resolve, reject) => {
-    db.all(sql, params, (err, rows) => {
-      if (err) reject(err);
-      else resolve(rows);
-    });
+  sqliteDb = new sqlite3.Database(config.dbPath, (err) => {
+    if (err) {
+      console.error('[Database] Failed to connect to SQLite:', err.message);
+    } else {
+      console.log('[Database] SQLite connected at', config.dbPath);
+    }
   });
+}
+
+/**
+ * Universal query returning array of rows
+ */
+const query = async (sql, params = []) => {
+  if (isPg) {
+    let pgSql = sql;
+    // Convert ? parameters to $1, $2, etc.
+    let paramIdx = 1;
+    pgSql = pgSql.replace(/\?/g, () => `$${paramIdx++}`);
+    const res = await pgPool.query(pgSql, params);
+    return res.rows;
+  } else {
+    return new Promise((resolve, reject) => {
+      sqliteDb.all(sql, params, (err, rows) => {
+        if (err) reject(err);
+        else resolve(rows);
+      });
+    });
+  }
 };
 
-const get = (sql, params = []) => {
-  return new Promise((resolve, reject) => {
-    db.get(sql, params, (err, row) => {
-      if (err) reject(err);
-      else resolve(row);
+/**
+ * Universal get returning single row or null
+ */
+const get = async (sql, params = []) => {
+  if (isPg) {
+    let pgSql = sql;
+    let paramIdx = 1;
+    pgSql = pgSql.replace(/\?/g, () => `$${paramIdx++}`);
+    const res = await pgPool.query(pgSql, params);
+    return res.rows[0] || null;
+  } else {
+    return new Promise((resolve, reject) => {
+      sqliteDb.get(sql, params, (err, row) => {
+        if (err) reject(err);
+        else resolve(row || null);
+      });
     });
-  });
+  }
 };
 
-const run = (sql, params = []) => {
-  return new Promise((resolve, reject) => {
-    db.run(sql, params, function (err) {
-      if (err) reject(err);
-      else resolve({ lastID: this.lastID, changes: this.changes });
+/**
+ * Universal run returning { lastID, changes }
+ */
+const run = async (sql, params = []) => {
+  if (isPg) {
+    let pgSql = sql;
+    let paramIdx = 1;
+    pgSql = pgSql.replace(/\?/g, () => `$${paramIdx++}`);
+
+    // If it's an INSERT and doesn't specify RETURNING, append RETURNING id
+    const isInsert = /^\s*INSERT\s+INTO/i.test(pgSql);
+    if (isInsert && !/RETURNING/i.test(pgSql)) {
+      pgSql += ' RETURNING id';
+    }
+
+    const res = await pgPool.query(pgSql, params);
+    const lastID = (isInsert && res.rows[0]) ? (res.rows[0].id || null) : null;
+    return {
+      lastID,
+      changes: res.rowCount || 0
+    };
+  } else {
+    return new Promise((resolve, reject) => {
+      sqliteDb.run(sql, params, function (err) {
+        if (err) reject(err);
+        else resolve({ lastID: this.lastID, changes: this.changes });
+      });
     });
-  });
+  }
 };
 
+/**
+ * Initialize Schema and seed base records
+ */
 async function initDb() {
-  // 1. Admins table
+  if (isPg) {
+    await initPgSchema();
+  } else {
+    await initSqliteSchema();
+  }
+
+  // Common seed operations (safe: only seeds if table is empty or missing admin)
+  await seedAdmin();
+  await seedInterviewSlots();
+  await syncJobs();
+}
+
+async function initPgSchema() {
+  // 1. Admins
+  await run(`
+    CREATE TABLE IF NOT EXISTS admins (
+      id SERIAL PRIMARY KEY,
+      username VARCHAR(255) UNIQUE NOT NULL,
+      password TEXT NOT NULL,
+      role VARCHAR(50) DEFAULT 'admin',
+      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    )
+  `);
+
+  // 2. Jobs
+  await run(`
+    CREATE TABLE IF NOT EXISTS jobs (
+      id SERIAL PRIMARY KEY,
+      title VARCHAR(255) NOT NULL,
+      department VARCHAR(255) NOT NULL,
+      location VARCHAR(255) NOT NULL,
+      "workMode" VARCHAR(100) NOT NULL,
+      "employmentType" VARCHAR(100) NOT NULL,
+      experience VARCHAR(100) NOT NULL,
+      salary VARCHAR(100) DEFAULT 'Competitive',
+      description TEXT NOT NULL,
+      requirements TEXT,
+      skills TEXT,
+      "applicationType" VARCHAR(100) DEFAULT 'resume',
+      active INTEGER DEFAULT 1,
+      job_code VARCHAR(100) UNIQUE,
+      workflow_type VARCHAR(100) DEFAULT 'simple',
+      qualification TEXT,
+      notice_period VARCHAR(100),
+      summary TEXT,
+      responsibilities TEXT,
+      required_skills TEXT,
+      preferred_skills TEXT,
+      posted_at TIMESTAMP,
+      application_deadline TIMESTAMP,
+      "createdAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+      "updatedAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    )
+  `);
+
+  // 3. Job Applications
+  await run(`
+    CREATE TABLE IF NOT EXISTS job_applications (
+      id SERIAL PRIMARY KEY,
+      "applicationId" VARCHAR(100) UNIQUE NOT NULL,
+      "jobId" INTEGER NOT NULL,
+      "jobTitle" VARCHAR(255) NOT NULL,
+      "fullName" VARCHAR(255) NOT NULL,
+      email VARCHAR(255) NOT NULL,
+      phone VARCHAR(100) NOT NULL,
+      location VARCHAR(255),
+      experience VARCHAR(100),
+      "currentCompany" VARCHAR(255),
+      "noticePeriod" VARCHAR(100),
+      "expectedSalary" VARCHAR(100),
+      "linkedIn" TEXT,
+      github TEXT,
+      portfolio TEXT,
+      "resumePath" TEXT,
+      "resumeOriginalName" TEXT,
+      "coverLetter" TEXT,
+      "answersJson" TEXT,
+      status VARCHAR(100) DEFAULT 'Applied',
+      workflow_type VARCHAR(100) DEFAULT 'simple',
+      current_step VARCHAR(100) DEFAULT 'submitted',
+      submitted_at TIMESTAMP,
+      disqualified INTEGER DEFAULT 0,
+      disqualification_reason TEXT,
+      score REAL,
+      code_submission TEXT,
+      code_language VARCHAR(100),
+      interview_slot_id INTEGER,
+      candidate_account_id INTEGER,
+      "createdAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+      "updatedAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    )
+  `);
+
+  // 4. Application Events
+  await run(`
+    CREATE TABLE IF NOT EXISTS application_events (
+      id SERIAL PRIMARY KEY,
+      application_id VARCHAR(100) NOT NULL,
+      event_type VARCHAR(100) NOT NULL,
+      metadata TEXT,
+      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    )
+  `);
+
+  // 5. Application Files
+  await run(`
+    CREATE TABLE IF NOT EXISTS application_files (
+      id SERIAL PRIMARY KEY,
+      application_id VARCHAR(100) NOT NULL,
+      file_type VARCHAR(100) NOT NULL,
+      file_name VARCHAR(255) NOT NULL,
+      original_name VARCHAR(255) NOT NULL,
+      file_path TEXT NOT NULL,
+      file_size INTEGER,
+      mime_type VARCHAR(100),
+      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    )
+  `);
+
+  // 6. Candidate Accounts
+  await run(`
+    CREATE TABLE IF NOT EXISTS candidate_accounts (
+      id SERIAL PRIMARY KEY,
+      full_name VARCHAR(255) NOT NULL,
+      email VARCHAR(255) UNIQUE NOT NULL,
+      password_hash TEXT NOT NULL,
+      phone VARCHAR(100),
+      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    )
+  `);
+
+  // 7. Interview Slots
+  await run(`
+    CREATE TABLE IF NOT EXISTS interview_slots (
+      id SERIAL PRIMARY KEY,
+      slot_date VARCHAR(50) NOT NULL,
+      slot_time VARCHAR(50) NOT NULL,
+      is_booked INTEGER DEFAULT 0,
+      booked_by_application_id VARCHAR(100),
+      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    )
+  `);
+
+  // 8. Trainer Applications
+  await run(`
+    CREATE TABLE IF NOT EXISTS trainer_applications (
+      id SERIAL PRIMARY KEY,
+      "applicationId" VARCHAR(100) UNIQUE NOT NULL,
+      name VARCHAR(255) NOT NULL,
+      email VARCHAR(255) NOT NULL,
+      phone VARCHAR(100) NOT NULL,
+      location VARCHAR(255),
+      "primaryTech" VARCHAR(255) NOT NULL,
+      experience VARCHAR(100) NOT NULL,
+      "currentRole" VARCHAR(255),
+      "linkedIn" TEXT,
+      portfolio TEXT,
+      "preferredTopics" TEXT,
+      availability VARCHAR(255),
+      "expectedCompensation" VARCHAR(100),
+      "resumePath" TEXT,
+      "resumeOriginalName" TEXT,
+      "additionalInfo" TEXT,
+      status VARCHAR(100) DEFAULT 'Applied',
+      "createdAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+      "updatedAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    )
+  `);
+
+  // 9. Contacts
+  await run(`
+    CREATE TABLE IF NOT EXISTS contacts (
+      id SERIAL PRIMARY KEY,
+      name VARCHAR(255) NOT NULL,
+      email VARCHAR(255) NOT NULL,
+      phone VARCHAR(100),
+      message TEXT NOT NULL,
+      status VARCHAR(100) DEFAULT 'New',
+      "createdAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    )
+  `);
+
+  // 10. Project Enquiries
+  await run(`
+    CREATE TABLE IF NOT EXISTS project_enquiries (
+      id SERIAL PRIMARY KEY,
+      name VARCHAR(255) NOT NULL,
+      company VARCHAR(255),
+      email VARCHAR(255) NOT NULL,
+      phone VARCHAR(100),
+      "projectType" VARCHAR(255) NOT NULL,
+      "budgetRange" VARCHAR(100),
+      timeline VARCHAR(100),
+      requirement TEXT NOT NULL,
+      status VARCHAR(100) DEFAULT 'New',
+      "createdAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    )
+  `);
+}
+
+async function initSqliteSchema() {
   await run(`
     CREATE TABLE IF NOT EXISTS admins (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -51,7 +317,6 @@ async function initDb() {
     )
   `);
 
-  // 2. Jobs table (base schema)
   await run(`
     CREATE TABLE IF NOT EXISTS jobs (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -63,51 +328,25 @@ async function initDb() {
       experience TEXT NOT NULL,
       salary TEXT DEFAULT 'Competitive',
       description TEXT NOT NULL,
-      requirements TEXT NOT NULL,
-      skills TEXT NOT NULL,
+      requirements TEXT,
+      skills TEXT,
       applicationType TEXT DEFAULT 'resume',
       active INTEGER DEFAULT 1,
+      job_code TEXT UNIQUE,
+      workflow_type TEXT DEFAULT 'simple',
+      qualification TEXT,
+      notice_period TEXT,
+      summary TEXT,
+      responsibilities TEXT,
+      required_skills TEXT,
+      preferred_skills TEXT,
+      posted_at DATETIME,
+      application_deadline DATETIME,
       createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
       updatedAt DATETIME DEFAULT CURRENT_TIMESTAMP
     )
   `);
 
-  // Safe schema migration for jobs table (add missing columns without dropping data)
-  const existingJobCols = (await query(`PRAGMA table_info(jobs)`)).map(c => c.name);
-  
-  if (!existingJobCols.includes('job_code')) {
-    await run(`ALTER TABLE jobs ADD COLUMN job_code TEXT`);
-    await run(`CREATE UNIQUE INDEX IF NOT EXISTS idx_jobs_job_code ON jobs(job_code)`);
-  }
-  if (!existingJobCols.includes('workflow_type')) {
-    await run(`ALTER TABLE jobs ADD COLUMN workflow_type TEXT DEFAULT 'simple'`);
-  }
-  if (!existingJobCols.includes('qualification')) {
-    await run(`ALTER TABLE jobs ADD COLUMN qualification TEXT`);
-  }
-  if (!existingJobCols.includes('notice_period')) {
-    await run(`ALTER TABLE jobs ADD COLUMN notice_period TEXT`);
-  }
-  if (!existingJobCols.includes('summary')) {
-    await run(`ALTER TABLE jobs ADD COLUMN summary TEXT`);
-  }
-  if (!existingJobCols.includes('responsibilities')) {
-    await run(`ALTER TABLE jobs ADD COLUMN responsibilities TEXT`);
-  }
-  if (!existingJobCols.includes('required_skills')) {
-    await run(`ALTER TABLE jobs ADD COLUMN required_skills TEXT`);
-  }
-  if (!existingJobCols.includes('preferred_skills')) {
-    await run(`ALTER TABLE jobs ADD COLUMN preferred_skills TEXT`);
-  }
-  if (!existingJobCols.includes('posted_at')) {
-    await run(`ALTER TABLE jobs ADD COLUMN posted_at DATETIME`);
-  }
-  if (!existingJobCols.includes('application_deadline')) {
-    await run(`ALTER TABLE jobs ADD COLUMN application_deadline DATETIME`);
-  }
-
-  // 3. Job Applications table (base schema)
   await run(`
     CREATE TABLE IF NOT EXISTS job_applications (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -130,46 +369,21 @@ async function initDb() {
       coverLetter TEXT,
       answersJson TEXT,
       status TEXT DEFAULT 'Applied',
+      workflow_type TEXT DEFAULT 'simple',
+      current_step TEXT DEFAULT 'submitted',
+      submitted_at DATETIME,
+      disqualified INTEGER DEFAULT 0,
+      disqualification_reason TEXT,
+      score REAL,
+      code_submission TEXT,
+      code_language TEXT,
+      interview_slot_id INTEGER,
+      candidate_account_id INTEGER,
       createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
-      updatedAt DATETIME DEFAULT CURRENT_TIMESTAMP,
-      FOREIGN KEY (jobId) REFERENCES jobs (id)
+      updatedAt DATETIME DEFAULT CURRENT_TIMESTAMP
     )
   `);
 
-  // Safe migration for job_applications table
-  const existingAppCols = (await query(`PRAGMA table_info(job_applications)`)).map(c => c.name);
-  if (!existingAppCols.includes('workflow_type')) {
-    await run(`ALTER TABLE job_applications ADD COLUMN workflow_type TEXT DEFAULT 'simple'`);
-  }
-  if (!existingAppCols.includes('current_step')) {
-    await run(`ALTER TABLE job_applications ADD COLUMN current_step TEXT DEFAULT 'submitted'`);
-  }
-  if (!existingAppCols.includes('submitted_at')) {
-    await run(`ALTER TABLE job_applications ADD COLUMN submitted_at DATETIME`);
-  }
-  if (!existingAppCols.includes('disqualified')) {
-    await run(`ALTER TABLE job_applications ADD COLUMN disqualified INTEGER DEFAULT 0`);
-  }
-  if (!existingAppCols.includes('disqualification_reason')) {
-    await run(`ALTER TABLE job_applications ADD COLUMN disqualification_reason TEXT`);
-  }
-  if (!existingAppCols.includes('score')) {
-    await run(`ALTER TABLE job_applications ADD COLUMN score REAL`);
-  }
-  if (!existingAppCols.includes('code_submission')) {
-    await run(`ALTER TABLE job_applications ADD COLUMN code_submission TEXT`);
-  }
-  if (!existingAppCols.includes('code_language')) {
-    await run(`ALTER TABLE job_applications ADD COLUMN code_language TEXT`);
-  }
-  if (!existingAppCols.includes('interview_slot_id')) {
-    await run(`ALTER TABLE job_applications ADD COLUMN interview_slot_id INTEGER`);
-  }
-  if (!existingAppCols.includes('candidate_account_id')) {
-    await run(`ALTER TABLE job_applications ADD COLUMN candidate_account_id INTEGER`);
-  }
-
-  // 4. Application Events table
   await run(`
     CREATE TABLE IF NOT EXISTS application_events (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -180,12 +394,11 @@ async function initDb() {
     )
   `);
 
-  // 5. Application Files table (for multiple uploads, video uploads, portfolios)
   await run(`
     CREATE TABLE IF NOT EXISTS application_files (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       application_id TEXT NOT NULL,
-      file_type TEXT NOT NULL, -- 'resume', 'cover_letter', 'project_doc', 'work_sample', 'video', 'portfolio'
+      file_type TEXT NOT NULL,
       file_name TEXT NOT NULL,
       original_name TEXT NOT NULL,
       file_path TEXT NOT NULL,
@@ -195,7 +408,6 @@ async function initDb() {
     )
   `);
 
-  // 6. Candidate Accounts table (for Registration before Application workflow)
   await run(`
     CREATE TABLE IF NOT EXISTS candidate_accounts (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -207,7 +419,6 @@ async function initDb() {
     )
   `);
 
-  // 7. Interview Slots table (for Interview Slot Selection workflow)
   await run(`
     CREATE TABLE IF NOT EXISTS interview_slots (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -219,7 +430,6 @@ async function initDb() {
     )
   `);
 
-  // 8. Trainer Applications table
   await run(`
     CREATE TABLE IF NOT EXISTS trainer_applications (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -245,7 +455,6 @@ async function initDb() {
     )
   `);
 
-  // 9. Contact Messages table
   await run(`
     CREATE TABLE IF NOT EXISTS contacts (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -258,7 +467,6 @@ async function initDb() {
     )
   `);
 
-  // 10. Project Enquiries table
   await run(`
     CREATE TABLE IF NOT EXISTS project_enquiries (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -274,8 +482,9 @@ async function initDb() {
       createdAt DATETIME DEFAULT CURRENT_TIMESTAMP
     )
   `);
+}
 
-  // 11. Seed Admin user if none exists
+async function seedAdmin() {
   const existingAdmin = await get('SELECT * FROM admins WHERE username = ?', [config.adminUser]);
   if (!existingAdmin) {
     const salt = await bcrypt.genSalt(10);
@@ -287,10 +496,12 @@ async function initDb() {
     ]);
     console.log(`[Database] Seeded initial admin account: ${config.adminUser}`);
   }
+}
 
-  // 12. Seed Interview Slots if empty
+async function seedInterviewSlots() {
   const slotCount = await get('SELECT COUNT(*) as count FROM interview_slots');
-  if (slotCount && slotCount.count === 0) {
+  const count = slotCount ? parseInt(slotCount.count, 10) : 0;
+  if (count === 0) {
     const initialSlots = [
       { date: '2026-10-12', time: '10:00 AM' },
       { date: '2026-10-12', time: '11:30 AM' },
@@ -299,146 +510,65 @@ async function initDb() {
       { date: '2026-10-13', time: '10:00 AM' },
       { date: '2026-10-13', time: '11:30 AM' },
       { date: '2026-10-13', time: '02:00 PM' },
-      { date: '2026-10-13', time: '04:00 PM' },
-      { date: '2026-10-14', time: '10:00 AM' },
-      { date: '2026-10-14', time: '02:30 PM' }
+      { date: '2026-10-14', time: '11:00 AM' },
+      { date: '2026-10-14', time: '03:00 PM' },
+      { date: '2026-10-15', time: '10:00 AM' }
     ];
     for (const s of initialSlots) {
       await run('INSERT INTO interview_slots (slot_date, slot_time, is_booked) VALUES (?, ?, 0)', [s.date, s.time]);
     }
-    console.log('[Database] Seeded initial interview slots');
   }
-
-  // 13. Seed / Synchronize the 20 Genuine Codfis Vacancies
-  await syncCodfis20Jobs();
 }
 
-/**
- * Synchronize the 20 Real Codfis Vacancies
- * Updates matching roles without breaking existing application foreign keys,
- * deactivates old non-matching placeholder test records,
- * and inserts remaining vacancies so active vacancies equal exactly 20.
- */
-async function syncCodfis20Jobs() {
-  const existingJobs = await query('SELECT * FROM jobs');
-  
-  // Mapping of title match patterns to reuse existing IDs (e.g., Senior Full Stack -> Full Stack Developer, QA Automation -> Playwright Automation)
-  const titleMapping = {
-    'Senior Full Stack Engineer': 'COD-DEV-003', // Full Stack Developer
-    'QA Automation Engineer (Playwright / Selenium)': 'COD-QA-002', // Playwright Automation Tester
-  };
-
-  const processedCodes = new Set();
-
+async function syncJobs() {
   for (const job of JOBS_DATA) {
-    const postedAt = getIsoDate(job.days_ago, job.hours_ago);
-    const deadline = getFutureDeadline(job.deadline_days);
+    const existing = await get('SELECT * FROM jobs WHERE job_code = ?', [job.job_code]);
+    const postedAt = getIsoDate(job.days_ago || 0, job.hours_ago || 0);
+    const deadline = getFutureDeadline(job.deadline_days || 30);
+    const workMode = job.work_mode || job.workMode || 'Hybrid';
+    const employmentType = job.employment_type || job.employmentType || 'Full-time';
 
-    // 1. Try finding job by job_code
-    let target = existingJobs.find(j => j.job_code === job.job_code);
+    const reqs = job.requirements || job.responsibilities || '';
+    const skls = job.skills || job.required_skills || '';
 
-    // 2. If not found by job_code, check if an existing job matches titleMapping
-    if (!target) {
-      const matchKey = Object.keys(titleMapping).find(k => titleMapping[k] === job.job_code);
-      if (matchKey) {
-        target = existingJobs.find(j => j.title === matchKey && !processedCodes.has(j.id));
-      }
-    }
-
-    // 3. Check exact title match
-    if (!target) {
-      target = existingJobs.find(j => j.title.toLowerCase() === job.title.toLowerCase() && !processedCodes.has(j.id));
-    }
-
-    if (target) {
-      processedCodes.add(target.id);
+    if (existing) {
       await run(`
         UPDATE jobs SET
-          job_code = ?,
-          title = ?,
-          department = ?,
-          location = ?,
-          workMode = ?,
-          employmentType = ?,
-          experience = ?,
-          salary = ?,
-          qualification = ?,
-          notice_period = ?,
-          summary = ?,
-          description = ?,
-          responsibilities = ?,
-          required_skills = ?,
-          preferred_skills = ?,
-          skills = ?,
-          requirements = ?,
-          workflow_type = ?,
-          applicationType = ?,
-          posted_at = ?,
-          application_deadline = ?,
-          active = 1,
-          updatedAt = CURRENT_TIMESTAMP
-        WHERE id = ?
+          title = ?, department = ?, location = ?, "workMode" = ?,
+          "employmentType" = ?, experience = ?, salary = ?, description = ?,
+          requirements = ?, skills = ?, active = 1, workflow_type = ?,
+          qualification = ?, notice_period = ?, summary = ?,
+          responsibilities = ?, required_skills = ?, preferred_skills = ?,
+          posted_at = ?, application_deadline = ?
+        WHERE job_code = ?
       `, [
-        job.job_code,
-        job.title,
-        job.department,
-        job.location,
-        job.work_mode,
-        job.employment_type,
-        job.experience,
-        job.salary,
-        job.qualification,
-        job.notice_period,
-        job.summary,
-        job.description,
-        job.responsibilities,
-        job.required_skills,
-        job.preferred_skills,
-        job.required_skills,
-        job.responsibilities,
-        job.workflow_type,
-        job.workflow_type,
-        postedAt,
-        deadline,
-        target.id
+        job.title, job.department, job.location, workMode,
+        employmentType, job.experience, job.salary, job.description,
+        reqs, skls, job.workflow_type,
+        job.qualification, job.notice_period, job.summary,
+        job.responsibilities, job.required_skills, job.preferred_skills,
+        postedAt, deadline, job.job_code
       ]);
     } else {
-      const res = await run(`
+      await run(`
         INSERT INTO jobs (
-          job_code, title, department, location, workMode, employmentType,
-          experience, salary, qualification, notice_period, summary, description,
-          responsibilities, required_skills, preferred_skills, skills, requirements,
-          workflow_type, applicationType, posted_at, application_deadline, active
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1)
+          job_code, title, department, location, "workMode", "employmentType",
+          experience, salary, description, requirements, skills, active,
+          workflow_type, qualification, notice_period, summary,
+          responsibilities, required_skills, preferred_skills,
+          posted_at, application_deadline
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1, ?, ?, ?, ?, ?, ?, ?, ?, ?)
       `, [
-        job.job_code,
-        job.title,
-        job.department,
-        job.location,
-        job.work_mode,
-        job.employment_type,
-        job.experience,
-        job.salary,
-        job.qualification,
-        job.notice_period,
-        job.summary,
-        job.description,
-        job.responsibilities,
-        job.required_skills,
-        job.preferred_skills,
-        job.required_skills,
-        job.responsibilities,
-        job.workflow_type,
-        job.workflow_type,
-        postedAt,
-        deadline
+        job.job_code, job.title, job.department, job.location, workMode, employmentType,
+        job.experience, job.salary, job.description, reqs, skls,
+        job.workflow_type, job.qualification, job.notice_period, job.summary,
+        job.responsibilities, job.required_skills, job.preferred_skills,
+        postedAt, deadline
       ]);
-      processedCodes.add(res.lastID);
     }
   }
 
-  // Deactivate any remaining jobs that are not part of the official 20 vacancies
-  // (e.g. old test records from automated tests, like 'DevOps / Cloud Specialist')
+  // Deactivate any jobs not in official 20 list
   const activeJobs = await query('SELECT id, job_code, title FROM jobs WHERE active = 1');
   const validCodes = new Set(JOBS_DATA.map(j => j.job_code));
   for (const aj of activeJobs) {
@@ -446,15 +576,13 @@ async function syncCodfis20Jobs() {
       await run('UPDATE jobs SET active = 0 WHERE id = ?', [aj.id]);
     }
   }
-
-  const finalActive = await get('SELECT COUNT(*) as count FROM jobs WHERE active = 1');
-  console.log(`[Database] Synchronized Codfis vacancies. Total active jobs: ${finalActive.count}`);
 }
 
 module.exports = {
-  db,
+  db: sqliteDb,
   query,
   get,
   run,
-  initDb
+  initDb,
+  isPg: () => isPg
 };
