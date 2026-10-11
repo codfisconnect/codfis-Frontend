@@ -606,6 +606,6 @@ exports.applyTrainer = async (req, res) => {
     });
   } catch (err) {
     console.error('Error applying as trainer:', err);
-    res.status(500).json({ success: false, error: 'Failed to submit trainer application.' });
+    res.status(500).json({ success: false, error: 'Failed to submit trainer application: ' + err.message });
   }
 };
