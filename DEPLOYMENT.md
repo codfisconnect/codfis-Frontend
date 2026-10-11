@@ -243,33 +243,84 @@ db.run(`INSERT INTO courses (name, description, duration, fee, mode, skill_level
 
 ## Production Deployment
 
-### Recommended Stack
-- **Frontend**: Vercel, Netlify, or AWS S3 + CloudFront
-- **Backend**: Heroku, AWS EC2, DigitalOcean, or Railway
-- **Database**: PostgreSQL (not SQLite)
-- **Cache**: Redis
-- **CDN**: CloudFlare or AWS CloudFront
+### Architecture Overview
+Codfis V2 is architected to operate with:
+- **Frontend Presentation Layer**: Hosted on Vercel (`www.codfis.com`), delivering optimized static assets and HTML.
+- **Dynamic Backend API Service**: Hosted as a Node.js web service on **Render** (or Railway/DigitalOcean/VPS).
+- **API Proxy Connection**: Vercel transparently proxies all `/api/:path*` traffic to the deployed Render backend service, giving visitors and search engines seamless same-origin API access (`https://www.codfis.com/api/...`) without CORS blockers.
 
-### Database Migration (SQLite → PostgreSQL)
+---
 
-1. Install postgres driver:
-```bash
-npm install pg
-```
+### Step-by-Step Render Deployment (Backend)
 
-2. Update `backend/index.js` to use PostgreSQL instead of SQLite
+1. **Create Web Service on Render:**
+   - Go to [dashboard.render.com](https://dashboard.render.com/) and click **New → Web Service**.
+   - Connect the repository: `https://github.com/codfisconnect/codfis-Frontend`.
+   - **Environment**: `Node`
+   - **Build Command**: `npm install`
+   - **Start Command**: `node server/index.js`
+   - **Health Check Path**: `/api/health`
 
-3. Migrate data from SQLite to PostgreSQL using tools like pgloader
+2. **Database Persistence via Render Disk:**
+   Because the unified V2 application uses SQLite (`data.db`) and saves uploaded resumes/documents, attach a persistent volume:
+   - In your Render Web Service settings, go to **Disks → Add Disk**.
+   - **Name**: `codfis-data`
+   - **Mount Path**: `/var/data`
+   - **Size**: `1 GB` (or more as needed)
 
-### Environment Variables for Production
-```env
-PORT=8000
-JWT_SECRET=long-secure-random-string-generated-on-deployment
-ADMIN_USER=prodadmin
-ADMIN_PASS=very-secure-password
-DB_URL=postgresql://user:pass@host:5432/dbname
-NODE_ENV=production
-```
+3. **Configure Production Environment Variables:**
+   Under **Environment Variables** in Render, set the following:
+   ```ini
+   NODE_ENV=production
+   PORT=10000
+   DB_PATH=/var/data/data.db
+   UPLOAD_DIR=/var/data/uploads
+   CORS_ORIGIN=https://www.codfis.com,https://codfis.com
+   JWT_SECRET=<generate_a_secure_random_64_character_key>
+   ADMIN_USER=<your_desired_production_admin_username>
+   ADMIN_PASS=<your_desired_production_admin_password>
+   ```
+
+   > **Note on Initial Setup:** Upon first start, `server/database/index.js` automatically creates all required tables (admins, jobs, job_applications, contacts, project_enquiries, interview_slots, trainer_applications) and provisions the initial admin account with bcrypt password hashing using the configured `ADMIN_USER` and `ADMIN_PASS`.
+
+4. **Verify Backend Health:**
+   Once deployed, test your Render service URL (e.g., `https://<your-render-subdomain>.onrender.com/api/health`):
+   ```bash
+   curl https://<your-render-subdomain>.onrender.com/api/health
+   # Expected response: {"status":"ok","service":"Codfis Technologies V2 Backend",...}
+   ```
+
+---
+
+### Step-by-Step Vercel Integration (Frontend)
+
+Once your Render backend is live, configure Vercel to route all dynamic API calls to Render:
+
+1. In `vercel.json`, update the `/api/:match*` rewrite rule with your live Render backend URL:
+   ```json
+   {
+     "version": 2,
+     "redirects": [
+       {
+         "source": "/index.html",
+         "destination": "/",
+         "permanent": true
+       }
+     ],
+     "rewrites": [
+       {
+         "source": "/api/jobs",
+         "destination": "/api/jobs.json"
+       },
+       {
+         "source": "/api/:match*",
+         "destination": "https://<your-render-service>.onrender.com/api/:match*"
+       }
+     ]
+   }
+   ```
+2. Commit and push to `origin/main`.
+3. Vercel automatically deploys the rewrite proxy. Visiting `https://www.codfis.com/AdminLogin.html` will now seamlessly forward login requests to the live Render backend, returning full JSON authentication payloads.
 
 ### Security Considerations
 

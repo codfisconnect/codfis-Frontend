@@ -8,6 +8,6 @@ module.exports = {
   jwtExpiresIn: '7d',
   adminUser: process.env.ADMIN_USER || 'admin',
   adminPass: process.env.ADMIN_PASS || 'Admin@Codfis2026!',
-  uploadDir: path.resolve(__dirname, '../../uploads'),
-  dbPath: path.resolve(__dirname, '../../data.db')
+  uploadDir: process.env.UPLOAD_DIR ? path.resolve(process.env.UPLOAD_DIR) : path.resolve(__dirname, '../../uploads'),
+  dbPath: process.env.DB_PATH ? path.resolve(process.env.DB_PATH) : path.resolve(__dirname, '../../data.db')
 };
